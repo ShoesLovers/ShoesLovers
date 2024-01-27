@@ -1,0 +1,21 @@
+###
+
+GET http://localhost:3000/user
+
+###
+
+GET http://localhost:3000/user/1234567891
+
+###
+
+GET http://localhost:3000/user/1234567891
+
+###
+
+POST http://localhost:3000/user 
+Content-Type: application/json
+
+{
+    "name": "hjkg ",
+    "_id": "123123"
+}
