@@ -51,4 +51,7 @@ class BaseController<ModelType> {
     res.send("Test update user!");
   }
 }
-export = BaseController;
+const createController = <ModelType>(model: Model<ModelType>) => {
+  return new BaseController<ModelType>(model);
+};
+export default createController;

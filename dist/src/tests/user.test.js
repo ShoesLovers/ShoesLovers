@@ -16,10 +16,22 @@ const supertest_1 = __importDefault(require("supertest"));
 const app_1 = __importDefault(require("../app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
+const account_model_1 = __importDefault(require("../models/account_model"));
 let app;
+let token;
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
     yield user_model_1.default.deleteMany();
+    yield account_model_1.default.deleteMany();
+    yield (0, supertest_1.default)(app).post("/auth/register").send({
+        email: "test@test.com",
+        password: "1234567890",
+    });
+    const response = yield (0, supertest_1.default)(app).post("/auth/login").send({
+        email: "test@test.com",
+        password: "1234567890",
+    });
+    token = response.body.accessToken;
 }));
 afterAll((done) => {
     mongoose_1.default.connection.close();
@@ -35,13 +47,18 @@ describe("Tests User", () => {
         _id: "12345678",
     };
     test("Test get All Users-empty collection", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/user");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user")
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(200);
         const data = response.body;
         expect(data.length).toEqual(0);
     }));
     const addNewUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).post("/user").send(user);
+        const response = yield (0, supertest_1.default)(app)
+            .post("/user")
+            .send(user)
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(200);
         expect(response.text).toEqual("OK");
     });
@@ -49,11 +66,16 @@ describe("Tests User", () => {
         addNewUser(user1);
     }));
     test("Test add new user-fail,duplicate id ", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).post("/user").send(user1);
+        const response = yield (0, supertest_1.default)(app)
+            .post("/user")
+            .send(user1)
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(500);
     }));
     test("Test get All Users-one user", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/user");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user")
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(200);
         const data = response.body;
         expect(data.length).toEqual(1);
@@ -65,7 +87,9 @@ describe("Tests User", () => {
         addNewUser(user2);
     }));
     test("Test get All Users-two user", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/user");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user")
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(200);
         const data = response.body;
         expect(data.length).toEqual(2);
@@ -79,14 +103,18 @@ describe("Tests User", () => {
         }
     }));
     test("Test get user by id", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/user/" + user1._id);
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user/" + user1._id)
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(200);
         const us = response.body;
         expect(us.name).toEqual(user1.name);
         expect(us._id).toEqual(user1._id);
     }));
     test("Test get user by id-fail", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/user/" + user1._id + "1");
+        const response = yield (0, supertest_1.default)(app)
+            .get("/user/" + user1._id + "1")
+            .set("Authorization", "JWT" + token);
         expect(response.statusCode).toEqual(200);
     }));
 });
