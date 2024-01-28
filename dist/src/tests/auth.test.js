@@ -17,53 +17,61 @@ const app_1 = __importDefault(require("../app"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const account_model_1 = __importDefault(require("../models/account_model"));
 let app;
+const account = {
+    email: "testUser@test.com",
+    password: "1234567890",
+};
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
     console.log("before all");
-    yield account_model_1.default.deleteMany();
+    yield account_model_1.default.deleteMany({ email: account.email });
 }));
 afterAll((done) => {
     mongoose_1.default.connection.close();
     done();
 });
-describe("Auth", () => {
+let token;
+describe("Auth tests", () => {
     test(" Register test", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).post("/auth/register").send({
-            email: "test@test.com",
-            password: "1234567890",
-        });
-        expect(response.status).toEqual(200);
+        const response = yield (0, supertest_1.default)(app)
+            .post("/auth/register")
+            .send({ account });
+        expect(response.status).toEqual(201);
     }));
     test(" duplicate Register test", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).post("/auth/register").send({
-            email: "test@test.com",
-            password: "1234567890",
-        });
+        const response = yield (0, supertest_1.default)(app)
+            .post("/auth/register")
+            .send({ account });
         expect(response.status).toEqual(400);
     }));
-    test(" Login test", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).post("/auth/login").send({
-            email: "test@test.com",
-            password: "1234567890",
-        });
-        expect(response.status).toEqual(200);
-        const token = response.body.token;
-        expect(token).not.toBeNull();
-        const response2 = yield (0, supertest_1.default)(app)
-            .get("/users")
-            .set("Authorization", "JWT" + token);
-        expect(response2.status).toEqual(200);
-        const response3 = yield (0, supertest_1.default)(app)
-            .get("/users")
+    test("Test Login", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app).post("/auth/login").send(account);
+        expect(response.statusCode).toBe(200);
+        token = response.body.accessToken;
+        expect(token).toBeDefined();
+    }));
+    test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app).get("/student");
+        expect(response.statusCode).toBe(401);
+    }));
+    test("Test access with valid token", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app)
+            .get("/student")
+            .set("Authorization", "JWT " + token);
+        expect(response.statusCode).toBe(200);
+    }));
+    test("Test access with invalid token", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app)
+            .get("/student")
             .set("Authorization", "JWT 1" + token);
-        expect(response3.status).toEqual(401);
+        expect(response.statusCode).toBe(401);
     }));
-    test(" Logout test", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).post("/auth/logout").send({
-            email: "test",
-            password: "test",
-        });
-        expect(response.status).toEqual(200);
-    }));
+    // test(" Logout test", async () => {
+    //   const response = await request(app).post("/auth/logout").send({
+    //     email: "test",
+    //     password: "test",
+    //   });
+    //   expect(response.status).toEqual(200);
+    // });
 });
 //# sourceMappingURL=auth.test.js.map

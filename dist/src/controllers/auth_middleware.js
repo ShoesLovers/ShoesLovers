@@ -21,6 +21,7 @@ const authenticateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     const verified = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
     if (verified == null)
         return res.sendStatus(403);
+    console.log(req.body._id);
     req.body._id = verified;
     next();
 });

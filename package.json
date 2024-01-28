@@ -4,8 +4,10 @@
   "description": "backend",
   "main": "app.js",
   "scripts": {
+    "testuser": "tsc && jest --detectOpenHandles --forceExit ./src/tests/user.test.ts",
+    "testpost": "tsc && jest --detectOpenHandles --forceExit ./src/tests/user_Post.test.ts",
+    "testauth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit ",
-    "test auth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "dev": "nodemon ./src/server.ts",
     "start": "tsc && node dist/src/server.js",
     "lint": "eslint . --ext .ts"

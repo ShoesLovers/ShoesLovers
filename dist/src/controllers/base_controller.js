@@ -48,24 +48,39 @@ class BaseController {
             console.log("postUser:" + req.body);
             try {
                 yield this.model.create(req.body);
-                res.send("OK");
+                res.status(201).send("OK");
             }
             catch (err) {
                 console.log(err);
-                res.status(500).send("fail: " + err.message);
+                res.status(406).send("fail: " + err.message);
             }
         });
     }
-    delete(req, res) {
+    deleteById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("deleteUser");
-            res.send("Test delete user!");
+            console.log("deleteById:" + req.body);
+            try {
+                yield this.model.findByIdAndDelete(req.params.id);
+                res.status(200).send("OK");
+            }
+            catch (err) {
+                console.log(err);
+                res.status(406).send("fail: " + err.message);
+            }
         });
     }
-    update(req, res) {
+    updateById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("updateUser");
-            res.send("Test update user!");
+            console.log("putStudent:" + req.body);
+            try {
+                yield this.model.findByIdAndUpdate(req.params.id, req.body);
+                const obj = yield this.model.findById(req.params.id);
+                res.status(200).send(obj);
+            }
+            catch (err) {
+                console.log(err);
+                res.status(406).send("fail: " + err.message);
+            }
         });
     }
 }

@@ -35,20 +35,33 @@ class BaseController<ModelType> {
     console.log("postUser:" + req.body);
     try {
       await this.model.create(req.body);
-      res.send("OK");
+      res.status(201).send("OK");
     } catch (err) {
       console.log(err);
-      res.status(500).send("fail: " + err.message);
+      res.status(406).send("fail: " + err.message);
     }
   }
 
-  async delete(req: Request, res: Response) {
-    console.log("deleteUser");
-    res.send("Test delete user!");
+  async deleteById(req: Request, res: Response) {
+    console.log("deleteById:" + req.body);
+    try {
+      await this.model.findByIdAndDelete(req.params.id);
+      res.status(200).send("OK");
+    } catch (err) {
+      console.log(err);
+      res.status(406).send("fail: " + err.message);
+    }
   }
-  async update(req: Request, res: Response) {
-    console.log("updateUser");
-    res.send("Test update user!");
+  async updateById(req: Request, res: Response) {
+    console.log("putStudent:" + req.body);
+    try {
+      await this.model.findByIdAndUpdate(req.params.id, req.body);
+      const obj = await this.model.findById(req.params.id);
+      res.status(200).send(obj);
+    } catch (err) {
+      console.log(err);
+      res.status(406).send("fail: " + err.message);
+    }
   }
 }
 const createController = <ModelType>(model: Model<ModelType>) => {

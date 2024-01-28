@@ -1,14 +1,14 @@
 ###
 
 GET http://localhost:3000/user
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI2OTQ5OGRkZDcwZWE5ZjcyYzc4OWMiLCJpYXQiOjE3MDY0NjQ0MjAsImV4cCI6MTcwNjQ2ODAyMH0.Iiot-INzAgVSMBJwyZCvhOco8DzFm5vI64j5I12djqE
+###
+
+GET http://localhost:3000/user?name=John%20Doe
 
 ###
 
-GET http://localhost:3000/user/123123
-
-###
-
-GET http://localhost:3000/user/123123
+GET http://localhost:3000/user/1234567891
 
 ###
 
@@ -16,40 +16,30 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-    "name": "hjkg ",
-    "_id": "123123"
+"name": "abc", "_id": "1234567891"
 }
 
 ###
-POST http://localhost:3000/userpost
+
+PUT http://localhost:3000/user/1234567890
 Content-Type: application/json
 
 {
-    "title": "test1",
-    "message": "message1",
-    "owner": "1234567"
+"name": "John Doe 1", "_id": "1234567890"
 }
 ###
-POST http://localhost:3000/auth/register
+POST http://localhost:3000/auth/register 
 Content-Type: application/json
 
 {
-    "email": "dor",
-    "password": "1222"
+"email": "test12@test.com", "password": "12345678901"
 }
+
 ###
+
 POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "dor",
-    "password": "1222"
-}
-###
-POST http://localhost:3000/auth/logout
-Content-Type: application/json
-
-{
-    "email": "dor",
-    "password": "1222"
+"email": "test12@test.com", "password": "12345678901"
 }

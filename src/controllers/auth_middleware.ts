@@ -11,6 +11,7 @@ const authenticateToken = async (
   if (token == null) return res.sendStatus(401);
   const verified = jwt.verify(token, process.env.JWT_SECRET);
   if (verified == null) return res.sendStatus(403);
+  console.log(req.body._id);
   req.body._id = verified;
   next();
 };

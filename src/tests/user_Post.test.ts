@@ -2,12 +2,20 @@ import { Express } from "express";
 import request from "supertest";
 import initApp from "../app";
 import mongoose from "mongoose";
-// import UserPost from "../models/user_post_model";
+import UserPost, { IUserPost } from "../models/user_post_model";
+import Account, { IAccount } from "../models/account_model";
 
+const account: IAccount = {
+  email: "testStudent@test.com",
+  password: "1234567890",
+};
+let token: string;
 let app: Express;
+
 beforeAll(async () => {
   app = await initApp();
-  // await User.deleteMany();
+  await UserPost.deleteMany();
+  await Account.deleteMany({ email: account.email });
 });
 
 afterAll((done) => {
@@ -15,48 +23,53 @@ afterAll((done) => {
   done();
 });
 
-interface IUserPost {
-  title: string;
-  message: string;
-  owner: string;
-}
 const post1: IUserPost = {
   title: "test1",
   message: "message1",
-  owner: "1234567",
 };
 const post2: IUserPost = {
   title: "test2",
   message: "message2",
-  owner: "12345678",
 };
 
 describe("Tests user Post", () => {
-  test("Test get All User posts-empty collection", async () => {
-    const response = await request(app).get("/userpost");
-    expect(response.statusCode).toEqual(200);
-    const data = response.body;
-    expect(data.length).toEqual(0);
-  });
   const addNewPost = async (post: IUserPost) => {
-    const response = await request(app).post("/userpost").send(post);
-    expect(response.statusCode).toEqual(200);
+    const response = await request(app)
+      .post("/userpost")
+      .set("Authorization", "JWT" + token)
+      .send(post);
+    expect(response.statusCode).toEqual(201);
     expect(response.text).toEqual("OK");
   };
+  test("Get token", async () => {
+    const response = await request(app).post("/auth/register").send(account);
+    account._id = response.body._id;
+    const response2 = await request(app).post("/auth/login").send(account);
+    token = response2.body.accessToken;
+    expect(token).toBeDefined();
+  });
+  test("Test get All User posts-empty collection", async () => {
+    const response = await request(app)
+      .get("/userpost")
+      .set("Authorization", "JWT" + token);
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toStrictEqual([]);
+  });
 
   test("Test add new post ", async () => {
     addNewPost(post1);
   });
 
   test("Test get All UsersPosts-one post in db", async () => {
-    const response = await request(app).get("/userpost");
-    expect(response.statusCode).toEqual(200);
-    const data = response.body;
-    expect(data.length).toEqual(1);
+    const response = await request(app)
+      .get("/userpost")
+      .set("Authorization", "JWT" + token);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.length).toBe(1);
     const rc = response.body[0];
     expect(rc.title).toEqual(post1.title);
     expect(rc.message).toEqual(post1.message);
-    expect(rc.owner).toEqual(post1.owner);
+    expect(rc.owner).toBe(account._id);
   });
   test("Test add new user-success ", async () => {
     addNewPost(post2);
@@ -71,11 +84,11 @@ describe("Tests user Post", () => {
     if (rc.title === post1.title) {
       expect(rc.title).toEqual(post1.title);
       expect(rc.message).toEqual(post1.message);
-      expect(rc.owner).toEqual(post1.owner);
+      expect(rc.owner).toBe(account._id);
     } else {
       expect(rc.title).toEqual(post2.title);
       expect(rc.message).toEqual(post2.message);
-      expect(rc.owner).toEqual(post2.owner);
+      expect(rc.owner).toBe(account._id);
     }
   });
 
