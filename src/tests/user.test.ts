@@ -6,7 +6,7 @@ import { Express } from "express";
 import AccountModel from "../models/account_model";
 
 let app: Express;
-let token: string;
+let accessToken: string;
 const account = {
   email: "test@test.com",
   password: "1234567890",
@@ -14,10 +14,10 @@ const account = {
 beforeAll(async () => {
   app = await initApp();
   await User.deleteMany();
-  AccountModel.deleteMany();
-  await request(app).post("/auth/register").send({ account });
-  const response = await request(app).post("/auth/login").send({ account });
-  token = response.body.accessToken;
+  AccountModel.deleteMany({ email: account.email });
+  await request(app).post("/auth/register").send(account);
+  const response = await request(app).post("/auth/login").send(account);
+  accessToken = response.body.accessToken;
 });
 
 afterAll((done) => {
@@ -41,7 +41,7 @@ describe("Tests User", () => {
   const addNewUser = async (user: IUser) => {
     const response = await request(app)
       .post("/user")
-      .set("Authorization", "JWT " + token)
+      .set("Authorization", "JWT " + accessToken)
       .send(user);
     expect(response.statusCode).toBe(201);
     expect(response.text).toBe("OK");
@@ -50,7 +50,7 @@ describe("Tests User", () => {
   test("Test get All Users-empty collection", async () => {
     const response = await request(app)
       .get("/user")
-      .set("Authorization", "JWT" + token);
+      .set("Authorization", "JWT" + accessToken);
     expect(response.statusCode).toEqual(200);
     const data = response.body;
     expect(data.length).toEqual(0);
@@ -63,13 +63,13 @@ describe("Tests User", () => {
     const response = await request(app)
       .post("/user")
       .send(user1)
-      .set("Authorization", "JWT" + token);
+      .set("Authorization", "JWT" + accessToken);
     expect(response.statusCode).toEqual(406);
   });
   test("Test get All Users-one user", async () => {
     const response = await request(app)
       .get("/user")
-      .set("Authorization", "JWT" + token);
+      .set("Authorization", "JWT" + accessToken);
     expect(response.statusCode).toEqual(200);
     const data = response.body;
     expect(data.length).toEqual(1);
@@ -98,7 +98,7 @@ describe("Tests User", () => {
   test("Test get user by id", async () => {
     const response = await request(app)
       .get("/user/" + user1._id)
-      .set("Authorization", "JWT" + token);
+      .set("Authorization", "JWT" + accessToken);
     expect(response.statusCode).toEqual(200);
     const us = response.body;
     expect(us.name).toEqual(user1.name);
@@ -107,8 +107,8 @@ describe("Tests User", () => {
   test("Test get user by id-fail", async () => {
     const response = await request(app)
       .get("/user/" + user1._id + "1")
-      .set("Authorization", "JWT" + token);
-    expect(response.statusCode).toEqual(200);
+      .set("Authorization", "JWT" + accessToken);
+    expect(response.statusCode).toEqual(401);
   });
   // test("Test PUT /student/:id", async () => {
   //   const updateduser = { ...user1, name: "dor" };

@@ -5,7 +5,7 @@ export interface IAccount {
   password: string;
   _id?: string;
 }
-const userSchema = new mongoose.Schema<IAccount>({
+const accountSchema = new mongoose.Schema<IAccount>({
   email: {
     type: String,
     required: true,
@@ -16,4 +16,4 @@ const userSchema = new mongoose.Schema<IAccount>({
   },
 });
 
-export default mongoose.model<IAccount>("account", userSchema);
+export default mongoose.model<IAccount>("account", accountSchema);

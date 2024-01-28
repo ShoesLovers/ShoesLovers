@@ -18,7 +18,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = __importDefault(require("../models/user_model"));
 const account_model_1 = __importDefault(require("../models/account_model"));
 let app;
-let token;
+let accessToken;
 const account = {
     email: "test@test.com",
     password: "1234567890",
@@ -26,10 +26,10 @@ const account = {
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
     yield user_model_1.default.deleteMany();
-    account_model_1.default.deleteMany();
-    yield (0, supertest_1.default)(app).post("/auth/register").send({ account });
-    const response = yield (0, supertest_1.default)(app).post("/auth/login").send({ account });
-    token = response.body.accessToken;
+    account_model_1.default.deleteMany({ email: account.email });
+    yield (0, supertest_1.default)(app).post("/auth/register").send(account);
+    const response = yield (0, supertest_1.default)(app).post("/auth/login").send(account);
+    accessToken = response.body.accessToken;
 }));
 afterAll((done) => {
     mongoose_1.default.connection.close();
@@ -47,7 +47,7 @@ describe("Tests User", () => {
     const addNewUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .post("/user")
-            .set("Authorization", "JWT " + token)
+            .set("Authorization", "JWT " + accessToken)
             .send(user);
         expect(response.statusCode).toBe(201);
         expect(response.text).toBe("OK");
@@ -55,7 +55,7 @@ describe("Tests User", () => {
     test("Test get All Users-empty collection", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .get("/user")
-            .set("Authorization", "JWT" + token);
+            .set("Authorization", "JWT" + accessToken);
         expect(response.statusCode).toEqual(200);
         const data = response.body;
         expect(data.length).toEqual(0);
@@ -67,13 +67,13 @@ describe("Tests User", () => {
         const response = yield (0, supertest_1.default)(app)
             .post("/user")
             .send(user1)
-            .set("Authorization", "JWT" + token);
+            .set("Authorization", "JWT" + accessToken);
         expect(response.statusCode).toEqual(406);
     }));
     test("Test get All Users-one user", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .get("/user")
-            .set("Authorization", "JWT" + token);
+            .set("Authorization", "JWT" + accessToken);
         expect(response.statusCode).toEqual(200);
         const data = response.body;
         expect(data.length).toEqual(1);
@@ -102,7 +102,7 @@ describe("Tests User", () => {
     test("Test get user by id", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .get("/user/" + user1._id)
-            .set("Authorization", "JWT" + token);
+            .set("Authorization", "JWT" + accessToken);
         expect(response.statusCode).toEqual(200);
         const us = response.body;
         expect(us.name).toEqual(user1.name);
@@ -111,7 +111,7 @@ describe("Tests User", () => {
     test("Test get user by id-fail", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
             .get("/user/" + user1._id + "1")
-            .set("Authorization", "JWT" + token);
+            .set("Authorization", "JWT" + accessToken);
         expect(response.statusCode).toEqual(200);
     }));
     // test("Test PUT /student/:id", async () => {

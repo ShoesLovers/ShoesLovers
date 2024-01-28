@@ -19,7 +19,7 @@ const account_model_1 = __importDefault(require("../models/account_model"));
 let app;
 const account = {
     email: "testUser@test.com",
-    password: "1234567890",
+    password: "1234567890125",
 };
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     app = yield (0, app_1.default)();
@@ -33,15 +33,11 @@ afterAll((done) => {
 let token;
 describe("Auth tests", () => {
     test(" Register test", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app)
-            .post("/auth/register")
-            .send({ account });
+        const response = yield (0, supertest_1.default)(app).post("/auth/register").send(account);
         expect(response.status).toEqual(201);
     }));
     test(" duplicate Register test", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app)
-            .post("/auth/register")
-            .send({ account });
+        const response = yield (0, supertest_1.default)(app).post("/auth/register").send(account);
         expect(response.status).toEqual(400);
     }));
     test("Test Login", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -51,19 +47,19 @@ describe("Auth tests", () => {
         expect(token).toBeDefined();
     }));
     test("Test forbidden access without token", () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app).get("/student");
+        const response = yield (0, supertest_1.default)(app).get("/user");
         expect(response.statusCode).toBe(401);
     }));
     test("Test access with valid token", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
-            .get("/student")
+            .get("/user")
             .set("Authorization", "JWT " + token);
         expect(response.statusCode).toBe(200);
     }));
     test("Test access with invalid token", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
-            .get("/student")
-            .set("Authorization", "JWT 1" + token);
+            .get("/user")
+            .set("Authorization", "JWT" + token + "1");
         expect(response.statusCode).toBe(401);
     }));
     // test(" Logout test", async () => {

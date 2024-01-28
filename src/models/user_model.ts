@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 
 export interface IUser {
-  _id: string;
   name: string;
+  _id: string;
 }
 const userSchema = new mongoose.Schema<IUser>({
-  _id: {
-    type: String,
-  },
   name: {
     type: String,
     required: true,
+  },
+  _id: {
+    type: String,
   },
 });
 

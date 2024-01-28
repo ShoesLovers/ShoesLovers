@@ -1,7 +1,7 @@
 ###
 
 GET http://localhost:3000/user
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI2OTQ5OGRkZDcwZWE5ZjcyYzc4OWMiLCJpYXQiOjE3MDY0NjQ0MjAsImV4cCI6MTcwNjQ2ODAyMH0.Iiot-INzAgVSMBJwyZCvhOco8DzFm5vI64j5I12djqE
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI2YThjY2I4NmM5ZGFkM2NjNWZlNzEiLCJpYXQiOjE3MDY0Njk2MDQsImV4cCI6MTcwNjQ3MzIwNH0.2f03xf5FgHwLKUwqnQNyuWaXehfg2-zzuKIjtUWWk8E
 ###
 
 GET http://localhost:3000/user?name=John%20Doe
@@ -32,7 +32,7 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-"email": "test12@test.com", "password": "12345678901"
+"email": "test1212321@test.com", "password": "12345678901"
 }
 
 ###
@@ -41,5 +41,5 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-"email": "test12@test.com", "password": "12345678901"
+"email": "test1212321@test.com", "password": "12345678901"
 }

@@ -9,7 +9,7 @@ const account: IAccount = {
   email: "testStudent@test.com",
   password: "1234567890",
 };
-let token: string;
+let accessToken: string;
 let app: Express;
 
 beforeAll(async () => {
@@ -36,7 +36,7 @@ describe("Tests user Post", () => {
   const addNewPost = async (post: IUserPost) => {
     const response = await request(app)
       .post("/userpost")
-      .set("Authorization", "JWT" + token)
+      .set("Authorization", "JWT" + accessToken)
       .send(post);
     expect(response.statusCode).toEqual(201);
     expect(response.text).toEqual("OK");
@@ -45,13 +45,13 @@ describe("Tests user Post", () => {
     const response = await request(app).post("/auth/register").send(account);
     account._id = response.body._id;
     const response2 = await request(app).post("/auth/login").send(account);
-    token = response2.body.accessToken;
-    expect(token).toBeDefined();
+    accessToken = response2.body.accessToken;
+    expect(accessToken).toBeDefined();
   });
   test("Test get All User posts-empty collection", async () => {
     const response = await request(app)
       .get("/userpost")
-      .set("Authorization", "JWT" + token);
+      .set("Authorization", "JWT" + accessToken);
     expect(response.statusCode).toEqual(200);
     expect(response.body).toStrictEqual([]);
   });
@@ -63,7 +63,7 @@ describe("Tests user Post", () => {
   test("Test get All UsersPosts-one post in db", async () => {
     const response = await request(app)
       .get("/userpost")
-      .set("Authorization", "JWT" + token);
+      .set("Authorization", "JWT" + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(1);
     const rc = response.body[0];

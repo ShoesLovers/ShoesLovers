@@ -7,7 +7,7 @@ import { Express } from "express";
 let app: Express;
 const account = {
   email: "testUser@test.com",
-  password: "1234567890",
+  password: "1234567890125",
 };
 beforeAll(async () => {
   app = await initApp();
@@ -22,15 +22,11 @@ afterAll((done) => {
 let token: string;
 describe("Auth tests", () => {
   test(" Register test", async () => {
-    const response = await request(app)
-      .post("/auth/register")
-      .send({ account });
+    const response = await request(app).post("/auth/register").send(account);
     expect(response.status).toEqual(201);
   });
   test(" duplicate Register test", async () => {
-    const response = await request(app)
-      .post("/auth/register")
-      .send({ account });
+    const response = await request(app).post("/auth/register").send(account);
     expect(response.status).toEqual(400);
   });
 
@@ -42,21 +38,21 @@ describe("Auth tests", () => {
   });
 
   test("Test forbidden access without token", async () => {
-    const response = await request(app).get("/student");
+    const response = await request(app).get("/user");
     expect(response.statusCode).toBe(401);
   });
 
   test("Test access with valid token", async () => {
     const response = await request(app)
-      .get("/student")
+      .get("/user")
       .set("Authorization", "JWT " + token);
     expect(response.statusCode).toBe(200);
   });
 
   test("Test access with invalid token", async () => {
     const response = await request(app)
-      .get("/student")
-      .set("Authorization", "JWT 1" + token);
+      .get("/user")
+      .set("Authorization", "JWT" + token + "1");
     expect(response.statusCode).toBe(401);
   });
   // test(" Logout test", async () => {

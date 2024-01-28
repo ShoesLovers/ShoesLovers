@@ -1,7 +1,7 @@
 import express from "express";
+const router = express.Router();
 import UserPostController from "../controllers/user_post_controller";
 import authMiddleware from "../controllers/auth_middleware";
-const router = express.Router();
 
 // import UserPost from "../controllers/user_post_controller";
 

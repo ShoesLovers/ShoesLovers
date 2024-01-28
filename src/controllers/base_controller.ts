@@ -42,22 +42,22 @@ class BaseController<ModelType> {
     }
   }
 
-  async deleteById(req: Request, res: Response) {
-    console.log("deleteById:" + req.body);
-    try {
-      await this.model.findByIdAndDelete(req.params.id);
-      res.status(200).send("OK");
-    } catch (err) {
-      console.log(err);
-      res.status(406).send("fail: " + err.message);
-    }
-  }
   async updateById(req: Request, res: Response) {
     console.log("putStudent:" + req.body);
     try {
       await this.model.findByIdAndUpdate(req.params.id, req.body);
       const obj = await this.model.findById(req.params.id);
       res.status(200).send(obj);
+    } catch (err) {
+      console.log(err);
+      res.status(406).send("fail: " + err.message);
+    }
+  }
+  async deleteById(req: Request, res: Response) {
+    console.log("deleteById:" + req.body);
+    try {
+      await this.model.findByIdAndDelete(req.params.id);
+      res.status(200).send("OK");
     } catch (err) {
       console.log(err);
       res.status(406).send("fail: " + err.message);

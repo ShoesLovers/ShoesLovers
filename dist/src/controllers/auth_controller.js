@@ -19,8 +19,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("register");
     const email = req.body.email;
     const password = req.body.password;
-    if (email == null || password == null) {
-        return res.status(400).send("email or password is null");
+    if (!email || !password) {
+        return res.status(400).send("missing email or password");
     }
     try {
         const existAccount = yield account_model_1.default.findOne({ email: email });
@@ -33,10 +33,10 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email: email,
             password: encryptedPassword,
         });
-        return res.status(200).send(newAccount);
+        return res.status(201).send({ _id: newAccount._id });
     }
     catch (err) {
-        return res.status(400).send("fail registration");
+        return res.status(400).send("error missing email or password");
     }
 });
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
