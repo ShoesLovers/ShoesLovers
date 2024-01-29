@@ -10,6 +10,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const user_route_1 = __importDefault(require("./routes/user_route"));
 const user_post_route_1 = __importDefault(require("./routes/user_post_route"));
+const auth_route_1 = __importDefault(require("./routes/auth_route"));
 const initApp = () => {
     const db = mongoose_1.default.connection;
     db.on("error", (error) => console.error(error));
@@ -22,6 +23,7 @@ const initApp = () => {
             app.use(body_parser_1.default.urlencoded({ extended: true }));
             app.use("/user", user_route_1.default);
             app.use("/userpost", user_post_route_1.default);
+            app.use("/auth", auth_route_1.default);
             resolve(app);
         })
             .catch((err) => {

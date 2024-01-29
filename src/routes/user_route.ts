@@ -1,15 +1,24 @@
 import express from "express";
+import UserController from "../controllers/user_controller";
+import authMiddleware from "../controllers/auth_middleware";
 const router = express.Router();
 
-import User from "../controllers/user_controller";
+router.get("/", authMiddleware, UserController.getAll.bind(UserController));
+router.get("/:id", authMiddleware, UserController.getById.bind(UserController));
 
-router.get("/", User.getAllUsers);
-router.get("/:id", User.getUserById);
+router.post("/", authMiddleware, UserController.post.bind(UserController));
 
-router.post("/", User.postUser);
+router.put(
+  "/:id",
 
-router.put("/:id", User.updateUser);
+  authMiddleware,
+  UserController.updateById.bind(UserController)
+);
 
-router.delete("/:id", User.deleteUser);
+router.delete(
+  "/:id",
+  authMiddleware,
+  UserController.deleteById.bind(UserController)
+);
 
 export = router;

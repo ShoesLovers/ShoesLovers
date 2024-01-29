@@ -1,13 +1,17 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-  },
+export interface IUser {
+  name: string;
+  _id: string;
+}
+const userSchema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: true,
   },
+  _id: {
+    type: String,
+  },
 });
 
-export = mongoose.model("user", userSchema);
+export default mongoose.model<IUser>("user", userSchema);

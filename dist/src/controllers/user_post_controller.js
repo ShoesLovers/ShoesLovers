@@ -11,58 +11,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const user_post_model_1 = __importDefault(require("../models/user_post_model"));
-const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("getAllUsers");
-    try {
-        if (req.query.name) {
-            const user = yield user_post_model_1.default.find({ name: req.query.name });
-            res.send(user);
-        }
-        else {
-            const user = yield user_post_model_1.default.find();
-            res.send(user);
-        }
+const base_controller_1 = require("./base_controller");
+class UserPostController extends base_controller_1.BaseController {
+    constructor() {
+        super(user_post_model_1.default);
     }
-    catch (err) {
-        res.status(500).json({ message: err.message });
+    post(req, res) {
+        const _super = Object.create(null, {
+            post: { get: () => super.post }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            req.body.owner = req.user._id;
+            return _super.post.call(this, req, res);
+        });
     }
-});
-const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("getUserById:" + req.params.id);
-    try {
-        const user = yield user_post_model_1.default.findById(req.params.id);
-        res.send(user);
-    }
-    catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("postUser:" + req.body);
-    const user = new user_post_model_1.default(req.body);
-    try {
-        yield user.save();
-        res.send("OK");
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).send("fail: " + err.message);
-    }
-});
-const deleteUser = (req, res) => {
-    console.log("deleteUser");
-    res.send("Test delete user!");
-};
-const updateUser = (req, res) => {
-    console.log("updateUser");
-    res.send("Test update user!");
-};
-module.exports = {
-    getAllUsers,
-    getUserById,
-    postUser,
-    deleteUser,
-    updateUser,
-};
+}
+exports.default = new UserPostController();
 //# sourceMappingURL=user_post_controller.js.map
