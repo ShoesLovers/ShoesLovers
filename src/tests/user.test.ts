@@ -30,7 +30,7 @@ interface IUser {
 }
 const user1 = {
   name: "test1",
-  _id: "1234567890",
+  _id: "12345678901",
 };
 // const user2 = {
 //   name: "test2",
@@ -44,7 +44,6 @@ describe("Tests User", () => {
       .set("Authorization", "JWT " + accessToken)
       .send(user);
     expect(response.statusCode).toBe(201);
-    expect(response.text).toBe("OK");
   };
 
   test("Test get All Users-empty collection", async () => {
@@ -64,7 +63,7 @@ describe("Tests User", () => {
       .post("/user")
       .send(user1)
       .set("Authorization", "JWT" + accessToken);
-    expect(response.statusCode).toEqual(406);
+    expect(response.statusCode).toEqual(401);
   });
   test("Test get All Users-one user", async () => {
     const response = await request(app)

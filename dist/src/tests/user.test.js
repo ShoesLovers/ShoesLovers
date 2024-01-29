@@ -37,7 +37,7 @@ afterAll((done) => {
 });
 const user1 = {
     name: "test1",
-    _id: "1234567890",
+    _id: "12345678901",
 };
 // const user2 = {
 //   name: "test2",
@@ -50,7 +50,6 @@ describe("Tests User", () => {
             .set("Authorization", "JWT " + accessToken)
             .send(user);
         expect(response.statusCode).toBe(201);
-        expect(response.text).toBe("OK");
     });
     test("Test get All Users-empty collection", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
@@ -68,7 +67,7 @@ describe("Tests User", () => {
             .post("/user")
             .send(user1)
             .set("Authorization", "JWT" + accessToken);
-        expect(response.statusCode).toEqual(406);
+        expect(response.statusCode).toEqual(401);
     }));
     test("Test get All Users-one user", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app)
@@ -112,7 +111,7 @@ describe("Tests User", () => {
         const response = yield (0, supertest_1.default)(app)
             .get("/user/" + user1._id + "1")
             .set("Authorization", "JWT" + accessToken);
-        expect(response.statusCode).toEqual(200);
+        expect(response.statusCode).toEqual(401);
     }));
     // test("Test PUT /student/:id", async () => {
     //   const updateduser = { ...user1, name: "dor" };

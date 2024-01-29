@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "testuser": "tsc && jest --detectOpenHandles --forceExit ./src/tests/user.test.ts",
-    "testpost": "tsc && jest --detectOpenHandles --forceExit ./src/tests/user_Post.test.ts",
+    "testpost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/user_Post.test.ts",
     "testauth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit ",
     "dev": "nodemon ./src/server.ts",
@@ -34,6 +34,8 @@
     "jest": "^29.7.0",
     "nodemon": "^3.0.3",
     "supertest": "^6.3.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

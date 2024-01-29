@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseController = void 0;
 class BaseController {
     constructor(model) {
         this.model = model;
@@ -47,8 +48,8 @@ class BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("postUser:" + req.body);
             try {
-                yield this.model.create(req.body);
-                res.status(201).send("OK");
+                const obj = yield this.model.create(req.body);
+                res.status(201).send(obj);
             }
             catch (err) {
                 console.log(err);
@@ -84,6 +85,7 @@ class BaseController {
         });
     }
 }
+exports.BaseController = BaseController;
 const createController = (model) => {
     return new BaseController(model);
 };

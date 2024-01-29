@@ -33,7 +33,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email: email,
             password: encryptedPassword,
         });
-        return res.status(201).send({ _id: newAccount._id });
+        return res.status(201).send(newAccount);
     }
     catch (err) {
         return res.status(400).send("error missing email or password");
@@ -58,15 +58,88 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const accessToken = jsonwebtoken_1.default.sign({ _id: account._id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRATION_TIME,
         });
-        return res.status(200).send({ accessToken: accessToken });
+        const refreshToken = jsonwebtoken_1.default.sign({ _id: account._id }, process.env.JWT_REFRESH_SECRET);
+        if (account.refreshTokens == null) {
+            account.refreshTokens = [refreshToken];
+        }
+        else {
+            account.refreshTokens.push(refreshToken);
+        }
+        yield account.save();
+        return res.status(200).send({
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        });
     }
     catch (err) {
-        return res.status(500).send("server error");
+        return res.status(400).send("error missing email or password");
     }
 });
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("logout");
-    res.status(400).send("logout");
+    const authHeader = req.headers["authorization"];
+    const refreshToken = authHeader && authHeader.split(" ")[1]; // Bearer <token>
+    if (refreshToken == null)
+        return res.sendStatus(401);
+    jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(err);
+        if (err)
+            return res.sendStatus(401);
+        try {
+            const userDb = yield account_model_1.default.findOne({ _id: user._id });
+            if (!userDb.refreshTokens ||
+                !userDb.refreshTokens.includes(refreshToken)) {
+                userDb.refreshTokens = [];
+                yield userDb.save();
+                return res.sendStatus(401);
+            }
+            else {
+                userDb.refreshTokens = userDb.refreshTokens.filter((t) => t !== refreshToken);
+                yield userDb.save();
+                return res.sendStatus(200);
+            }
+        }
+        catch (err) {
+            res.sendStatus(401).send(err.message);
+        }
+    }));
 });
-exports.default = { login, logout, register };
+const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const authHeader = req.headers["authorization"];
+    const refreshToken = authHeader && authHeader.split(" ")[1]; // Bearer <token>
+    if (refreshToken == null)
+        return res.sendStatus(401);
+    jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(401);
+        }
+        try {
+            const userDb = yield account_model_1.default.findOne({ _id: user._id });
+            if (!userDb.refreshTokens ||
+                !userDb.refreshTokens.includes(refreshToken)) {
+                userDb.refreshTokens = [];
+                yield userDb.save();
+                return res.sendStatus(401);
+            }
+            const accessToken = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+            const newRefreshToken = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_REFRESH_SECRET);
+            userDb.refreshTokens = userDb.refreshTokens.filter((t) => t !== refreshToken);
+            userDb.refreshTokens.push(newRefreshToken);
+            yield userDb.save();
+            return res.status(200).send({
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+            });
+        }
+        catch (err) {
+            res.sendStatus(401).send(err.message);
+        }
+    }));
+});
+exports.default = {
+    register,
+    login,
+    logout,
+    refresh,
+};
 //# sourceMappingURL=auth_controller.js.map

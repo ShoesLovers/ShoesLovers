@@ -6,11 +6,12 @@ const router = express.Router();
 router.get("/", authMiddleware, UserController.getAll.bind(UserController));
 router.get("/:id", authMiddleware, UserController.getById.bind(UserController));
 
-router.post("/", UserController.post.bind(UserController));
+router.post("/", authMiddleware, UserController.post.bind(UserController));
 
 router.put(
   "/:id",
 
+  authMiddleware,
   UserController.updateById.bind(UserController)
 );
 

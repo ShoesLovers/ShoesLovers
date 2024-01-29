@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Model } from "mongoose";
 
-class BaseController<ModelType> {
+export class BaseController<ModelType> {
   model: Model<ModelType>;
   constructor(model: Model<ModelType>) {
     this.model = model;
@@ -34,8 +34,8 @@ class BaseController<ModelType> {
   async post(req: Request, res: Response) {
     console.log("postUser:" + req.body);
     try {
-      await this.model.create(req.body);
-      res.status(201).send("OK");
+      const obj = await this.model.create(req.body);
+      res.status(201).send(obj);
     } catch (err) {
       console.log(err);
       res.status(406).send("fail: " + err.message);

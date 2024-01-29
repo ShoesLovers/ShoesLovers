@@ -4,6 +4,7 @@ export interface IAccount {
   email: string;
   password: string;
   _id?: string;
+  refreshTokens?: string[];
 }
 const accountSchema = new mongoose.Schema<IAccount>({
   email: {
@@ -13,6 +14,10 @@ const accountSchema = new mongoose.Schema<IAccount>({
   password: {
     type: String,
     required: true,
+  },
+  refreshTokens: {
+    type: [String],
+    required: false,
   },
 });
 

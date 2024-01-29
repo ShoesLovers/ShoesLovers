@@ -1,18 +1,23 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-const authenticateToken = async (
-  req: Request,
+export interface AuthRequest extends Request {
+  user: { _id: string };
+}
+
+const authMiddleware = (
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return res.sendStatus(401);
-  const verified = jwt.verify(token, process.env.JWT_SECRET);
-  if (verified == null) return res.sendStatus(403);
-  console.log(req.body._id);
-  req.body._id = verified;
-  next();
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    console.log(err);
+    if (err) return res.sendStatus(401);
+    req.user = user as { _id: string };
+    next();
+  });
 };
-export default authenticateToken;
+export default authMiddleware;

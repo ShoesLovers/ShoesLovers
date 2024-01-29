@@ -13,6 +13,10 @@ const accountSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    refreshTokens: {
+        type: [String],
+        required: false,
+    },
 });
 exports.default = mongoose_1.default.model("account", accountSchema);
 //# sourceMappingURL=account_model.js.map
