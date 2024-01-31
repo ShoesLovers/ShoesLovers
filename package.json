@@ -8,7 +8,7 @@
     "testpost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/user_Post.test.ts",
     "testauth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit ",
-    "dev": "nodemon --exec ts-node /src/server.ts",
+    "dev": "nodemon --exec ts-node src/server.ts",
     "start": "tsc && nodemon dist/src/server.js",
     "lint": "eslint . --ext .ts"
   },
