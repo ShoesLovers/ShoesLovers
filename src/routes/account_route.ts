@@ -1,32 +1,37 @@
-import express from 'express'
-import AccountController from '../controllers/account_controller'
-import authMiddleware from '../controllers/auth_middleware'
+import express from "express";
+import AccountController from "../controllers/account_controller";
+import authMiddleware from "../controllers/auth_middleware";
 
-const router = express.Router()
+const router = express.Router();
 
 router.get(
-  '/',
+  "/",
   authMiddleware,
   AccountController.getAll.bind(AccountController)
-)
+);
 router.get(
-  '/:id',
+  "/:id",
   authMiddleware,
   AccountController.getById.bind(AccountController)
-)
+);
 
-router.post('/', authMiddleware, AccountController.post.bind(AccountController))
+router.post(
+  "/",
+  authMiddleware,
+  AccountController.post.bind(AccountController)
+);
 
 router.put(
-  '/:id',
+  "/:id",
   authMiddleware,
   AccountController.updateById.bind(AccountController)
-)
+);
 
 router.delete(
-  '/:id',
+  "/:id",
   authMiddleware,
   AccountController.deleteById.bind(AccountController)
-)
+);
+//sadasdas
 
-export default router
+export default router;
