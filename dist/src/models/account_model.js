@@ -13,10 +13,20 @@ const accountSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    _id: { type: mongoose_1.default.Schema.Types.ObjectId, required: true },
+    name: {
+        type: String,
+        required: true,
+    },
     refreshTokens: {
         type: [String],
         required: false,
     },
+    posts: {
+        type: [mongoose_1.default.Schema.Types.ObjectId],
+        ref: 'userPost',
+        required: false,
+    },
 });
-exports.default = mongoose_1.default.model("account", accountSchema);
+exports.default = mongoose_1.default.model('account', accountSchema);
 //# sourceMappingURL=account_model.js.map

@@ -1,11 +1,17 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 export interface IUserPost {
-  title: string;
-  message: string;
-  owner?: string;
+  owner: mongoose.Schema.Types.ObjectId
+  title: string
+  message: string
 }
+
 const userPostSchema = new mongoose.Schema<IUserPost>({
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'account',
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -14,10 +20,6 @@ const userPostSchema = new mongoose.Schema<IUserPost>({
     type: String,
     required: true,
   },
-  owner: {
-    type: String,
-    required: true,
-  },
-});
+})
 
-export default mongoose.model<IUserPost>("userPost", userPostSchema);
+export default mongoose.model<IUserPost>('userPost', userPostSchema)

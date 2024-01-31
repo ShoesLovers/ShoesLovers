@@ -1,45 +1,88 @@
 ###
 
-GET http://localhost:3000/user
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWI2YThjY2I4NmM5ZGFkM2NjNWZlNzEiLCJpYXQiOjE3MDY0Njk2MDQsImV4cCI6MTcwNjQ3MzIwNH0.2f03xf5FgHwLKUwqnQNyuWaXehfg2-zzuKIjtUWWk8E
+GET http://localhost:3000/account
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTU1NzQsImV4cCI6MTcwNjcxOTE3NH0.10hwUN5WtmrCS87UXCmgkyxtc8do-BtUeJdzrhAaBpk
 ###
-
-GET http://localhost:3000/user?name=John%20Doe
-
-###
-
-GET http://localhost:3000/user/1234567891
+# Get User by name
+GET http://localhost:3000/account?name=test
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5ZTQwNjgwNjgwM2FiYTgiLCJpYXQiOjE3MDY3MTUyODgsImV4cCI6MTcwNjcxODg4OH0.cuCmj1TduHBNpCYIIksCoVNCqKLaY0UwSqwn3m3wp6o
 
 ###
+#Get User by ID
+GET http://localhost:3000/account/65ba60b219e406806803aba8
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5ZTQwNjgwNjgwM2FiYTgiLCJpYXQiOjE3MDY3MTUzNTAsImV4cCI6MTcwNjcxODk1MH0.ybjdWKvkRuJIK7GMFXFNWhr3leaRcxCDJFv5e91fcck
 
-POST http://localhost:3000/user 
+###
+#Update User
+PUT http://localhost:3000/account/65ba69a2112667c460adf5d3
 Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5ZTQwNjgwNjgwM2FiYTgiLCJpYXQiOjE3MDY3MTUzNTAsImV4cCI6MTcwNjcxODk1MH0.ybjdWKvkRuJIK7GMFXFNWhr3leaRcxCDJFv5e91fcck
 
 {
-"name": "abc", "_id": "1234567891"
+  "name": "david",
+  "email":"david@gmail.com"
 }
 
 ###
+#Delete User
+DELETE http://localhost:3000/account/65ba69a2112667c460adf5d3
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5ZTQwNjgwNjgwM2FiYTgiLCJpYXQiOjE3MDY3MTUzNTAsImV4cCI6MTcwNjcxODk1MH0.ybjdWKvkRuJIK7GMFXFNWhr3leaRcxCDJFv5e91fcck
 
-PUT http://localhost:3000/user/1234567890
-Content-Type: application/json
 
-{
-"name": "John Doe 1", "_id": "1234567890"
-}
 ###
+#Register Account
 POST http://localhost:3000/auth/register 
 Content-Type: application/json
 
 {
-"email": "test1212321@test.com", "password": "12345678901"
+  "email": "test2@test.com",
+  "password": "1234",
+  "name": "test2"
 }
 
 ###
-
+# Login
 POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-"email": "test1212321@test.com", "password": "12345678901"
+  "email": "test@test.com",
+  "password": "1234",
+  "name": "test"
 }
+
+###
+# Get Posts
+GET http://localhost:3000/userpost
+
+###
+# Get Post by ID
+GET http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+
+###
+#Create Post
+POST http://localhost:3000/userpost
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTU4MjgsImV4cCI6MTcwNjcxOTQyOH0.ZoQhelPq89IL1-cJJAbf3x9g-BRvWoXDc8kKHjv85L4
+
+{
+  "title": "title",
+  "message": "message",
+  "owner":"65ba69a2112667c460adf5d3"
+}
+
+###
+#Update Post
+PUT http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTYxODksImV4cCI6MTcwNjcxOTc4OX0.SV08KoUH6C6L5khX0H7TJOVygjgiGFZgPdgNSU_RWzc 
+
+{
+  "title": "hello",
+  "message": "world"
+}
+
+###
+# Delete Post
+DELETE http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTYxODksImV4cCI6MTcwNjcxOTc4OX0.SV08KoUH6C6L5khX0H7TJOVygjgiGFZgPdgNSU_RWzc

@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 export interface IAccount {
-  email: string;
-  password: string;
-  _id?: string;
-  refreshTokens?: string[];
+  email: string
+  password: string
+  name: string
+  refreshTokens?: string[]
+  posts: mongoose.Schema.Types.ObjectId[]
 }
 const accountSchema = new mongoose.Schema<IAccount>({
   email: {
@@ -15,10 +16,19 @@ const accountSchema = new mongoose.Schema<IAccount>({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   refreshTokens: {
     type: [String],
     required: false,
   },
-});
+  posts: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'userPost',
+    required: false,
+  },
+})
 
-export default mongoose.model<IAccount>("account", accountSchema);
+export default mongoose.model<IAccount>('account', accountSchema)

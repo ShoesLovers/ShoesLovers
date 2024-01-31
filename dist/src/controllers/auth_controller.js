@@ -16,50 +16,50 @@ const account_model_1 = __importDefault(require("../models/account_model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("register");
-    const email = req.body.email;
-    const password = req.body.password;
-    if (!email || !password) {
-        return res.status(400).send("missing email or password");
+    console.log('register');
+    const { email, password, name } = req.body;
+    if (!email || !password || !name) {
+        return res.status(400).send('missing email or password or name');
     }
     try {
-        const existAccount = yield account_model_1.default.findOne({ email: email });
-        if (existAccount != null) {
-            return res.status(400).send("user already exist");
+        const existAccount = yield account_model_1.default.findOne({ email });
+        if (existAccount) {
+            return res.status(400).send('user already exist');
         }
-        const salt = yield bcrypt_1.default.genSalt(10);
-        const encryptedPassword = yield bcrypt_1.default.hash(password, salt);
+        const encryptedPassword = yield bcrypt_1.default.hash(password, 10);
         const newAccount = yield account_model_1.default.create({
-            email: email,
+            email,
             password: encryptedPassword,
+            name,
         });
+        console.log(newAccount);
         return res.status(201).send(newAccount);
     }
     catch (err) {
-        return res.status(400).send("error missing email or password");
+        return res.status(400).send('error missing email or password');
     }
 });
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("login");
-    const email = req.body.email;
-    const password = req.body.password;
-    if (email == null || password == null) {
-        return res.status(400).send("email or password is null");
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).send('email or password is null');
     }
     try {
-        const account = yield account_model_1.default.findOne({ email: email });
-        if (account == null) {
-            return res.status(400).send("user already exists");
+        const account = yield account_model_1.default.findOne({ email });
+        console.log(email, password, account.password);
+        if (!account) {
+            return res.status(400).send('user is not exists');
         }
+        // Check if the password correspond to the hashed password.
         const isMatch = yield bcrypt_1.default.compare(password, account.password);
         if (!isMatch) {
-            return res.status(400).send("invalid password");
+            return res.status(400).send('invalid password');
         }
         const accessToken = jsonwebtoken_1.default.sign({ _id: account._id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRATION_TIME,
         });
         const refreshToken = jsonwebtoken_1.default.sign({ _id: account._id }, process.env.JWT_REFRESH_SECRET);
-        if (account.refreshTokens == null) {
+        if (!account.refreshTokens) {
             account.refreshTokens = [refreshToken];
         }
         else {
@@ -67,18 +67,18 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         yield account.save();
         return res.status(200).send({
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+            accessToken,
+            refreshToken,
         });
     }
     catch (err) {
-        return res.status(400).send("error missing email or password");
+        return res.status(400).send('error missing email or password');
     }
 });
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const authHeader = req.headers["authorization"];
-    const refreshToken = authHeader && authHeader.split(" ")[1]; // Bearer <token>
-    if (refreshToken == null)
+    const authHeader = req.headers['authorization'];
+    const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+    if (!refreshToken)
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(err);
@@ -93,7 +93,7 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 return res.sendStatus(401);
             }
             else {
-                userDb.refreshTokens = userDb.refreshTokens.filter((t) => t !== refreshToken);
+                userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
                 yield userDb.save();
                 return res.sendStatus(200);
             }
@@ -104,8 +104,8 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }));
 });
 const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const authHeader = req.headers["authorization"];
-    const refreshToken = authHeader && authHeader.split(" ")[1]; // Bearer <token>
+    const authHeader = req.headers['authorization'];
+    const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
     if (refreshToken == null)
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
@@ -123,12 +123,12 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             }
             const accessToken = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
             const newRefreshToken = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_REFRESH_SECRET);
-            userDb.refreshTokens = userDb.refreshTokens.filter((t) => t !== refreshToken);
+            userDb.refreshTokens = userDb.refreshTokens.filter(t => t !== refreshToken);
             userDb.refreshTokens.push(newRefreshToken);
             yield userDb.save();
             return res.status(200).send({
-                accessToken: accessToken,
-                refreshToken: refreshToken,
+                accessToken,
+                refreshToken,
             });
         }
         catch (err) {

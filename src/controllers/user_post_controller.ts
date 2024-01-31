@@ -1,17 +1,6 @@
-import UserPostModel, { IUserPost } from "../models/user_post_model";
-import { BaseController } from "./base_controller";
-import { Response } from "express";
-import { AuthRequest } from "./auth_middleware";
+import UserPostModel, { IUserPost } from '../models/user_post_model'
+import createController from './base_controller'
 
-class UserPostController extends BaseController<IUserPost> {
-  constructor() {
-    super(UserPostModel);
-  }
+const UserPostController = createController<IUserPost>(UserPostModel)
 
-  async post(req: AuthRequest, res: Response) {
-    req.body.owner = req.user._id;
-    return super.post(req, res);
-  }
-}
-
-export default new UserPostController();
+export default UserPostController

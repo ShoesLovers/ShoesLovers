@@ -1,32 +1,21 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_post_model_1 = __importDefault(require("../models/user_post_model"));
-const base_controller_1 = require("./base_controller");
-class UserPostController extends base_controller_1.BaseController {
-    constructor() {
-        super(user_post_model_1.default);
-    }
-    post(req, res) {
-        const _super = Object.create(null, {
-            post: { get: () => super.post }
-        });
-        return __awaiter(this, void 0, void 0, function* () {
-            req.body.owner = req.user._id;
-            return _super.post.call(this, req, res);
-        });
-    }
-}
-exports.default = new UserPostController();
+const base_controller_1 = __importDefault(require("./base_controller"));
+// import { Response } from 'express'
+// import { AuthRequest } from './auth_middleware'
+// class UserPostController extends BaseController<IUserPost> {
+//   constructor() {
+//     super(UserPostModel)
+//   }
+//   async post(req: AuthRequest, res: Response) {
+//     req.body.owner = req.user._id
+//     return super.post(req, res)
+//   }
+// }
+const UserPostController = (0, base_controller_1.default)(user_post_model_1.default);
+exports.default = UserPostController;
 //# sourceMappingURL=user_post_controller.js.map
