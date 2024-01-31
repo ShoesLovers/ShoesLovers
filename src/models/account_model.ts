@@ -5,7 +5,7 @@ export interface IAccount {
   password: string
   name: string
   refreshTokens?: string[]
-  posts: mongoose.Schema.Types.ObjectId[]
+  posts?: mongoose.Schema.Types.ObjectId[]
 }
 const accountSchema = new mongoose.Schema<IAccount>({
   email: {
