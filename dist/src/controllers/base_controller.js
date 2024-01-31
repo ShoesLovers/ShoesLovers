@@ -19,11 +19,13 @@ class BaseController {
             console.log('getAllUsers');
             try {
                 if (req.query.name) {
-                    const user = yield this.model.find({ name: req.query.name });
+                    const user = yield this.model
+                        .find({ name: req.query.name })
+                        .select('-_v');
                     res.send(user);
                 }
                 else {
-                    const user = yield this.model.find();
+                    const user = yield this.model.find().select('-_v');
                     res.send(user);
                 }
             }
@@ -36,7 +38,7 @@ class BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             console.log('getUserById:' + req.params.id);
             try {
-                const user = yield this.model.findById(req.params.id);
+                const user = yield this.model.findById(req.params.id).select('-_v');
                 res.send(user);
             }
             catch (err) {
@@ -79,7 +81,7 @@ class BaseController {
                 res.status(200).send('OK');
             }
             catch (err) {
-                console.log(err);
+                console.log(err.message);
                 res.status(406).send('fail: ' + err.message);
             }
         });

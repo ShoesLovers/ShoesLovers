@@ -13,7 +13,6 @@ const accountSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    _id: { type: mongoose_1.default.Schema.Types.ObjectId, required: true },
     name: {
         type: String,
         required: true,

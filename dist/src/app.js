@@ -10,21 +10,23 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const user_post_route_1 = __importDefault(require("./routes/user_post_route"));
 const auth_route_1 = __importDefault(require("./routes/auth_route"));
+const account_route_1 = __importDefault(require("./routes/account_route"));
 const initApp = () => {
     const db = mongoose_1.default.connection;
-    db.on('error', error => console.error(error));
+    db.on('error', (error) => console.error(error));
     db.once('open', () => console.log('Connected to Database'));
     return new Promise((resolve, reject) => {
         mongoose_1.default
-            .connect(process.env.DB_URL)
+            .connect(process.env.DB_URL, { dbName: 'ShoesLovers' })
             .then(() => {
             app.use(body_parser_1.default.json());
             app.use(body_parser_1.default.urlencoded({ extended: true }));
             app.use('/userpost', user_post_route_1.default);
             app.use('/auth', auth_route_1.default);
+            app.use('/account', account_route_1.default);
             resolve(app);
         })
-            .catch(err => {
+            .catch((err) => {
             reject(err);
         });
     });

@@ -32,11 +32,10 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             password: encryptedPassword,
             name,
         });
-        console.log(newAccount);
         return res.status(201).send(newAccount);
     }
     catch (err) {
-        return res.status(400).send('error missing email or password');
+        return res.status(400).send(err.message);
     }
 });
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,7 +45,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     try {
         const account = yield account_model_1.default.findOne({ email });
-        console.log(email, password, account.password);
         if (!account) {
             return res.status(400).send('user is not exists');
         }
@@ -72,7 +70,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (err) {
-        return res.status(400).send('error missing email or password');
+        return res.status(400).send(err.message);
     }
 });
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -105,8 +103,8 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const authHeader = req.headers['authorization'];
-    const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer <token>
-    if (refreshToken == null)
+    const refreshToken = authHeader && authHeader.split(' ')[1]; // Bearer
+    if (!refreshToken)
         return res.sendStatus(401);
     jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
