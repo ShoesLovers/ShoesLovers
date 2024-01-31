@@ -11,8 +11,8 @@ const register = async (req: Request, res: Response) => {
     return res.status(400).send("missing email or password");
   }
   try {
-    const existAccount = await Account.findOne({ email: email });
-    if (existAccount != null) {
+    const existAccount = await Account.findOne({ email });
+    if (existAccount) {
       return res.status(400).send("user already exist");
     }
     const salt = await bcrypt.genSalt(10);
@@ -30,13 +30,13 @@ const login = async (req: Request, res: Response) => {
   console.log("login");
   const email = req.body.email;
   const password = req.body.password;
-  if (email == null || password == null) {
+  if (email === null || password === null) {
     return res.status(400).send("email or password is null");
   }
   try {
     const account = await Account.findOne({ email: email });
     if (account == null) {
-      return res.status(400).send("user already exists");
+      return res.status(400).send("user is not exists");
     }
     const isMatch = await bcrypt.compare(password, account.password);
     if (!isMatch) {

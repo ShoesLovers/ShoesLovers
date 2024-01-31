@@ -23,8 +23,8 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(400).send("missing email or password");
     }
     try {
-        const existAccount = yield account_model_1.default.findOne({ email: email });
-        if (existAccount != null) {
+        const existAccount = yield account_model_1.default.findOne({ email });
+        if (existAccount) {
             return res.status(400).send("user already exist");
         }
         const salt = yield bcrypt_1.default.genSalt(10);
@@ -43,13 +43,13 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("login");
     const email = req.body.email;
     const password = req.body.password;
-    if (email == null || password == null) {
+    if (email === null || password === null) {
         return res.status(400).send("email or password is null");
     }
     try {
         const account = yield account_model_1.default.findOne({ email: email });
         if (account == null) {
-            return res.status(400).send("user already exists");
+            return res.status(400).send("user is not exists");
         }
         const isMatch = yield bcrypt_1.default.compare(password, account.password);
         if (!isMatch) {
