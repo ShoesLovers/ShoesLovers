@@ -1,7 +1,7 @@
 ###
-
 GET http://localhost:3000/account
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTU1NzQsImV4cCI6MTcwNjcxOTE3NH0.10hwUN5WtmrCS87UXCmgkyxtc8do-BtUeJdzrhAaBpk
+
 ###
 # Get User by name
 GET http://localhost:3000/account?name=test
@@ -31,7 +31,7 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5
 
 ###
 #Register Account
-POST http://localhost:3000/auth/register 
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {

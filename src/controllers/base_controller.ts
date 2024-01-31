@@ -9,15 +9,8 @@ export class BaseController<ModelType> {
   async getAll(req: Request, res: Response) {
     console.log('getAllUsers')
     try {
-      if (req.query.name) {
-        const user = await this.model
-          .find({ name: req.query.name })
-          .select('-_v')
-        res.send(user)
-      } else {
-        const user = await this.model.find().select('-_v')
-        res.send(user)
-      }
+      const users = await this.model.find().select('-_v')
+      res.status(200).send(users)
     } catch (err) {
       res.status(500).json({ message: err.message })
     }
@@ -45,7 +38,7 @@ export class BaseController<ModelType> {
   }
 
   async updateById(req: Request, res: Response) {
-    console.log('putStudent:' + req.body)
+    console.log(`updateAccount: ${req.body}`)
     try {
       await this.model.findByIdAndUpdate(req.params.id, req.body)
       const obj = await this.model.findById(req.params.id)
