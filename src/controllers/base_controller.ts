@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import { Model } from 'mongoose'
-// import { IPost } from '../models/postModel'
+import mongoose, { Model } from 'mongoose'
 import { AuthRequest } from './auth_middleware'
 import { IPost } from '../models/postModel'
+import accountModel from '../models/accountModel'
 
 export class BaseController<ModelType> {
   model: Model<ModelType>
@@ -10,7 +10,7 @@ export class BaseController<ModelType> {
     this.model = model
   }
   async getAll(req: Request, res: Response) {
-    console.log('getAllUsers')
+    console.log('getAll')
     try {
       const users = await this.model.find().select('-_v')
       res.status(200).send(users)
@@ -20,7 +20,7 @@ export class BaseController<ModelType> {
   }
 
   async getById(req: Request, res: Response) {
-    console.log('getUserById:' + req.params.id)
+    console.log('getById:' + req.params.id)
     try {
       const user = await this.model.findById(req.params.id).select('-_v')
       res.send(user)
@@ -30,15 +30,19 @@ export class BaseController<ModelType> {
   }
 
   async post(req: AuthRequest, res: Response) {
-    console.log('postUser:' + req.body)
+    console.log(`Post title: ${req.body.title}.`)
+    console.log(`Post message: ${req.body.message}.`)
+
     try {
-      const owner = req.user._id
       const newPost: IPost = {
-        owner,
+        owner: req.user._id as mongoose.Schema.Types.ObjectId,
         title: req.body.title,
         message: req.body.message,
       }
-      const post = await this.model.create(newPost)
+      const post: any = await this.model.create(newPost)
+      const owner = await accountModel.findOne({ _id: req.user._id })
+      owner.posts.push(post._id)
+      await owner.save()
       res.status(201).send(post)
     } catch (err) {
       console.log(err)
@@ -47,7 +51,7 @@ export class BaseController<ModelType> {
   }
 
   async updateById(req: Request, res: Response) {
-    console.log(`updateAccount: ${req.body}`)
+    console.log(`Update: ${req.body}`)
     try {
       await this.model.findByIdAndUpdate(req.params.id, req.body)
       const obj = await this.model.findById(req.params.id)

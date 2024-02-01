@@ -11,11 +11,15 @@ const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log('test')
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   if (!token) return res.sendStatus(500)
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(500)
+    if (err) {
+      console.log(err.message)
+      return res.sendStatus(500)
+    }
     req.user = user as { _id: mongoose.Schema.Types.ObjectId }
     next()
   })

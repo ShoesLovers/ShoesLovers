@@ -1,14 +1,14 @@
 import mongoose from 'mongoose'
 
 export interface IPost {
-  owner?: mongoose.Schema.Types.ObjectId
+  owner: mongoose.Schema.Types.ObjectId
   title: string
   message: string
 }
 
 const userPostSchema = new mongoose.Schema<IPost>({
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: 'account',
     required: true,
   },
