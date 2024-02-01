@@ -30,6 +30,7 @@ describe('Account tests', () => {
     email: 'test@gmail.com',
     password: '1234',
     name: 'testUser',
+    posts: [],
   }
 
   test('Register test', async () => {
@@ -109,6 +110,7 @@ describe('Account tests', () => {
       email: 'newAccount@gmail.com',
       password: '1234',
       name: 'newAccount',
+      posts: [],
     })
 
     const login = await request(app).post('/auth/login').send(newAccount.body)
@@ -144,7 +146,8 @@ describe('Account tests', () => {
       await registerAccount({
         email: `test${i}@gmail.com`,
         password: '1234',
-        name: `test${i}`, // test0, test1, test2, test3, test4
+        name: `test${i}`,
+        posts: [], // test0, test1, test2, test3, test4
       })
     } // 5 accounts
     const response = await request(app)
