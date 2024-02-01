@@ -35,9 +35,9 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "email": "test2@test.com",
+  "email": "test@test.com",
   "password": "1234",
-  "name": "test2"
+  "name": "test"
 }
 
 ###
@@ -50,6 +50,18 @@ Content-Type: application/json
   "password": "1234",
   "name": "test"
 }
+###
+# Refresh Token
+GET  http://localhost:3000/auth/refresh
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MTI4MTF9.rTLf6KuPCKwCamZvXeW2xtToRcb7IzCkSz7CePyhe5w
+
+###
+# Logout
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MTI4NjB9.NfRToukR31KsgN1uZ_F51ESZqZ66PDeKhXLFYMQgjhY
+
 
 ###
 # Get Posts
@@ -63,19 +75,18 @@ GET http://localhost:3000/userpost/65ba6ac8112667c460adf5df
 #Create Post
 POST http://localhost:3000/userpost
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTU4MjgsImV4cCI6MTcwNjcxOTQyOH0.ZoQhelPq89IL1-cJJAbf3x9g-BRvWoXDc8kKHjv85L4
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MDkxMzMsImV4cCI6MTcwNjgxMjczM30.1p6_V1i4gjW8zZLuVZAxgLgzzV_F1pjHdnPD1sLkbnY
 
 {
   "title": "title",
-  "message": "message",
-  "owner":"65ba69a2112667c460adf5d3"
+  "message": "message"
 }
 
 ###
 #Update Post
 PUT http://localhost:3000/userpost/65ba6ac8112667c460adf5df
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTYxODksImV4cCI6MTcwNjcxOTc4OX0.SV08KoUH6C6L5khX0H7TJOVygjgiGFZgPdgNSU_RWzc 
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MDkxMzMsImV4cCI6MTcwNjgxMjczM30.1p6_V1i4gjW8zZLuVZAxgLgzzV_F1pjHdnPD1sLkbnY
 
 {
   "title": "hello",
@@ -86,3 +97,4 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjEx
 # Delete Post
 DELETE http://localhost:3000/userpost/65ba6ac8112667c460adf5df
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTYxODksImV4cCI6MTcwNjcxOTc4OX0.SV08KoUH6C6L5khX0H7TJOVygjgiGFZgPdgNSU_RWzc
+

@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
+import mongoose from 'mongoose'
 
 export interface AuthRequest extends Request {
-  user: { _id: string }
+  user: { _id: mongoose.Schema.Types.ObjectId }
 }
 
 const authMiddleware = (
@@ -15,7 +16,7 @@ const authMiddleware = (
   if (!token) return res.sendStatus(500)
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(500)
-    req.user = user as { _id: string }
+    req.user = user as { _id: mongoose.Schema.Types.ObjectId }
     next()
   })
 }

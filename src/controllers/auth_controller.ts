@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import Account from '../models/account_model'
+import Account from '../models/accountModel'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -14,7 +14,7 @@ const register = async (req: Request, res: Response) => {
   try {
     const existAccount = await Account.findOne({ email })
     if (existAccount) {
-      return res.status(400).send('user already exist')
+      throw res.status(400).send('user already exist')
     }
     const encryptedPassword = await bcrypt.hash(password, 10)
     const newAccount = await Account.create({
@@ -22,7 +22,6 @@ const register = async (req: Request, res: Response) => {
       password: encryptedPassword,
       name,
     })
-
     return res.status(201).send(newAccount)
   } catch (err) {
     return res.status(400).send(err.message)
@@ -43,7 +42,7 @@ const login = async (req: Request, res: Response) => {
     // Check if the password correspond to the hashed password.
     const isMatch = await bcrypt.compare(password, account.password)
     if (!isMatch) {
-      return res.status(400).send('invalid password')
+      throw res.status(400).send('invalid password')
     }
 
     const accessToken = jwt.sign({ _id: account._id }, process.env.JWT_SECRET, {
@@ -108,13 +107,14 @@ const refresh = async (req: Request, res: Response) => {
   const authHeader = req.headers['authorization']
   const refreshToken = authHeader && authHeader.split(' ')[1] // Bearer
   if (!refreshToken) return res.sendStatus(401)
+
   jwt.verify(
     refreshToken,
     process.env.JWT_REFRESH_SECRET,
     async (err, user: { _id: string }) => {
       if (err) {
         console.log(err)
-        return res.sendStatus(401)
+        return res.sendStatus(404)
       }
       try {
         const userDb = await Account.findOne({ _id: user._id })
@@ -124,12 +124,12 @@ const refresh = async (req: Request, res: Response) => {
         ) {
           userDb.refreshTokens = []
           await userDb.save()
-          return res.sendStatus(401)
+          return res.sendStatus(404)
         }
         const accessToken = jwt.sign(
           { _id: user._id },
           process.env.JWT_SECRET,
-          { expiresIn: process.env.JWT_EXPIRATION }
+          { expiresIn: process.env.JWT_EXPIRATION_TIME }
         )
         const newRefreshToken = jwt.sign(
           { _id: user._id },
@@ -145,7 +145,7 @@ const refresh = async (req: Request, res: Response) => {
           refreshToken,
         })
       } catch (err) {
-        res.sendStatus(401).send(err.message)
+        res.sendStatus(404).send(err.message)
       }
     }
   )

@@ -1,5 +1,5 @@
 import express from 'express'
-import UserPostController from '../controllers/user_post_controller'
+import UserPostController from '../controllers/postController'
 import authMiddleware from '../controllers/auth_middleware'
 
 const router = express.Router()
@@ -25,4 +25,4 @@ router.delete(
   UserPostController.deleteById.bind(UserPostController)
 )
 
-export = router
+export default router
