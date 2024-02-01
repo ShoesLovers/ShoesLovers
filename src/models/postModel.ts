@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 
-export interface IUserPost {
-  owner: mongoose.Schema.Types.ObjectId
+export interface IPost {
+  owner?: mongoose.Schema.Types.ObjectId
   title: string
   message: string
 }
 
-const userPostSchema = new mongoose.Schema<IUserPost>({
+const userPostSchema = new mongoose.Schema<IPost>({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'account',
@@ -22,4 +22,4 @@ const userPostSchema = new mongoose.Schema<IUserPost>({
   },
 })
 
-export default mongoose.model<IUserPost>('userPost', userPostSchema)
+export default mongoose.model<IPost>('userPost', userPostSchema)

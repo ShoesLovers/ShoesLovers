@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "testaccount": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/account.test.ts",
-    "testpost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/user_Post.test.ts",
-    "testauth": "tsc && jest --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
+    "testpost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/post.test.ts",
+    "testauth": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/auth.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit ",
     "dev": "nodemon --exec ts-node src/server.ts",
     "start": "tsc && nodemon dist/src/server.js",

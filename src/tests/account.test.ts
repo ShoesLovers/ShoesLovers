@@ -2,7 +2,7 @@ import { Express } from 'express'
 import request from 'supertest'
 import initApp from '../app'
 import mongoose from 'mongoose'
-import AccountModel, { IAccount } from '../models/account_model'
+import AccountModel, { IAccount } from '../models/accountModel'
 import bcrypt from 'bcrypt'
 
 let app: Express

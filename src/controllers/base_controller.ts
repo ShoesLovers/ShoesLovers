@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
 import { Model } from 'mongoose'
+// import { IPost } from '../models/postModel'
+import { AuthRequest } from './auth_middleware'
+import { IPost } from '../models/postModel'
 
 export class BaseController<ModelType> {
   model: Model<ModelType>
@@ -26,11 +29,17 @@ export class BaseController<ModelType> {
     }
   }
 
-  async post(req: Request, res: Response) {
+  async post(req: AuthRequest, res: Response) {
     console.log('postUser:' + req.body)
     try {
-      const obj = await this.model.create(req.body)
-      res.status(201).send(obj)
+      const owner = req.user._id
+      const newPost: IPost = {
+        owner,
+        title: req.body.title,
+        message: req.body.message,
+      }
+      const post = await this.model.create(newPost)
+      res.status(201).send(post)
     } catch (err) {
       console.log(err)
       res.status(406).send('fail: ' + err.message)
