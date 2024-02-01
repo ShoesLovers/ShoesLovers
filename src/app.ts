@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import userPostRoute from './routes/post_route'
 import authRoute from './routes/auth_route'
 import accountRoute from './routes/account_route'
+import commentRoute from './routes/comment_route'
 
 const initApp = () => {
   const db = mongoose.connection
@@ -18,9 +19,10 @@ const initApp = () => {
       .then(() => {
         app.use(bodyParser.json())
         app.use(bodyParser.urlencoded({ extended: true }))
-        app.use('/userpost', userPostRoute)
-        app.use('/auth', authRoute)
         app.use('/account', accountRoute)
+        app.use('/auth', authRoute)
+        app.use('/userpost', userPostRoute)
+        app.use('/comment', commentRoute)
         resolve(app)
       })
       .catch(err => {

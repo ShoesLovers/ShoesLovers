@@ -5,8 +5,9 @@ export interface IAccount {
   password: string
   name: string
   refreshTokens?: string[]
-  posts?: mongoose.Schema.Types.ObjectId[]
+  posts: mongoose.Types.ObjectId[]
 }
+
 const accountSchema = new mongoose.Schema<IAccount>({
   email: {
     type: String,
@@ -15,6 +16,7 @@ const accountSchema = new mongoose.Schema<IAccount>({
   password: {
     type: String,
     required: true,
+    // select: false,
   },
   name: {
     type: String,
@@ -24,11 +26,12 @@ const accountSchema = new mongoose.Schema<IAccount>({
     type: [String],
     required: false,
   },
-  posts: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'userPost',
-    required: false,
-  },
+  posts: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'userPost',
+    },
+  ],
 })
 
 export default mongoose.model<IAccount>('account', accountSchema)

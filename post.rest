@@ -1,0 +1,34 @@
+###
+# Get all Posts
+GET http://localhost:3000/userpost
+
+###
+# Get Post by ID
+GET http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+
+###
+#Create Post
+POST http://localhost:3000/userpost
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4Mjc0NjAsImV4cCI6MTcwNjgzMTA2MH0.wiM650EJZP_AByWkDIwOBm1fH4lDH-ubvSHITGCKqDE
+
+{
+  "title": "title",
+  "message": "message"
+}
+
+###
+#Update Post
+PUT http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MDkxMzMsImV4cCI6MTcwNjgxMjczM30.1p6_V1i4gjW8zZLuVZAxgLgzzV_F1pjHdnPD1sLkbnY
+
+{
+  "title": "hello",
+  "message": "world"
+}
+
+###
+# Delete Post
+DELETE http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTYxODksImV4cCI6MTcwNjcxOTc4OX0.SV08KoUH6C6L5khX0H7TJOVygjgiGFZgPdgNSU_RWzc

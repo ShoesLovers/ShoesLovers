@@ -1,28 +1,24 @@
 import express from 'express'
-import UserPostController from '../controllers/postController'
+import PostController from '../controllers/postController'
 import authMiddleware from '../controllers/auth_middleware'
 
 const router = express.Router()
 
-router.get('/', UserPostController.getAll.bind(UserPostController))
-router.get('/:id', UserPostController.getById.bind(UserPostController))
+router.get('/', PostController.getAll.bind(PostController))
+router.get('/:id', PostController.getById.bind(PostController))
 
-router.post(
-  '/',
-  authMiddleware,
-  UserPostController.post.bind(UserPostController)
-)
+router.post('/', authMiddleware, PostController.post.bind(PostController))
 
 router.put(
   '/:id',
   authMiddleware,
-  UserPostController.updateById.bind(UserPostController)
+  PostController.updateById.bind(PostController)
 )
 
 router.delete(
   '/:id',
   authMiddleware,
-  UserPostController.deleteById.bind(UserPostController)
+  PostController.deleteById.bind(PostController)
 )
 
 export default router

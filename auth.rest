@@ -1,0 +1,34 @@
+###
+#Register Account
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "test1@test.com",
+  "password": "1234",
+  "name": "test1"
+}
+
+###
+# Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "1234",
+  "name": "test"
+}
+
+###
+# Logout
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MTI4NjB9.NfRToukR31KsgN1uZ_F51ESZqZ66PDeKhXLFYMQgjhY
+
+###
+# Refresh Token
+GET  http://localhost:3000/auth/refresh
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MTI4MTF9.rTLf6KuPCKwCamZvXeW2xtToRcb7IzCkSz7CePyhe5w
+
