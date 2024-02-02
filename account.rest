@@ -1,7 +1,7 @@
 ###
 # Get all Accounts
 GET http://localhost:3000/account
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjlhMjExMjY2N2M0NjBhZGY1ZDMiLCJpYXQiOjE3MDY3MTU1NzQsImV4cCI6MTcwNjcxOTE3NH0.10hwUN5WtmrCS87UXCmgkyxtc8do-BtUeJdzrhAaBpk
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzU5MTksImV4cCI6MTcwNjg3OTUxOX0.CPEuqiVuFnCa8sXnFt7booRDmqpzZHXhs29rVaGTmU8
 
 ###
 # Get Account by name
@@ -10,8 +10,8 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5
 
 ###
 #Get Account by ID
-GET http://localhost:3000/account/65bbd727af139e340b5a8c74
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4Mjc0NjAsImV4cCI6MTcwNjgzMTA2MH0.wiM650EJZP_AByWkDIwOBm1fH4lDH-ubvSHITGCKqDE
+GET http://localhost:3000/account/65bcdb6cc542c18aa1dd5d7d
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzU5MTksImV4cCI6MTcwNjg3OTUxOX0.CPEuqiVuFnCa8sXnFt7booRDmqpzZHXhs29rVaGTmU8
 
 ###
 #Update Account by ID
@@ -35,9 +35,9 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "testtest@walla.com",
   "password": "1234",
-  "name": "test"
+  "name": "testtest"
 }
 
 ###
@@ -46,9 +46,9 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "testtest@walla.com",
   "password": "1234",
-  "name": "test"
+  "name": "testtest"
 }
 
 ###

@@ -12,7 +12,7 @@ export class BaseController<ModelType> {
   async getAll(req: Request, res: Response) {
     console.log('getAll')
     try {
-      const users = await this.model.find().select('-_v')
+      const users = await this.model.find()?.populate('posts')
       res.status(200).send(users)
     } catch (err) {
       res.status(500).json({ message: err.message })
@@ -22,7 +22,8 @@ export class BaseController<ModelType> {
   async getById(req: Request, res: Response) {
     console.log('getById:' + req.params.id)
     try {
-      const user = await this.model.findById(req.params.id).select('-_v')
+      const user = await this.model.findById(req.params.id).populate('posts')
+
       res.send(user)
     } catch (err) {
       res.status(500).json({ message: err.message })
