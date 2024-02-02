@@ -10,7 +10,7 @@ GET http://localhost:3000/userpost/65ba6ac8112667c460adf5df
 #Create Post
 POST http://localhost:3000/userpost
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4Mjc0NjAsImV4cCI6MTcwNjgzMTA2MH0.wiM650EJZP_AByWkDIwOBm1fH4lDH-ubvSHITGCKqDE
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzU5MTksImV4cCI6MTcwNjg3OTUxOX0.CPEuqiVuFnCa8sXnFt7booRDmqpzZHXhs29rVaGTmU8
 
 {
   "title": "title",
