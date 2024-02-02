@@ -26,6 +26,11 @@ router.delete(
   authMiddleware,
   AccountController.deleteById.bind(AccountController)
 )
-//sadasdas
+
+router.get(
+  '/posts/:id',
+  authMiddleware,
+  AccountController.getPostsOfAccount.bind(AccountController)
+)
 
 export default router

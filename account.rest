@@ -1,7 +1,7 @@
 ###
 # Get all Accounts
 GET http://localhost:3000/account
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzU5MTksImV4cCI6MTcwNjg3OTUxOX0.CPEuqiVuFnCa8sXnFt7booRDmqpzZHXhs29rVaGTmU8
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4ODA1MzksImV4cCI6MTcwNjg4NDEzOX0.J4Q6ZWcs-XQs_-zzRA6x09StqfRWCYiOcJ0nyTT6WaI
 
 ###
 # Get Account by name
@@ -10,8 +10,8 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5
 
 ###
 #Get Account by ID
-GET http://localhost:3000/account/65bcdb6cc542c18aa1dd5d7d
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzU5MTksImV4cCI6MTcwNjg3OTUxOX0.CPEuqiVuFnCa8sXnFt7booRDmqpzZHXhs29rVaGTmU8
+GET http://localhost:3000/account/65bbcb30182b4f9c891c4073
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4MmI0ZjljODkxYzQwNzMiLCJpYXQiOjE3MDY4ODA1OTIsImV4cCI6MTcwNjg4NDE5Mn0.h_RsI8UQrCWH-9Y8LZ1Qwpp9mlhfF6scXMPf1n9UQgU
 
 ###
 #Update Account by ID
@@ -30,6 +30,12 @@ DELETE http://localhost:3000/account/65ba69a2112667c460adf5d3
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5ZTQwNjgwNjgwM2FiYTgiLCJpYXQiOjE3MDY3MTUzNTAsImV4cCI6MTcwNjcxODk1MH0.ybjdWKvkRuJIK7GMFXFNWhr3leaRcxCDJFv5e91fcck
 
 ###
+# Get All posts of Account by id
+GET http://localhost:3000/account/posts/65bcdb6cc542c18aa1dd5d7d
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzkyNTQsImV4cCI6MTcwNjg4Mjg1NH0.4fipbQwMteZfGSqzliCrwKQRLhVEp8lOBwLdEaLbGbg
+
+###
 #Register Account
 POST http://localhost:3000/auth/register
 Content-Type: application/json
@@ -46,9 +52,9 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "testtest@walla.com",
+  "email": "newAccount@gmail.com",
   "password": "1234",
-  "name": "testtest"
+  "name": "newAccount"
 }
 
 ###
