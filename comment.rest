@@ -1,0 +1,8 @@
+# Create comment
+POST http://localhost:3000/comment/65bd04c2f86e6d3ce603925e
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4ODY0NjgsImV4cCI6MTcwNjg5MDA2OH0.3vRENA6ogb7q6hsrk_sa1e3mzPFfpO5z8cIHk8P9V2I
+
+{
+  "content": "This is a comment2"
+}

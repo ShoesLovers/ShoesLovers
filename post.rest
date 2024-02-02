@@ -4,13 +4,14 @@ GET http://localhost:3000/userpost
 
 ###
 # Get Post by ID
-GET http://localhost:3000/userpost/65bceb6e76e6b54f60b42b3c
+GET http://localhost:3000/userpost/65bd04c2f86e6d3ce603925e
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4MmI0ZjljODkxYzQwNzMiLCJpYXQiOjE3MDY4ODU0NTUsImV4cCI6MTcwNjg4OTA1NX0.aszaATR9mSfR9XBF-DuNNR4hwrJFc28tHp5OIoDLh_U
 
 ###
 #Create Post
 POST http://localhost:3000/userpost
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4Nzk1NTEsImV4cCI6MTcwNjg4MzE1MX0.gbYiKgQqAKrLo1TNTRR7OSR0zWXjm6vyJ5eNWtaCsi8
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4ODYzMzEsImV4cCI6MTcwNjg4OTkzMX0.JsHriUFs4eDwjOGfRXz61-akO4iXN_Gi0crzPHnrpDw
 
 {
   "title": "title",
@@ -41,7 +42,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "testtest@walla.com",
+  "email": "test@test.com",
   "password": "1234",
-  "name": "testtest"
+  "name": "test"
 }
