@@ -6,8 +6,8 @@ class commentController extends BaseController<IComment> {
   constructor() {
     super(commentModel)
   }
+  async post(req: Request, res: Response) {}
   // TODO: Implement the following methods:
-  // async getAll(req: Request, res: Response): Promise<void> {}
   // async getById(req: Request, res: Response): Promise<void> {}
   // async post(req: Request, res: Response): Promise<void> {}
   // async updateById(req: Request, res: Response): Promise<void> {}

@@ -4,6 +4,7 @@ export interface IPost {
   owner: mongoose.Schema.Types.ObjectId
   title: string
   message: string
+  comments?: mongoose.Schema.Types.ObjectId[]
 }
 
 const userPostSchema = new mongoose.Schema<IPost>({
@@ -20,6 +21,12 @@ const userPostSchema = new mongoose.Schema<IPost>({
     type: String,
     required: true,
   },
+  comments: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'comment',
+    },
+  ],
 })
 
 export default mongoose.model<IPost>('userPost', userPostSchema)
