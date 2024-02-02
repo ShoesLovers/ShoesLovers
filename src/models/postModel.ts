@@ -1,15 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose'
 
-export interface IPost {
-  owner: mongoose.Schema.Types.ObjectId;
-  title: string;
-  message: string;
-  comments?: mongoose.Schema.Types.ObjectId[];
+export interface IPost<T = mongoose.Schema.Types.ObjectId> {
+  owner: T
+  title: string
+  message: string
+  comments: T[]
 }
 
 const userPostSchema = new mongoose.Schema<IPost>({
   owner: {
-    type: mongoose.Types.ObjectId,
+    type: Schema.Types.Mixed,
     ref: 'account',
     required: true,
   },
@@ -27,6 +27,6 @@ const userPostSchema = new mongoose.Schema<IPost>({
       ref: 'comment',
     },
   ],
-});
+})
 
-export default mongoose.model<IPost>('userPost', userPostSchema);
+export default mongoose.model<IPost>('userPost', userPostSchema)

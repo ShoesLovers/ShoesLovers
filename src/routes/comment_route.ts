@@ -7,7 +7,11 @@ const router = express.Router()
 router.get('/', commentController.getAll.bind(commentController))
 router.get('/:id', commentController.getById.bind(commentController))
 
-router.post('/', authMiddleware, commentController.post.bind(commentController))
+router.post(
+  '/:id',
+  authMiddleware,
+  commentController.post.bind(commentController)
+)
 
 router.put(
   '/:id',

@@ -1,7 +1,7 @@
 ###
 # Get all Accounts
 GET http://localhost:3000/account
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4ODA1MzksImV4cCI6MTcwNjg4NDEzOX0.J4Q6ZWcs-XQs_-zzRA6x09StqfRWCYiOcJ0nyTT6WaI
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4MmI0ZjljODkxYzQwNzMiLCJpYXQiOjE3MDY4ODU0NTUsImV4cCI6MTcwNjg4OTA1NX0.aszaATR9mSfR9XBF-DuNNR4hwrJFc28tHp5OIoDLh_U
 
 ###
 # Get Account by name
@@ -10,7 +10,7 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5
 
 ###
 #Get Account by ID
-GET http://localhost:3000/account/65bbcb30182b4f9c891c4073
+GET http://localhost:3000/account/65bbd727af139e340b5a8c74
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4MmI0ZjljODkxYzQwNzMiLCJpYXQiOjE3MDY4ODA1OTIsImV4cCI6MTcwNjg4NDE5Mn0.h_RsI8UQrCWH-9Y8LZ1Qwpp9mlhfF6scXMPf1n9UQgU
 
 ###
