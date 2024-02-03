@@ -3,7 +3,6 @@ import PostModel, { IPost } from '../models/postModel'
 import { BaseController } from './base_controller'
 import accountModel from '../models/accountModel'
 import { AuthRequest } from './auth_middleware'
-import { ObjectId } from 'mongodb'
 
 import mongoose from 'mongoose'
 
@@ -20,7 +19,7 @@ class PostController extends BaseController<IPost> {
         message: req.body.message,
         comments: [],
       }
-      const post: any = await this.model.create(newPost)
+      const post = await this.model.create(newPost)
       const owner = await accountModel.findOne({ _id: req.user._id })
       owner.posts.push(post._id)
       post.owner = owner._id
@@ -29,7 +28,6 @@ class PostController extends BaseController<IPost> {
       await post.save()
       res.status(201).send(post)
     } catch (err) {
-      console.log(err)
       res.status(406).send('fail: ' + err.message)
     }
   }

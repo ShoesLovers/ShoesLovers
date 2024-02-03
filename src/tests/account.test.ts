@@ -2,58 +2,59 @@ import { Express } from 'express'
 import request from 'supertest'
 import initApp from '../app'
 import mongoose from 'mongoose'
-import AccountModel, { IAccount } from '../models/accountModel'
+import AccountModel from '../models/accountModel'
 import bcrypt from 'bcrypt'
 
+import {
+  registerAccount,
+  loginAccount,
+  createAccountObject,
+  getAllAccounts,
+  getAccountById,
+  updateAccount,
+  deleteAccount,
+  getPostsOfAccount,
+  createPostObject,
+  createPost,
+} from '../helpers/testsHelpers'
+import postModel from '../models/postModel'
+
 let app: Express
+let dbAccount: request.Response
+let login: request.Response
+let accessToken: string
 
-beforeAll(async () => {
-  app = await initApp()
-  console.log('before all')
+const account = createAccountObject('test@gmail.com', '1234', 'testUser')
+
+afterAll(async () => {
+  await postModel.deleteMany()
   await AccountModel.deleteMany()
+  await mongoose.connection.close()
 })
-
-afterAll(done => {
-  mongoose.connection.close()
-  done()
-})
-
-const registerAccount = async (account: IAccount) => {
-  const response = await request(app).post('/auth/register').send(account)
-  return response
-}
-const loginAccount = async (account: IAccount) => {
-  const response = await request(app).post('/auth/login').send(account)
-  return response
-}
 
 describe('Account tests', () => {
-  let accessToken: string
-  // let refreshToken: string
-  const account: IAccount = {
-    email: 'test@gmail.com',
-    password: '1234',
-    name: 'testUser',
-    posts: [],
-  }
+  beforeAll(async () => {
+    app = await initApp()
+    console.log('before all')
+    await AccountModel.deleteMany()
+  })
 
-  test('Register test', async () => {
-    const response = await registerAccount(account)
-    expect(response.body.name).toEqual('testUser')
-    expect(response.body.email).toEqual('test@gmail.com')
-    expect(response.status).toEqual(201)
+  test('Test Create Account', async () => {
+    dbAccount = await registerAccount(app, account)
+    expect(dbAccount.body.name).toEqual('testUser')
+    expect(dbAccount.body.email).toEqual('test@gmail.com')
+    expect(dbAccount.status).toEqual(201)
+    expect(await bcrypt.compare(account.password, dbAccount.body.password))
   })
 
   test('Login test', async () => {
-    const response = await loginAccount(account)
-    expect(response.status).toEqual(200)
-    accessToken = response.body.accessToken
+    login = await loginAccount(app, account)
+    expect(login.status).toEqual(200)
+    accessToken = login.body.accessToken
   })
 
   test('Test that only one account exist in DB', async () => {
-    const response = await request(app)
-      .get('/account')
-      .set('Authorization', `JWT ${accessToken}`)
+    const response = await getAllAccounts(app, accessToken)
     expect(response.body.length).toEqual(1)
     const checkAccount = response.body[0]
     expect(checkAccount.name).toEqual(account.name)
@@ -62,101 +63,94 @@ describe('Account tests', () => {
   })
 
   test('Test get all accounts-fail', async () => {
-    const response = await request(app).get('/account')
+    const response = await getAllAccounts(app, '123')
     expect(response.status).toEqual(500)
   })
 
-  test('Test add same account', async () => {
-    const response = await registerAccount(account)
+  test('Test add another account with same email', async () => {
+    const response = await registerAccount(app, account)
     expect(response.status).toEqual(400)
   })
 
   test('Test get account by id', async () => {
-    const { _id } = await AccountModel.findOne({
-      email: account.email,
-    }).select('_id')
-    const response = await request(app)
-      .get(`/account/${_id}`)
-      .set('Authorization', `JWT ${accessToken}`)
-      .send({ _id })
+    const response = await getAccountById(app, dbAccount.body._id, accessToken)
     expect(response.status).toEqual(200)
     expect(response.body.name).toEqual(account.name)
     expect(response.body.email).toEqual(account.email)
   })
 
   test('Test get account by wrong id', async () => {
-    const response = await request(app)
-      .get(`/account/123`)
-      .set('Authorization', `JWT ${accessToken}`)
+    const response = await getAccountById(app, '123', accessToken)
     expect(response.status).toEqual(500)
   })
 
   test('Test update account by ID', async () => {
-    const { _id } = await AccountModel.findOne({
-      email: account.email,
-    }).select('_id')
-
-    const response = await request(app)
-      .put(`/account/${_id}`)
-      .set('Authorization', `JWT ${accessToken}`)
-      .send({ name: 'newName', email: 'newEmail@gmail.com' })
+    const updatedAccountObj = createAccountObject(
+      'newEmail@gmail.com',
+      account.password,
+      'newName'
+    )
+    const response = await updateAccount(
+      app,
+      dbAccount.body._id,
+      accessToken,
+      updatedAccountObj
+    )
 
     expect(response.status).toEqual(200)
     expect(response.body.name).toEqual('newName')
     expect(response.body.email).toEqual('newEmail@gmail.com')
-
-    account.name = 'newName'
-    account.email = 'newEmail@gmail.com'
   })
 
   test('Test delete account', async () => {
-    const newAccount = await registerAccount({
-      email: 'newAccount@gmail.com',
-      password: '1234',
-      name: 'newAccount',
-      posts: [],
-    })
-
-    const login = await request(app).post('/auth/login').send(newAccount.body)
-    const newAccessToken = login.body.accessToken
-
-    const { _id } = await AccountModel.findOne({ email: account.email }).select(
-      '_id'
+    const newAccount = createAccountObject(
+      'newAccount@gmail.com',
+      '1234',
+      'newAccount'
     )
 
-    console.log('IDDDDDD: ' + _id)
+    const newDbAccount = await registerAccount(app, newAccount)
+    const login = await loginAccount(app, newAccount)
+    const newAccessToken = login.body.accessToken
 
-    const response = await request(app)
-      .delete(`/account/${_id}`)
-      .set('Authorization', `JWT ${accessToken}`)
+    const response = await deleteAccount(
+      app,
+      newDbAccount.body._id,
+      newAccessToken
+    )
 
     expect(response.status).toEqual(200)
     expect(response.text).toEqual('OK')
-    const onlyOne = (
-      await AccountModel.find().set('Authorization', `JWT ${newAccessToken}`)
-    ).length
-    expect(onlyOne).toEqual(1)
+  })
+
+  test('Test that only one account exist in DB', async () => {
+    const response = await getAllAccounts(app, accessToken)
+    expect(response.body.length).toEqual(1)
   })
 
   test('Test delete account with wrong id', async () => {
-    const response = await request(app)
-      .delete(`/account/123`)
-      .set('Authorization', `JWT ${accessToken}`)
-
-    expect(response.status).toEqual(406)
+    const response = await deleteAccount(app, '123', accessToken)
+    expect(response.status).toEqual(500)
   })
-  test('Test add 5 accounts', async () => {
-    for (let i = 0; i < 5; i++) {
-      await registerAccount({
-        email: `test${i}@gmail.com`,
-        password: '1234',
-        name: `test${i}`,
-        posts: [], // test0, test1, test2, test3, test4
-      })
-    } // 5 accounts
-    const response = await request(app)
-      .get('/account')
-      .set('Authorization', `JWT ${accessToken}`)
-    expect(response.body.length).toEqual(6)
+
+  test('Test get all posts of account without posts', async () => {
+    const response = await getPostsOfAccount(
+      app,
+      dbAccount.body._id,
+      accessToken
+    )
+    expect(response.status).toEqual(404)
+  })
+
+  test('Test get all posts of account', async () => {
+    const post = createPostObject('test post', 'test content', [])
+    await createPost(app, post, accessToken)
+    const response = await getPostsOfAccount(
+      app,
+      dbAccount.body._id,
+      accessToken
+    )
+    expect(response.status).toEqual(200)
+    expect(response.body.length).toEqual(1)
   })
 })

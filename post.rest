@@ -11,7 +11,7 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4
 #Create Post
 POST http://localhost:3000/userpost
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJlNmE0Y2E5ZGM2ZWY4NzQzNjgzYTciLCJpYXQiOjE3MDY5NzgwNzEsImV4cCI6MTcwNjk4MTY3MX0.s1w5B4PWVgWlIFPuLAuS2jqyv7NbZGnaTXLZsDY-3FY
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJlYTAzNTEwN2RhZjQwZTk2OWNkZjMiLCJpYXQiOjE3MDY5OTE2ODgsImV4cCI6MTcwNjk5NTI4OH0.foGqrt-tM4vzb_wRmxEnsiGaRgzpou-2MGthbeLydRE
 
 {
   "title": "title",

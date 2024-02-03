@@ -31,9 +31,9 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5
 
 ###
 # Get All posts of Account by id
-GET http://localhost:3000/account/posts/65bcdb6cc542c18aa1dd5d7d
+GET http://localhost:3000/account/posts/65bea035107daf40e969cdf3
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJjZGI2Y2M1NDJjMThhYTFkZDVkN2QiLCJpYXQiOjE3MDY4NzkyNTQsImV4cCI6MTcwNjg4Mjg1NH0.4fipbQwMteZfGSqzliCrwKQRLhVEp8lOBwLdEaLbGbg
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJlYTAzNTEwN2RhZjQwZTk2OWNkZjMiLCJpYXQiOjE3MDY5OTE2ODgsImV4cCI6MTcwNjk5NTI4OH0.foGqrt-tM4vzb_wRmxEnsiGaRgzpou-2MGthbeLydRE
 
 ###
 #Register Account

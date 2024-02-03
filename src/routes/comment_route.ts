@@ -1,8 +1,6 @@
 import express from 'express'
 import commentController from '../controllers/commentController'
-import authMiddleware, {
-  postAuthMiddleware,
-} from '../controllers/auth_middleware'
+import authMiddleware from '../controllers/auth_middleware'
 
 const router = express.Router()
 
@@ -12,7 +10,6 @@ router.get('/:id', commentController.getById.bind(commentController))
 router.post(
   '/:id',
   authMiddleware,
-  postAuthMiddleware,
   commentController.post.bind(commentController)
 )
 

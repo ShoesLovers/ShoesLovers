@@ -44,7 +44,7 @@ export class BaseController<ModelType> {
       res.status(200).send('OK')
     } catch (err) {
       console.log(err.message)
-      res.status(406).send('fail: ' + err.message)
+      res.status(500).send('fail: ' + err.message)
     }
   }
 }
