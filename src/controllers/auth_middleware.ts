@@ -17,13 +17,8 @@ const authMiddleware = <T = mongoose.Schema.Types.ObjectId>(
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   if (!token) return res.sendStatus(500).send('No token')
+
   jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
-    if (req.params.id) {
-      const post = await postModel.findById(req.params.id)
-      if (!post) return res.sendStatus(404).send('Post not found')
-      const id = post._id
-      req.post = { _id: id } as { _id: T }
-    }
     if (err) {
       console.log(err.message)
       return res.sendStatus(500)
@@ -32,4 +27,22 @@ const authMiddleware = <T = mongoose.Schema.Types.ObjectId>(
     next()
   })
 }
+
+export const postAuthMiddleware = async <T = mongoose.Schema.Types.ObjectId>(
+  req: AuthRequest<T>,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.params.id) {
+    const post = await postModel.findById(req.params.id)
+    if (!post) return res.sendStatus(404).send('Post not found')
+    const id = post._id
+    req.post = { _id: id } as { _id: T }
+    next()
+  } else {
+    req.post = null
+    next()
+  }
+}
+
 export default authMiddleware

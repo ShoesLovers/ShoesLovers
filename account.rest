@@ -41,9 +41,9 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "email": "testtest@walla.com",
+  "email": "omer@walla.com",
   "password": "1234",
-  "name": "testtest"
+  "name": "omer"
 }
 
 ###
@@ -52,9 +52,9 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "newAccount@gmail.com",
+   "email": "omer@walla.com",
   "password": "1234",
-  "name": "newAccount"
+  "name": "omer"
 }
 
 ###

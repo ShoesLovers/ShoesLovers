@@ -17,20 +17,22 @@ class commentController extends BaseController<IComment> {
       const newComment: IComment = {
         writer: req.user._id,
         content: req.body.content,
-        postId: req.post._id,
+        postId: req.params.id,
       }
+
       const comment: any = await this.model.create(newComment)
+      const commentTemp = await commentModel
+        .findOne({ _id: comment._id })
+        .populate('writer')
+        .populate('postId')
+
       const writer = await accountModel.findOne({ _id: req.user._id })
-      const post = await postModel.findOne({ _id: req.post._id })
+      const post = await postModel.findOne({ _id: req.params.id })
       post.comments.push(comment._id)
 
       await writer.save()
-      await comment.save()
-      res.status(201).send({
-        comment,
-        writer: writer.name,
-        post: post.title,
-      })
+      await post.save()
+      res.status(201).send(commentTemp)
     } catch (err) {
       console.log(err)
       res.status(406).send('fail: ' + err.message)

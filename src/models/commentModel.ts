@@ -2,8 +2,8 @@ import mongoose from 'mongoose'
 
 interface IComment {
   content: string
-  writer: mongoose.Schema.Types.ObjectId
-  postId: mongoose.Schema.Types.ObjectId
+  writer?: mongoose.Schema.Types.ObjectId
+  postId?: mongoose.Schema.Types.ObjectId | string
 }
 
 const commentSchema = new mongoose.Schema<IComment>({
