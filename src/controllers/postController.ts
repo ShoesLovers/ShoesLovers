@@ -3,6 +3,7 @@ import PostModel, { IPost } from '../models/postModel'
 import { BaseController } from './base_controller'
 import accountModel from '../models/accountModel'
 import { AuthRequest } from './auth_middleware'
+import { ObjectId } from 'mongodb'
 
 import mongoose from 'mongoose'
 
@@ -34,11 +35,14 @@ class PostController extends BaseController<IPost> {
   }
 
   async getById(req: Request, res: Response): Promise<void> {
-    console.log('getById:' + req.params.id)
+    const id = req.params.id
+    console.log('getById:' + id)
+
     try {
-      const post = await this.model.findById(req.params.id).populate('owner')
+      const post = await this.model.findById(id).populate('owner')
       res.send(post)
     } catch (err) {
+      console.log(err.message)
       res.status(500).json({ message: err.message })
     }
   }

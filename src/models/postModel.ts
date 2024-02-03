@@ -1,10 +1,10 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose'
 
 export interface IPost<T = mongoose.Schema.Types.ObjectId> {
-  owner?: T;
-  title: string;
-  message: string;
-  comments: T[];
+  owner?: T
+  title: string
+  message: string
+  comments: T[]
 }
 
 const userPostSchema = new mongoose.Schema<IPost>({
@@ -27,6 +27,6 @@ const userPostSchema = new mongoose.Schema<IPost>({
       ref: 'comment',
     },
   ],
-});
+})
 
-export default mongoose.model<IPost>('userPost', userPostSchema);
+export default mongoose.model<IPost>('userPost', userPostSchema)

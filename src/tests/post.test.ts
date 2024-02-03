@@ -1,108 +1,167 @@
-import { Express } from 'express';
-import request from 'supertest';
-import initApp from '../app';
-import mongoose from 'mongoose';
-import UserPost, { IPost } from '../models/postModel';
-import Account, { IAccount } from '../models/accountModel';
-import { registerAccount, loginAccount } from './account.test';
+import { Express } from 'express'
+import request from 'supertest'
+import initApp from '../app'
+import mongoose from 'mongoose'
+import Post, { IPost } from '../models/postModel'
+import Account, { IAccount } from '../models/accountModel'
 
+let app: Express
 const account: IAccount = {
   email: 'testStudent@post.test.com',
   password: '1234567890',
   name: 'testStudent',
   posts: [],
-};
-let accessToken = '';
-let app: Express;
+}
 
-beforeAll(async () => {
-  app = await initApp();
-  await UserPost.deleteMany();
-  await Account.deleteMany({ email: account.email });
-});
+const post1 = {
+  title: 'test1',
+  message: 'message1',
+  comments: [],
+}
 
-afterAll((done) => {
-  mongoose.connection.close();
-  done();
-});
+const post2 = {
+  title: 'test2',
+  message: 'message2',
+  comments: [],
+}
+
+const registerAccount = async (account: IAccount) => {
+  const response = await request(app).post('/auth/register').send(account)
+  return response
+}
+const loginAccount = async (account: IAccount) => {
+  const response = await request(app).post('/auth/login').send(account)
+  return response
+}
+
+// create post funciton
+const createPost = async (post: IPost, accessToken: string) => {
+  const response = await request(app)
+    .post('/userpost')
+    .set('Authorization', `JWT ${accessToken}`)
+    .send(post)
+  return response
+}
+
+afterAll(done => {
+  mongoose.connection.close()
+  done()
+})
 
 describe('Tests user Post', () => {
-  const register = await registerAccount(account);
-  const login = await loginAccount(account);
-  accessToken = login.body.accessToken;
-  const userId = login.body._id;
-  console.log('owner id', login.body._id);
-  const post1: IPost = {
-    title: 'test1',
-    message: 'message1',
-    owner: userId,
-    comments: [],
-  };
-  const post2: IPost = {
-    title: 'test2',
-    message: 'message2',
-    owner: userId,
-    comments: [],
-  };
+  let dbAccount: request.Response
+  let accessToken: string
+  let refreshToken: string
+  let login: request.Response
+  let post1Response: request.Response
+  let post2Response: request.Response
 
-  const addNewPost = async (post: IPost) => {
+  beforeAll(async () => {
+    app = await initApp()
+    await Post.deleteMany()
+    await Account.deleteMany({ email: account.email })
+    // Register account
+    dbAccount = await registerAccount(account)
+    console.log(dbAccount.body)
+    // Login and get access token
+    login = await loginAccount(account)
+
+    accessToken = login.body.accessToken
+    console.log(accessToken)
+    refreshToken = login.body.refreshToken
+  })
+
+  test('Test if no posts', async () => {
+    const response = await request(app).get('/userpost')
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual([])
+  })
+
+  test('Create post', async () => {
+    post1Response = await createPost(post1, accessToken)
+    post2Response = await createPost(post2, accessToken)
+
+    expect(post1Response.status).toBe(201)
+    expect(post2Response.status).toBe(201)
+    expect(post1Response.body.title).toBe(post1.title)
+    expect(post2Response.body.title).toBe(post2.title)
+    expect(post1Response.body.owner).toBe(dbAccount.body._id)
+    expect(post2Response.body.owner).toBe(dbAccount.body._id)
+    expect(post1Response.body.comments).toEqual([])
+    expect(post2Response.body.comments).toEqual([])
+    expect(post1Response.body.message).toBe(post1.message)
+    expect(post2Response.body.message).toBe(post2.message)
+  })
+
+  test('Test get post by id', async () => {
     const response = await request(app)
-      .post('/userpost')
-      .set('Authorization', 'JWT' + accessToken)
-      .send(post);
-    expect(response.statusCode).toBe(201);
-    expect(response.body.owner).toBe(userId);
-    expect(response.body.title).toBe(post.title);
-    expect(response.body.message).toBe(post.message);
-  };
+      .get(`/userpost/${post1Response.body._id}`)
+      .set('Authorization', `JWT ${accessToken}`)
 
-  test('Test get All User posts-empty collection', async () => {
-    const response = await request(app).get('/userpost');
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toStrictEqual([]);
-  });
+    expect(response.status).toBe(200)
+    expect(response.body.title).toBe(post1.title)
+    expect(response.body.owner._id).toBe(dbAccount.body._id)
+    expect(response.body.comments).toEqual([])
+    expect(response.body.message).toBe(post1.message)
+  })
 
-  test('Test add new post ', async () => {
-    addNewPost(post1);
-  });
+  test('Test get post by id with invalid id', async () => {
+    const response = await request(app)
+      .get('/userpost/123')
+      .set('Authorization', `JWT ${accessToken}`)
+    expect(response.status).toBe(400)
+  })
 
-  test('Test get All UsersPosts-one post in db', async () => {
-    const response = await request(app).get('/userpost');
-    expect(response.statusCode).toBe(200);
-    const rc = response.body[0];
-    expect(rc.title).toBe(post1.title);
-    expect(rc.message).toBe(post1.message);
-    expect(rc.owner).toBe(userId);
-  });
-  test('Test add new user-success ', async () => {
-    addNewPost(post2);
-  });
+  // test('Test get all posts', async () => {
+  //   const response = await request(app).get('/userpost')
+  //   expect(response.status).toBe(200)
+  //   expect(response.body.length).toBe(2)
+  // })
 
-  test('Test get All Posts-two Posts', async () => {
-    const response = await request(app).get('/userpost');
-    expect(response.statusCode).toEqual(200);
-    const data = response.body;
-    expect(data.length).toEqual(2);
-    const rc = response.body[0];
-    if (rc.title === post1.title) {
-      expect(rc.title).toEqual(post1.title);
-      expect(rc.message).toEqual(post1.message);
-      expect(rc.owner).toBe(userId);
-    } else {
-      expect(rc.title).toEqual(post2.title);
-      expect(rc.message).toEqual(post2.message);
-      expect(rc.owner).toBe(userId);
-    }
-  });
-  test('Test get user by id', async () => {
-    const response = await request(app).get('/user/' + userId);
-    expect(response.statusCode).toEqual(200);
-    const us = response.body;
-    expect(us.name).toEqual(account.name);
-    expect(us._id).toEqual(userId);
-  });
-  test('Test get user by id-fail', async () => {
-    const response = await request(app).get('/user/' + userId + '1');
-    expect(response.statusCode).toEqual(200);
-  });
-});
+  // test('Test update post', async () => {
+  //   const response = await request(app)
+  //     .put(`/userpost/${post1Response.body._id}`)
+  //     .set('Authorization', `JWT ${accessToken}`)
+  //     .send({ title: 'test1 updated', message: 'message1 updated' })
+  //   expect(response.status).toBe(200)
+  //   expect(response.body.title).toBe('test1 updated')
+  //   expect(response.body.message).toBe('message1 updated')
+  // })
+
+  // test('Test update post with invalid id', async () => {
+  //   const response = await request(app)
+  //     .put(`/userpost/123`)
+  //     .set('Authorization', `JWT ${accessToken}`)
+  //     .send({ title: 'test1 updated', message: 'message1 updated' })
+  //   expect(response.status).toBe(400)
+  // })
+
+  // test('Test update post with invalid access token', async () => {
+  //   const response = await request(app)
+  //     .put(`/userpost/${post1Response.body._id}`)
+  //     .set('Authorization ', 'JWT 123')
+  //     .send({ title: 'test1 updated', message: 'message1 updated' })
+  //   expect(response.status).toBe(401)
+  // })
+
+  test('Test delete post', async () => {
+    const response = await request(app)
+      .delete(`/userpost/${post1Response.body._id}`)
+      .set('Authorization', `JWT ${accessToken}`)
+    expect(response.status).toBe(200)
+  })
+
+  // test('Test delete post with invalid id', async () => {
+  //   const response = await request(app)
+  //     .delete(`/userpost/123`)
+  //     .set('Authorization', `JWT ${accessToken}`)
+  //   expect(response.status).toBe(400)
+  // })
+
+  // test('Test delete post with invalid access token', async () => {
+  //   const response = await request(app)
+  //     .delete(`/userpost/${post2Response.body._id}`)
+  //     .set('Authorization', `JWT 123`)
+  //   expect(response.status).toBe(401)
+  // })
+})
