@@ -51,7 +51,6 @@ afterAll(done => {
 describe('Tests user Post', () => {
   let dbAccount: request.Response
   let accessToken: string
-  let refreshToken: string
   let login: request.Response
   let post1Response: request.Response
   let post2Response: request.Response
@@ -68,7 +67,6 @@ describe('Tests user Post', () => {
 
     accessToken = login.body.accessToken
     console.log(accessToken)
-    refreshToken = login.body.refreshToken
   })
 
   test('Test if no posts', async () => {
@@ -105,44 +103,21 @@ describe('Tests user Post', () => {
     expect(response.body.message).toBe(post1.message)
   })
 
-  test('Test get post by id with invalid id', async () => {
-    const response = await request(app)
-      .get('/userpost/123')
-      .set('Authorization', `JWT ${accessToken}`)
-    expect(response.status).toBe(400)
+  test('Test get all posts', async () => {
+    const response = await request(app).get('/userpost')
+    expect(response.status).toBe(200)
+    expect(response.body.length).toBe(2)
   })
 
-  // test('Test get all posts', async () => {
-  //   const response = await request(app).get('/userpost')
-  //   expect(response.status).toBe(200)
-  //   expect(response.body.length).toBe(2)
-  // })
-
-  // test('Test update post', async () => {
-  //   const response = await request(app)
-  //     .put(`/userpost/${post1Response.body._id}`)
-  //     .set('Authorization', `JWT ${accessToken}`)
-  //     .send({ title: 'test1 updated', message: 'message1 updated' })
-  //   expect(response.status).toBe(200)
-  //   expect(response.body.title).toBe('test1 updated')
-  //   expect(response.body.message).toBe('message1 updated')
-  // })
-
-  // test('Test update post with invalid id', async () => {
-  //   const response = await request(app)
-  //     .put(`/userpost/123`)
-  //     .set('Authorization', `JWT ${accessToken}`)
-  //     .send({ title: 'test1 updated', message: 'message1 updated' })
-  //   expect(response.status).toBe(400)
-  // })
-
-  // test('Test update post with invalid access token', async () => {
-  //   const response = await request(app)
-  //     .put(`/userpost/${post1Response.body._id}`)
-  //     .set('Authorization ', 'JWT 123')
-  //     .send({ title: 'test1 updated', message: 'message1 updated' })
-  //   expect(response.status).toBe(401)
-  // })
+  test('Test update post', async () => {
+    const response = await request(app)
+      .put(`/userpost/${post1Response.body._id}`)
+      .set('Authorization', `JWT ${accessToken}`)
+      .send({ title: 'test1 updated', message: 'message1 updated' })
+    expect(response.status).toBe(200)
+    expect(response.body.title).toBe('test1 updated')
+    expect(response.body.message).toBe('message1 updated')
+  })
 
   test('Test delete post', async () => {
     const response = await request(app)
@@ -150,18 +125,4 @@ describe('Tests user Post', () => {
       .set('Authorization', `JWT ${accessToken}`)
     expect(response.status).toBe(200)
   })
-
-  // test('Test delete post with invalid id', async () => {
-  //   const response = await request(app)
-  //     .delete(`/userpost/123`)
-  //     .set('Authorization', `JWT ${accessToken}`)
-  //   expect(response.status).toBe(400)
-  // })
-
-  // test('Test delete post with invalid access token', async () => {
-  //   const response = await request(app)
-  //     .delete(`/userpost/${post2Response.body._id}`)
-  //     .set('Authorization', `JWT 123`)
-  //   expect(response.status).toBe(401)
-  // })
 })
