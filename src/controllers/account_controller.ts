@@ -9,12 +9,15 @@ class AccountController extends BaseController<IAccount> {
   async getPostsOfAccount(req: Request, res: Response) {
     console.log('getPostsOfAccount')
     try {
-      const account = await AccountModel.findById(req.params.id).populate(
-        'posts'
-      )
-      res.status(200).send(account?.posts)
+      const account = await AccountModel.findById(req.params.id)
+      if (account.posts.length === 0) {
+        throw res.status(404).send('No posts found')
+      } else {
+        account.populate('posts')
+        res.status(200).send(account.posts)
+      }
     } catch (err) {
-      res.status(500).json({ message: err.message })
+      res.status(500).send(err.message)
     }
   }
 }

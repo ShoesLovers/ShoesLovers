@@ -2,127 +2,118 @@ import { Express } from 'express'
 import request from 'supertest'
 import initApp from '../app'
 import mongoose from 'mongoose'
-import Post, { IPost } from '../models/postModel'
-import Account, { IAccount } from '../models/accountModel'
+import Post from '../models/postModel'
+import Account from '../models/accountModel'
 
-let app: Express
-const account: IAccount = {
-  email: 'testStudent@post.test.com',
-  password: '1234567890',
-  name: 'testStudent',
-  posts: [],
-}
+import {
+  registerAccount,
+  createAccountObject,
+  createPostObject,
+  loginAccount,
+  createPost,
+  getPostById,
+  getAllPosts,
+  updatePost,
+  deletePost,
+} from '../helpers/testsHelpers'
 
-const post1 = {
-  title: 'test1',
-  message: 'message1',
-  comments: [],
-}
-
-const post2 = {
-  title: 'test2',
-  message: 'message2',
-  comments: [],
-}
-
-const registerAccount = async (account: IAccount) => {
-  const response = await request(app).post('/auth/register').send(account)
-  return response
-}
-const loginAccount = async (account: IAccount) => {
-  const response = await request(app).post('/auth/login').send(account)
-  return response
-}
-
-// create post funciton
-const createPost = async (post: IPost, accessToken: string) => {
-  const response = await request(app)
-    .post('/userpost')
-    .set('Authorization', `JWT ${accessToken}`)
-    .send(post)
-  return response
-}
-
-afterAll(done => {
-  mongoose.connection.close()
-  done()
+afterAll(async () => {
+  await Account.deleteMany()
+  await Post.deleteMany()
+  await mongoose.connection.close()
 })
 
-describe('Tests user Post', () => {
-  let dbAccount: request.Response
-  let accessToken: string
-  let login: request.Response
-  let post1Response: request.Response
-  let post2Response: request.Response
+let app: Express
+let dbAccount: request.Response
+let dbPost: request.Response
+let login: request.Response
+let accessToken: string
 
+const post = createPostObject('test1', 'message1', [])
+const account = createAccountObject('test@gmail.com', '1234', 'test')
+
+describe('Tests Posts', () => {
   beforeAll(async () => {
     app = await initApp()
     await Post.deleteMany()
     await Account.deleteMany({ email: account.email })
-    // Register account
-    dbAccount = await registerAccount(account)
-    console.log(dbAccount.body)
-    // Login and get access token
-    login = await loginAccount(account)
 
+    dbAccount = await registerAccount(app, account)
+    login = await loginAccount(app, account)
     accessToken = login.body.accessToken
-    console.log(accessToken)
   })
 
   test('Test if no posts', async () => {
-    const response = await request(app).get('/userpost')
+    const response = await getAllPosts(app, accessToken)
     expect(response.status).toBe(200)
     expect(response.body).toEqual([])
   })
 
   test('Create post', async () => {
-    post1Response = await createPost(post1, accessToken)
-    post2Response = await createPost(post2, accessToken)
-
-    expect(post1Response.status).toBe(201)
-    expect(post2Response.status).toBe(201)
-    expect(post1Response.body.title).toBe(post1.title)
-    expect(post2Response.body.title).toBe(post2.title)
-    expect(post1Response.body.owner).toBe(dbAccount.body._id)
-    expect(post2Response.body.owner).toBe(dbAccount.body._id)
-    expect(post1Response.body.comments).toEqual([])
-    expect(post2Response.body.comments).toEqual([])
-    expect(post1Response.body.message).toBe(post1.message)
-    expect(post2Response.body.message).toBe(post2.message)
+    dbPost = await createPost(app, post, accessToken)
+    expect(dbPost.status).toBe(201)
+    expect(dbPost.body.title).toBe(post.title)
+    expect(dbPost.body.owner).toBe(dbAccount.body._id)
+    expect(dbPost.body.comments).toEqual([])
+    expect(dbPost.body.message).toBe(post.message)
   })
 
   test('Test get post by id', async () => {
-    const response = await request(app)
-      .get(`/userpost/${post1Response.body._id}`)
-      .set('Authorization', `JWT ${accessToken}`)
+    const response = await getPostById(app, dbPost.body._id, accessToken)
 
     expect(response.status).toBe(200)
-    expect(response.body.title).toBe(post1.title)
+    expect(response.body.title).toBe(post.title)
     expect(response.body.owner._id).toBe(dbAccount.body._id)
     expect(response.body.comments).toEqual([])
-    expect(response.body.message).toBe(post1.message)
+    expect(response.body.message).toBe(post.message)
+  })
+
+  test('Test get post by id without token', async () => {
+    const response = await getPostById(app, dbPost.body._id, '')
+
+    expect(response.status).toBe(500)
+  })
+
+  test('Test get post by id with invalid token', async () => {
+    const response = await getPostById(app, dbPost.body._id, 'invalidtoken')
+
+    expect(response.status).toBe(500)
+  })
+
+  test('Test get post by invalid id', async () => {
+    const response = await getPostById(app, 'invalidid', accessToken)
+    expect(response.status).toBe(500)
   })
 
   test('Test get all posts', async () => {
-    const response = await request(app).get('/userpost')
+    const response = await getAllPosts(app, accessToken)
     expect(response.status).toBe(200)
-    expect(response.body.length).toBe(2)
+    expect(response.body.length).toBe(1)
+  })
+
+  test('Test get all posts without token', async () => {
+    const response = await getAllPosts(app, '')
+    expect(response.status).toBe(500)
+  })
+
+  test('Test get all posts with invalid token', async () => {
+    const response = await getAllPosts(app, 'invalidtoken')
+    expect(response.status).toBe(500)
   })
 
   test('Test update post', async () => {
-    const response = await request(app)
-      .put(`/userpost/${post1Response.body._id}`)
-      .set('Authorization', `JWT ${accessToken}`)
-      .send({ title: 'test1 updated', message: 'message1 updated' })
+    const response = await updatePost(app, dbPost.body._id, accessToken, {
+      title: 'test1 updated',
+      message: 'message1 updated',
+      comments: [],
+    })
     expect(response.status).toBe(200)
     expect(response.body.title).toBe('test1 updated')
     expect(response.body.message).toBe('message1 updated')
   })
 
   test('Test delete post', async () => {
-    const response = await request(app)
-      .delete(`/userpost/${post1Response.body._id}`)
-      .set('Authorization', `JWT ${accessToken}`)
+    const response = await deletePost(app, dbPost.body._id, accessToken)
     expect(response.status).toBe(200)
   })
 })

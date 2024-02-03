@@ -1,12 +1,13 @@
 import mongoose from 'mongoose'
 
 export interface IAccount {
+  _id?: mongoose.Schema.Types.ObjectId
   email: string
   password: string
   name: string
   image?: string
   refreshTokens?: string[]
-  posts: mongoose.Types.ObjectId[]
+  posts: mongoose.Schema.Types.ObjectId[]
 }
 
 const accountSchema = new mongoose.Schema<IAccount>({
