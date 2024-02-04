@@ -4,8 +4,6 @@ import { BaseController } from './base_controller'
 import accountModel from '../models/accountModel'
 import { AuthRequest } from './auth_middleware'
 
-import mongoose from 'mongoose'
-
 class PostController extends BaseController<IPost> {
   constructor() {
     super(PostModel)
@@ -14,11 +12,12 @@ class PostController extends BaseController<IPost> {
     console.log('Post Created')
     try {
       const newPost: IPost = {
-        owner: req.user._id as mongoose.Schema.Types.ObjectId,
+        owner: req.user._id,
         title: req.body.title,
         message: req.body.message,
         comments: [],
       }
+
       const post = await this.model.create(newPost)
       const owner = await accountModel.findOne({ _id: req.user._id })
       owner.posts.push(post._id)

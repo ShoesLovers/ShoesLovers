@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 
 interface IComment {
+  _id?: string
   content: string
   writer?: mongoose.Schema.Types.ObjectId
-  postId?: mongoose.Schema.Types.ObjectId | string
+  postId?: string
 }
 
 const commentSchema = new mongoose.Schema<IComment>({
@@ -17,7 +18,7 @@ const commentSchema = new mongoose.Schema<IComment>({
     required: true,
   },
   postId: {
-    type: mongoose.Types.ObjectId,
+    type: String,
     ref: 'userPost',
     required: true,
   },

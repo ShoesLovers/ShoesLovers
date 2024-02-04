@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
 
 export interface IPost {
-  _id?: mongoose.Schema.Types.ObjectId
+  _id?: string
   owner?: mongoose.Schema.Types.ObjectId
   title: string
   message: string
-  comments: mongoose.Types.ObjectId[]
+  comments?: string[]
 }
 
 const userPostSchema = new mongoose.Schema<IPost>({
@@ -24,7 +24,7 @@ const userPostSchema = new mongoose.Schema<IPost>({
   },
   comments: [
     {
-      type: mongoose.Types.ObjectId,
+      type: String,
       ref: 'comment',
     },
   ],

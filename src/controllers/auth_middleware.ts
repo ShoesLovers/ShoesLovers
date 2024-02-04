@@ -20,14 +20,14 @@ const authMiddleware = (
 
     jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
       if (err) {
-        console.log(err.message)
+        console.log('Error in authMiddleware verify' + err.message)
         return res.sendStatus(500)
       }
       req.user = user as { _id: mongoose.Schema.Types.ObjectId }
       next()
     })
   } catch (err) {
-    console.log(err.message)
+    console.log('error in catch block' + err.message)
     return res.sendStatus(500)
   }
 }

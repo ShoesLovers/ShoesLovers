@@ -1,8 +1,8 @@
 import request from 'supertest'
-import mongoose from 'mongoose'
 import { Express } from 'express'
 import { IAccount } from '../models/accountModel'
 import { IPost } from '../models/postModel'
+import { IComment } from '../models/commentModel'
 
 // create an account object builder function //
 export const createAccountObject = (
@@ -80,7 +80,7 @@ export const getPostsOfAccount = async (
 export const createPostObject = (
   title: string,
   message: string,
-  comments: mongoose.Types.ObjectId[]
+  comments: string[]
 ) => {
   return {
     title,
@@ -105,6 +105,22 @@ export const registerAccount = async (app: Express, account: IAccount) => {
 // Login account function //
 export const loginAccount = async (app: Express, account: IAccount) => {
   const response = await request(app).post('/auth/login').send(account)
+  return response
+}
+
+// Logout account function //
+export const logoutAccount = async (app: Express, refreshToken: string) => {
+  const response = await request(app)
+    .post('/auth/logout')
+    .set('Authorization', `JWT ${refreshToken}`)
+  return response
+}
+
+// Get Access Token function //
+export const getAccessToken = async (app: Express, refreshToken: string) => {
+  const response = await request(app)
+    .get('/auth/refresh')
+    .set('Authorization', `JWT ${refreshToken}`)
   return response
 }
 
@@ -164,5 +180,26 @@ export const deletePost = async (
   const response = await request(app)
     .delete(`/userpost/${id}`)
     .set('Authorization', `JWT ${accessToken}`)
+  return response
+}
+
+// Create Comment Object function //
+export const createCommentObject = (content: string) => {
+  return {
+    content,
+  }
+}
+
+// Create Comment function //
+export const createComment = async (
+  app: Express,
+  comment: IComment,
+  postId: string,
+  accessToken: string
+) => {
+  const response = await request(app)
+    .post(`comment/${postId}`)
+    .set('Authorization', `JWT ${accessToken}`)
+    .send({ content: comment })
   return response
 }
