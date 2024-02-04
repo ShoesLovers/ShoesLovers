@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/28</span>
+                <span class='fraction'>4/28</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/28</span>
+                <span class='fraction'>4/28</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -126,44 +126,44 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,45 +179,45 @@ export class BaseController&lt;ModelType&gt; {
   constructor(model: Model&lt;ModelType&gt;) {
     this.model = model
   }
-  async getAll(req: Request, res: Response) {
-    console.log('getAll')
-    try {
-      const users = await this.model.find()
-      res.status(200).send(users)
+  async <span class="fstat-no" title="function not covered" >getAll(</span>req: Request, res: Response) {
+<span class="cstat-no" title="statement not covered" >    console.log('getAll')</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const users = <span class="cstat-no" title="statement not covered" >await this.model.find()</span>
+<span class="cstat-no" title="statement not covered" >      res.status(200).send(users)</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      res.status(500).json({ message: err.message })</span>
     }
   }
 &nbsp;
-  async getById(req: Request, res: Response) {
-    console.log('getById:' + req.params.id)
-    try {
-      const user = await this.model.findById(req.params.id)
-      res.status(200).send(user)
+  async <span class="fstat-no" title="function not covered" >getById(</span>req: Request, res: Response) {
+<span class="cstat-no" title="statement not covered" >    console.log('getById:' + req.params.id)</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const user = <span class="cstat-no" title="statement not covered" >await this.model.findById(req.params.id)</span>
+<span class="cstat-no" title="statement not covered" >      res.status(200).send(user)</span>
     } catch (err) {
-      res.status(500).json({ message: err.message })
+<span class="cstat-no" title="statement not covered" >      res.status(500).json({ message: err.message })</span>
     }
   }
 &nbsp;
-  async updateById(req: Request, res: Response) {
-    console.log(`Update: ${req.body}`)
-    try {
-      await this.model.findByIdAndUpdate(req.params.id, req.body)
-      const obj = await this.model.findById(req.params.id)
-      res.status(200).send(obj)
+  async <span class="fstat-no" title="function not covered" >updateById(</span>req: Request, res: Response) {
+<span class="cstat-no" title="statement not covered" >    console.log(`Update: ${req.body}`)</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await this.model.findByIdAndUpdate(req.params.id, req.body)</span>
+      const obj = <span class="cstat-no" title="statement not covered" >await this.model.findById(req.params.id)</span>
+<span class="cstat-no" title="statement not covered" >      res.status(200).send(obj)</span>
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      console.log(err)</span>
 <span class="cstat-no" title="statement not covered" >      res.status(406).send('fail: ' + err.message)</span>
     }
   }
-  async deleteById(req: Request, res: Response) {
-    console.log('deleteById:' + req.body)
-    try {
-      await this.model.findByIdAndDelete(req.params.id)
-      res.status(200).send('OK')
+  async <span class="fstat-no" title="function not covered" >deleteById(</span>req: Request, res: Response) {
+<span class="cstat-no" title="statement not covered" >    console.log('deleteById:' + req.body)</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+<span class="cstat-no" title="statement not covered" >      await this.model.findByIdAndDelete(req.params.id)</span>
+<span class="cstat-no" title="statement not covered" >      res.status(200).send('OK')</span>
     } catch (err) {
-      console.log(err.message)
-      res.status(500).send('fail: ' + err.message)
+<span class="cstat-no" title="statement not covered" >      console.log(err.message)</span>
+<span class="cstat-no" title="statement not covered" >      res.status(500).send('fail: ' + err.message)</span>
     }
   }
 }
@@ -232,7 +232,7 @@ export default createController
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-03T20:37:41.505Z
+                at 2024-02-04T01:21:06.313Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

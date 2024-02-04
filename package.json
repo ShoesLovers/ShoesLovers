@@ -7,7 +7,7 @@
     "testaccount": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/account.test.ts",
     "testpost": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/post.test.ts",
     "testauth": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/auth.test.ts",
-    "testcomment": "tsc && jest --detectOpenHandles --forceExit ./src/tests/comment.test.ts",
+    "testcomment": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/comment.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit --runInBand --coverage",
     "dev": "nodemon --exec ts-node src/server.ts",
     "start": "tsc && nodemon dist/src/server.js",

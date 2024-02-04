@@ -7,7 +7,7 @@ export interface IAccount {
   name: string
   image?: string
   refreshTokens?: string[]
-  posts: mongoose.Schema.Types.ObjectId[]
+  posts: string[]
 }
 
 const accountSchema = new mongoose.Schema<IAccount>({
@@ -29,7 +29,7 @@ const accountSchema = new mongoose.Schema<IAccount>({
   },
   posts: [
     {
-      type: mongoose.Types.ObjectId,
+      type: String,
       ref: 'userPost',
     },
   ],
