@@ -10,8 +10,8 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhNjBiMjE5
 
 ###
 #Get Account by ID
-GET http://localhost:3000/account/65bbd727af139e340b5a8c74
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4MmI0ZjljODkxYzQwNzMiLCJpYXQiOjE3MDY4ODA1OTIsImV4cCI6MTcwNjg4NDE5Mn0.h_RsI8UQrCWH-9Y8LZ1Qwpp9mlhfF6scXMPf1n9UQgU
+GET http://localhost:3000/account/65bfa7d5773157f838ea7596
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJmYTdkNTc3MzE1N2Y4MzhlYTc1OTYiLCJpYXQiOjE3MDcwNTkyMzQsImV4cCI6MTcwNzA2MjgzNH0.Oh_jY6IBCID7H2XcJrnlLfOxLizrSdp1TX0rZ8bhMQU
 
 ###
 #Update Account by ID
@@ -52,7 +52,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-   "email": "omer@walla.com",
+  "email": "omer@walla.com",
   "password": "1234",
   "name": "omer"
 }

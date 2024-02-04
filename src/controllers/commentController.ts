@@ -12,7 +12,6 @@ class commentController extends BaseController<IComment> {
 
   // create a new comment
   async post(req: AuthRequest, res: Response) {
-    console.log('Post Comment')
     console.log('Comment Created')
     try {
       const newComment: IComment = {
@@ -22,10 +21,8 @@ class commentController extends BaseController<IComment> {
       }
 
       const comment: IComment = await this.model.create(newComment)
-      const commentTemp = await commentModel
-        .findOne({ _id: comment._id })
-        .populate('writer')
-        .populate('postId')
+      const commentTemp = await commentModel.findOne({ _id: comment._id })
+      console.log(commentTemp)
 
       const writer = await accountModel.findOne({ _id: req.user._id })
       const post = await postModel.findOne({ _id: req.params.id })
@@ -33,6 +30,7 @@ class commentController extends BaseController<IComment> {
 
       await writer.save()
       await post.save()
+      await commentTemp.save()
       res.status(201).send(commentTemp)
     } catch (err) {
       console.log(err)
