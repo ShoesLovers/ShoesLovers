@@ -17,6 +17,7 @@ import {
   createPostObject,
   createPost,
 } from '../helpers/testsHelpers'
+import postModel from '../models/postModel'
 
 let app: Express
 let dbAccount: request.Response
@@ -26,6 +27,8 @@ let accessToken: string
 const account = createAccountObject('test@gmail.com', '1234', 'testUser')
 
 afterAll(async () => {
+  await postModel.deleteMany()
+  await AccountModel.deleteMany()
   await mongoose.connection.close()
 })
 
@@ -33,6 +36,7 @@ describe('Account tests', () => {
   beforeAll(async () => {
     app = await initApp()
     console.log('before all')
+    await postModel.deleteMany()
     await AccountModel.deleteMany()
   }, 10000)
 
@@ -149,5 +153,10 @@ describe('Account tests', () => {
     )
     expect(response.status).toEqual(200)
     expect(response.body.length).toEqual(1)
+  })
+
+  test('Test get all posts of account with wrong id', async () => {
+    const response = await getPostsOfAccount(app, '123', accessToken)
+    expect(response.status).toEqual(500)
   })
 })

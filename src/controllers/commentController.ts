@@ -37,6 +37,53 @@ class commentController extends BaseController<IComment> {
       res.status(406).send('fail: ' + err.message)
     }
   }
+
+  async deleteById(req: AuthRequest, res: Response) {
+    try {
+      const comment = await commentModel.findById(req.params.id)
+
+      // Check if the user is the writer of the comment or the owner of the post
+      const post = await postModel.findOne({ _id: comment.postId })
+      if (
+        comment.writer.toString() !== req.user._id.toString() &&
+        post.owner.toString() !== req.user._id.toString()
+      ) {
+        res.status(403).send('Unauthorized')
+        return
+      }
+
+      // Remove the comment from the post
+      post.comments = post.comments.filter(
+        id => id.toString() !== comment._id.toString()
+      )
+      await post.save()
+
+      // Delete the comment
+      await commentModel.findByIdAndDelete(req.params.id)
+      res.status(200).send('OK')
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
+  async updateById(req: AuthRequest, res: Response): Promise<void> {
+    try {
+      if (req.body.content === '') {
+        res.status(406).send('fail: content cannot be empty')
+        return
+      }
+
+      const comment = await commentModel.findById(req.params.id)
+      if (comment.writer.toString() !== req.user._id.toString()) {
+        res.status(403).send('Unauthorized')
+        return
+      }
+      await commentModel.findByIdAndUpdate(req.params.id, req.body)
+      const obj = await commentModel.findById(req.params.id)
+      res.status(200).send(obj)
+    } catch (err) {
+      res.status(406).send('fail: ' + err.message)
+    }
+  }
 }
 
 export default new commentController()

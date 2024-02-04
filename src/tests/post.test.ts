@@ -15,9 +15,15 @@ import {
   getAllPosts,
   updatePost,
   deletePost,
+  createComment,
+  createCommentObject,
 } from '../helpers/testsHelpers'
+import { commentModel } from '../models/commentModel'
 
 afterAll(async () => {
+  await commentModel.deleteMany()
+  await Post.deleteMany()
+  await Account.deleteMany()
   await mongoose.connection.close()
 })
 
@@ -33,6 +39,7 @@ const account = createAccountObject('test@gmail.com', '1234', 'test')
 describe('Tests Posts', () => {
   beforeAll(async () => {
     app = await initApp()
+    await commentModel.deleteMany()
     await Post.deleteMany()
     await Account.deleteMany()
     dbAccount = await registerAccount(app, account)
@@ -155,5 +162,33 @@ describe('Tests Posts', () => {
     const dbPost = await createPost(app, post, accessToken)
     const response = await deletePost(app, dbPost.body._id, 'invalidtoken')
     expect(response.status).toBe(500)
+  })
+
+  test('Create post without message or title', async () => {
+    const post = createPostObject('', '', [])
+    const response = await createPost(app, post, accessToken)
+    expect(response.status).toBe(406)
+  })
+
+  test('Create post and add comment', async () => {
+    const post = createPostObject('test1', 'message1', [])
+    const dbPost = await createPost(app, post, accessToken)
+
+    const dbComment = await createComment(
+      app,
+      createCommentObject('comment1'),
+      dbPost.body._id,
+      accessToken
+    )
+
+    expect(dbComment.body.content).toBe('comment1')
+    expect(dbComment.body.postId).toBe(dbPost.body._id)
+  })
+
+  test('Delete Account', async () => {
+    const response = await request(app)
+      .delete(`/account/${dbAccount.body._id}`)
+      .set('Authorization', `JWT ${accessToken}`)
+    expect(response.status).toBe(200)
   })
 })

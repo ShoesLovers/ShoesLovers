@@ -3,6 +3,7 @@ import PostModel, { IPost } from '../models/postModel'
 import { BaseController } from './base_controller'
 import accountModel from '../models/accountModel'
 import { AuthRequest } from './auth_middleware'
+import { commentModel } from '../models/commentModel'
 
 class PostController extends BaseController<IPost> {
   constructor() {
@@ -11,26 +12,41 @@ class PostController extends BaseController<IPost> {
   async post(req: AuthRequest, res: Response) {
     console.log('Post Created')
     try {
-      const newPost: IPost = {
+      // Validation
+      const { title, message } = req.body
+      if (!title || !message) {
+        return res
+          .status(406)
+          .send('Post not created: Title and message are required.')
+      }
+
+      // Create post
+      const postDetails: IPost = {
         owner: req.user._id,
-        title: req.body.title,
-        message: req.body.message,
+        title,
+        message,
         comments: [],
       }
 
-      const post = await this.model.create(newPost)
-      if (!post || !post.message || !post.title) {
-        throw new Error('Post not created')
-      }
+      const post = await this.model.create(postDetails)
+
+      // Update owner
       const owner = await accountModel.findOne({ _id: req.user._id })
+      if (!owner) {
+        return res.status(404).send('Owner not found.')
+      }
+
       owner.posts.push(post._id)
       post.owner = owner._id
       post.comments = []
+
+      // Save changes
       await owner.save()
       await post.save()
+
       res.status(201).send(post)
     } catch (err) {
-      res.status(406).send('fail: ' + err.message)
+      res.status(500).send('Post creation failed: ' + err.message)
     }
   }
 
@@ -53,8 +69,15 @@ class PostController extends BaseController<IPost> {
     try {
       const post = await this.model.findById(id)
       if (!post) {
-        throw new Error('Post not found')
+        res.status(500).send('Post not found')
+        return
       }
+
+      if (post.comments && post.comments.length > 0) {
+        await commentModel.deleteMany({ _id: { $in: post.comments } })
+        post.comments = []
+      }
+
       const owner = await accountModel.findOne({ _id: req.user._id })
       if (owner._id.toString() !== req.user._id.toString()) {
         throw new Error('Unauthorized')
