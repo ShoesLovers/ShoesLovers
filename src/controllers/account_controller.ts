@@ -20,6 +20,23 @@ class AccountController extends BaseController<IAccount> {
       res.status(500).send(err.message)
     }
   }
+
+  async deleteById(req: Request, res: Response): Promise<void> {
+    try {
+      const account = await AccountModel.findById(req.params.id)
+      if (account.posts) {
+        for (const postId of account.posts) {
+          await this.model.findByIdAndDelete(postId)
+        }
+        account.posts = []
+      }
+      await account.save()
+      await this.model.findByIdAndDelete(req.params.id)
+      res.send('OK')
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
 }
 
 export default new AccountController()

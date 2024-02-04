@@ -19,6 +19,9 @@ class PostController extends BaseController<IPost> {
       }
 
       const post = await this.model.create(newPost)
+      if (!post || !post.message || !post.title) {
+        throw new Error('Post not created')
+      }
       const owner = await accountModel.findOne({ _id: req.user._id })
       owner.posts.push(post._id)
       post.owner = owner._id
@@ -41,6 +44,29 @@ class PostController extends BaseController<IPost> {
     } catch (err) {
       console.log(err.message)
       res.status(500).json({ message: err.message })
+    }
+  }
+
+  async deleteById(req: AuthRequest, res: Response) {
+    const id = req.params.id
+    console.log('deleteById:' + id)
+    try {
+      const post = await this.model.findById(id)
+      if (!post) {
+        throw new Error('Post not found')
+      }
+      const owner = await accountModel.findOne({ _id: req.user._id })
+      if (owner._id.toString() !== req.user._id.toString()) {
+        throw new Error('Unauthorized')
+      }
+
+      owner.posts = owner.posts.filter(p => p.toString() !== id)
+      await owner.save()
+      await this.model.findByIdAndDelete(id)
+      res.status(200).send('Post deleted')
+    } catch (err) {
+      console.log(err.message)
+      res.status(500).send('fail: ' + err.message)
     }
   }
 }

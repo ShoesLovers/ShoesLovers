@@ -198,8 +198,8 @@ export const createComment = async (
   accessToken: string
 ) => {
   const response = await request(app)
-    .post(`comment/${postId}`)
+    .post(`/comment/${postId}`)
     .set('Authorization', `JWT ${accessToken}`)
-    .send({ content: comment })
+    .send(comment)
   return response
 }

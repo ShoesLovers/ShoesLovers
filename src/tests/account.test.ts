@@ -17,7 +17,6 @@ import {
   createPostObject,
   createPost,
 } from '../helpers/testsHelpers'
-import postModel from '../models/postModel'
 
 let app: Express
 let dbAccount: request.Response
@@ -27,8 +26,6 @@ let accessToken: string
 const account = createAccountObject('test@gmail.com', '1234', 'testUser')
 
 afterAll(async () => {
-  await postModel.deleteMany()
-  await AccountModel.deleteMany()
   await mongoose.connection.close()
 })
 
@@ -37,7 +34,7 @@ describe('Account tests', () => {
     app = await initApp()
     console.log('before all')
     await AccountModel.deleteMany()
-  })
+  }, 10000)
 
   test('Test Create Account', async () => {
     dbAccount = await registerAccount(app, account)

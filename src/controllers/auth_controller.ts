@@ -29,14 +29,17 @@ const register = async (req: Request, res: Response) => {
 }
 
 const login = async (req: Request, res: Response) => {
+  console.log('login')
   const { email, password } = req.body
 
   if (!email || !password) {
+    console.log('email or password is null')
     return res.status(400).send('email or password is null')
   }
   try {
     const account = await Account.findOne({ email })
     if (!account) {
+      console.log('user is not exists')
       return res.status(400).send('user is not exists')
     }
     // Check if the password correspond to the hashed password.
@@ -65,6 +68,7 @@ const login = async (req: Request, res: Response) => {
       refreshToken,
     })
   } catch (err) {
+    console.log(err.message)
     return res.status(400).send(err.message)
   }
 }
