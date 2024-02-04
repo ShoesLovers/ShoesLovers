@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import AccountModel, { IAccount } from '../models/accountModel'
 import { BaseController } from './base_controller'
+import postModel from '../models/postModel'
+import { commentModel } from '../models/commentModel'
 
 class AccountController extends BaseController<IAccount> {
   constructor() {
@@ -9,13 +11,15 @@ class AccountController extends BaseController<IAccount> {
   async getPostsOfAccount(req: Request, res: Response) {
     console.log('getPostsOfAccount')
     try {
-      const account = await AccountModel.findById(req.params.id)
-      if (account.posts.length === 0) {
-        throw res.status(404).send('No posts found')
-      } else {
-        account.populate('posts')
-        res.status(200).send(account.posts)
+      const account = await AccountModel.findById(req.params.id).populate(
+        'posts'
+      )
+
+      if (!account || account.posts.length === 0) {
+        return res.status(404).send('No posts found for the specified account.')
       }
+
+      res.status(200).send(account.posts)
     } catch (err) {
       res.status(500).send(err.message)
     }
@@ -24,14 +28,25 @@ class AccountController extends BaseController<IAccount> {
   async deleteById(req: Request, res: Response): Promise<void> {
     try {
       const account = await AccountModel.findById(req.params.id)
-      if (account.posts) {
-        for (const postId of account.posts) {
-          await this.model.findByIdAndDelete(postId)
-        }
+
+      if (!account) {
+        res.status(404).send('Account not found.')
+        return
+      }
+
+      // Delete all posts and comments of the account
+      if (account.posts && account.posts.length > 0) {
+        await commentModel.deleteMany({ postId: { $in: account.posts } })
+        await postModel.deleteMany({ _id: { $in: account.posts } })
         account.posts = []
       }
+
+      // Save the account without posts
       await account.save()
-      await this.model.findByIdAndDelete(req.params.id)
+
+      // Delete the account
+      await AccountModel.findByIdAndDelete(req.params.id)
+
       res.send('OK')
     } catch (err) {
       res.status(500).send(err.message)

@@ -13,6 +13,7 @@ import {
   getAllAccounts,
   getAccessToken,
 } from '../helpers/testsHelpers'
+import accountModel from '../models/accountModel'
 
 let app: Express
 let accessToken: string
@@ -21,7 +22,7 @@ let refreshToken: string
 const account = createAccountObject('test@gmail.com', '1234', 'testUser')
 
 afterAll(async () => {
-  await AccountModel.deleteMany()
+  await accountModel.deleteMany()
   await mongoose.connection.close()
 })
 
