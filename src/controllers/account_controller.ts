@@ -3,12 +3,15 @@ import AccountModel, { IAccount } from '../models/accountModel'
 import { BaseController } from './base_controller'
 import postModel from '../models/postModel'
 import { commentModel } from '../models/commentModel'
+import { AuthRequest } from './auth_middleware'
+import bcrypt from 'bcrypt'
 
 class AccountController extends BaseController<IAccount> {
   constructor() {
     super(AccountModel)
   }
-  async getPostsOfAccount(req: Request, res: Response) {
+
+  async getPostsOfAccount(req: Request, res: Response): Promise<void> {
     console.log('getPostsOfAccount')
     try {
       const account = await AccountModel.findById(req.params.id).populate(
@@ -16,7 +19,8 @@ class AccountController extends BaseController<IAccount> {
       )
 
       if (!account || account.posts.length === 0) {
-        return res.status(404).send('No posts found for the specified account.')
+        res.status(404).send('No posts found for the specified account.')
+        return
       }
 
       res.status(200).send(account.posts)
@@ -25,14 +29,47 @@ class AccountController extends BaseController<IAccount> {
     }
   }
 
-  async deleteById(req: Request, res: Response): Promise<void> {
+  async updateById(req: AuthRequest, res: Response): Promise<void> {
     try {
       const account = await AccountModel.findById(req.params.id)
 
-      if (!account) {
-        res.status(404).send('Account not found.')
+      // Check if the user is authorized to update the account
+      if (req.user._id.toString() !== account._id.toString()) {
+        res.status(401).send('Unauthorized')
         return
       }
+
+      // Check if the email is already in use
+      if (req.body.email) {
+        const accountWithSameEmail = await AccountModel.findOne({
+          email: req.body.email,
+        })
+        if (accountWithSameEmail && accountWithSameEmail._id !== account._id) {
+          res.status(400).send('Email already in use')
+          return
+        }
+        account.email = req.body.email
+      }
+
+      account.name = req.body.name
+
+      // take the plain password and hash it and put it in the account object
+      if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        account.password = hashedPassword
+      }
+
+      await account.save()
+
+      res.status(200).send(account)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
+
+  async deleteById(req: Request, res: Response): Promise<void> {
+    try {
+      const account = await AccountModel.findById(req.params.id)
 
       // Delete all posts and comments of the account
       if (account.posts && account.posts.length > 0) {
