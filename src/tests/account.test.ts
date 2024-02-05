@@ -2,7 +2,7 @@ import { Express } from 'express'
 import request from 'supertest'
 import initApp from '../app'
 import mongoose from 'mongoose'
-import AccountModel from '../models/accountModel'
+import AccountModel, { IAccount } from '../models/accountModel'
 import bcrypt from 'bcrypt'
 
 import {
@@ -158,5 +158,57 @@ describe('Account tests', () => {
   test('Test get all posts of account with wrong id', async () => {
     const response = await getPostsOfAccount(app, '123', accessToken)
     expect(response.status).toEqual(500)
+  })
+
+  test('Test to updade account with other user token', async () => {
+    const newAccount = createAccountObject('sonego@gmail.com', '1234', 'sonego')
+    await registerAccount(app, newAccount)
+    const login = await loginAccount(app, newAccount)
+    const newAccessToken = login.body.accessToken
+    const updatedAccountObj = createAccountObject(
+      'omer@gmail.com',
+      '1234',
+      'omer'
+    )
+    const response = await updateAccount(
+      app,
+      dbAccount.body._id,
+      newAccessToken,
+      updatedAccountObj
+    )
+    expect(response.status).toEqual(401)
+  })
+
+  test('Test update with invalid id', async () => {
+    const updatedAccountObj = createAccountObject(
+      'invalid@gmail.com',
+      '1234',
+      'invalid'
+    )
+    const response = await updateAccount(app, '123', '123', updatedAccountObj)
+    expect(response.status).toEqual(500)
+  })
+
+  test('Test update email with already existing email', async () => {
+    const newAccount1 = createAccountObject('zirin@gmail.com', '1234', 'zirin')
+    const newAccount2 = createAccountObject('kobi@gmail.com', '1234', 'kobi')
+    const dbAccount1 = await registerAccount(app, newAccount1)
+    await registerAccount(app, newAccount2)
+    const login1 = await loginAccount(app, newAccount1)
+
+    const newAccessToken1 = login1.body.accessToken
+
+    const updatedAccountObj: IAccount = createAccountObject(
+      'kobi@gmail.com',
+      '1234',
+      'kobi'
+    )
+    const response = await updateAccount(
+      app,
+      dbAccount1.body._id,
+      newAccessToken1,
+      updatedAccountObj
+    )
+    expect(response.status).toEqual(400)
   })
 })

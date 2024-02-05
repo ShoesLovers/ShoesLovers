@@ -63,15 +63,31 @@ class PostController extends BaseController<IPost> {
     }
   }
 
+  async updateById(req: AuthRequest, res: Response): Promise<void> {
+    const id = req.params.id
+    console.log('updateById:' + id)
+    try {
+      const post = await this.model.findById(id)
+      const owner = await accountModel.findOne({ _id: req.user._id })
+      if (owner._id.toString() !== req.user._id.toString()) {
+        throw new Error('Unauthorized')
+      }
+
+      post.title = req.body.title
+      post.message = req.body.message
+      await post.save()
+      res.status(200).send(post)
+    } catch (err) {
+      console.log(err.message)
+      res.status(500).send('fail: ' + err.message)
+    }
+  }
+
   async deleteById(req: AuthRequest, res: Response) {
     const id = req.params.id
     console.log('deleteById:' + id)
     try {
       const post = await this.model.findById(id)
-      if (!post) {
-        res.status(500).send('Post not found')
-        return
-      }
 
       if (post.comments && post.comments.length > 0) {
         await commentModel.deleteMany({ _id: { $in: post.comments } })
