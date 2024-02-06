@@ -9,7 +9,8 @@
     "testauth": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/auth.test.ts",
     "testcomment": "tsc && jest --detectOpenHandles --forceExit --coverage ./src/tests/comment.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit --runInBand --coverage",
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "set NODE_ENV=development && nodemon --exec ts-node src/server.ts",
+    "prod": "set NODE_ENV=production && nodemon dist/src/server.js",
     "start": "tsc && nodemon dist/src/server.js",
     "lint": "eslint . --ext .ts"
   },
