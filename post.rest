@@ -1,15 +1,15 @@
 ###
 # Get all Posts
-GET http://localhost:3000/userpost
+GET http://localhost:3000/post
 
 ###
 # Get Post by ID
-GET http://localhost:3000/userpost/123
+GET http://localhost:3000/post/123
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4MmI0ZjljODkxYzQwNzMiLCJpYXQiOjE3MDY4ODU0NTUsImV4cCI6MTcwNjg4OTA1NX0.aszaATR9mSfR9XBF-DuNNR4hwrJFc28tHp5OIoDLh_U
 
 ###
 #Create Post
-POST http://localhost:3000/userpost
+POST http://localhost:3000/post
 Content-Type: application/json
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJmYTdkNTc3MzE1N2Y4MzhlYTc1OTYiLCJpYXQiOjE3MDcwNTkxNjUsImV4cCI6MTcwNzA2Mjc2NX0.M6EYtfBzIrb_tyTQfHhSueFMqHVbURtKC-8O9uQdwWw
 
@@ -20,7 +20,7 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJmYTdkNTc3
 
 ###
 #Update Post
-PUT http://localhost:3000/userpost/65ba6ac8112667c460adf5df
+PUT http://localhost:3000/post/65ba6ac8112667c460adf5df
 Content-Type: application/json
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4MDkxMzMsImV4cCI6MTcwNjgxMjczM30.1p6_V1i4gjW8zZLuVZAxgLgzzV_F1pjHdnPD1sLkbnY
 
@@ -31,7 +31,7 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2Fm
 
 ###
 # Delete Post
-DELETE http://localhost:3000/userpost/65bfa7e7773157f838ea759a
+DELETE http://localhost:3000/post/65bfa7e7773157f838ea759a
 Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJmYTdkNTc3MzE1N2Y4MzhlYTc1OTYiLCJpYXQiOjE3MDcwNTkyMzQsImV4cCI6MTcwNzA2MjgzNH0.Oh_jY6IBCID7H2XcJrnlLfOxLizrSdp1TX0rZ8bhMQU
 
 

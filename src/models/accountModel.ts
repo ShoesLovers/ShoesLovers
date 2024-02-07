@@ -30,7 +30,7 @@ const accountSchema = new mongoose.Schema<IAccount>({
   posts: [
     {
       type: String,
-      ref: 'userPost',
+      ref: 'post',
     },
   ],
 })
