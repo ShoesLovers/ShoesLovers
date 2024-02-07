@@ -1,8 +1,8 @@
 import { Response } from 'express'
 import { commentModel, IComment } from '../models/commentModel'
-import { BaseController } from './base_controller'
+import { BaseController } from './baseController'
 import accountModel from '../models/accountModel'
-import { AuthRequest } from './auth_middleware'
+import { AuthRequest } from './authMiddleware'
 import postModel from '../models/postModel'
 
 class commentController extends BaseController<IComment> {
@@ -22,7 +22,6 @@ class commentController extends BaseController<IComment> {
 
       const comment: IComment = await this.model.create(newComment)
       const commentTemp = await commentModel.findOne({ _id: comment._id })
-      console.log(commentTemp)
 
       const writer = await accountModel.findOne({ _id: req.user._id })
       const post = await postModel.findOne({ _id: req.params.id })

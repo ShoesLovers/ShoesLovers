@@ -131,7 +131,7 @@ export const createPost = async (
   accessToken: string
 ) => {
   const response = await request(app)
-    .post('/userpost')
+    .post('/post')
     .set('Authorization', `JWT ${accessToken}`)
     .send(post)
   return response
@@ -144,7 +144,7 @@ export const getPostById = async (
   accessToken: string
 ) => {
   const response = await request(app)
-    .get(`/userpost/${id}`)
+    .get(`/post/${id}`)
     .set('Authorization', `JWT ${accessToken}`)
   return response
 }
@@ -152,7 +152,7 @@ export const getPostById = async (
 // Get All Posts function //
 export const getAllPosts = async (app: Express, accessToken: string) => {
   const response = await request(app)
-    .get('/userpost')
+    .get('/post')
     .set('Authorization', `JWT ${accessToken}`)
   return response
 }
@@ -165,7 +165,7 @@ export const updatePost = async (
   post: IPost
 ) => {
   const response = await request(app)
-    .put(`/userpost/${id}`)
+    .put(`/post/${id}`)
     .set('Authorization', `JWT ${accessToken}`)
     .send(post)
   return response
@@ -178,7 +178,7 @@ export const deletePost = async (
   accessToken: string
 ) => {
   const response = await request(app)
-    .delete(`/userpost/${id}`)
+    .delete(`/post/${id}`)
     .set('Authorization', `JWT ${accessToken}`)
   return response
 }

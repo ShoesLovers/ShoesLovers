@@ -1,5 +1,5 @@
 import express from 'express'
-import AuthController from '../controllers/auth_controller'
+import AuthController from '../controllers/authController'
 
 const router = express.Router()
 
@@ -115,7 +115,7 @@ router.post('/register', AuthController.register)
  * @swagger
  * /auth/login:
  *   post:
- *     summary: registers a new user
+ *     summary: login a user in to the application
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -146,7 +146,6 @@ router.post('/login', AuthController.login)
  *       200:
  *         description: logout completed successfully
  */
-
 router.post('/logout', AuthController.logout)
 
 router.get('/refresh', AuthController.refresh)

@@ -25,18 +25,6 @@ export class BaseController<ModelType> {
       res.status(500).json({ message: err.message })
     }
   }
-
-  // async updateById(req: Request, res: Response) {
-  //   console.log(`Update: ${req.body}`)
-  //   try {
-  //     await this.model.findByIdAndUpdate(req.params.id, req.body)
-  //     const obj = await this.model.findById(req.params.id)
-  //     res.status(200).send(obj)
-  //   } catch (err) {
-  //     console.log(err)
-  //     res.status(406).send('fail: ' + err.message)
-  //   }
-  // }
 }
 const createController = <ModelType>(model: Model<ModelType>) => {
   return new BaseController<ModelType>(model)
