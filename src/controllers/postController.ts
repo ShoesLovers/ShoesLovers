@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import PostModel, { IPost } from '../models/postModel'
-import { BaseController } from './base_controller'
+import { BaseController } from './baseController'
 import accountModel from '../models/accountModel'
-import { AuthRequest } from './auth_middleware'
+import { AuthRequest } from './authMiddleware'
 import { commentModel } from '../models/commentModel'
 
 class PostController extends BaseController<IPost> {
@@ -56,7 +56,7 @@ class PostController extends BaseController<IPost> {
 
     try {
       const post = await this.model.findById(id).populate('owner')
-      res.send(post)
+      res.status(200).send(post)
     } catch (err) {
       console.log(err.message)
       res.status(500).json({ message: err.message })

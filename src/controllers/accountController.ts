@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import AccountModel, { IAccount } from '../models/accountModel'
-import { BaseController } from './base_controller'
+import { BaseController } from './baseController'
 import postModel from '../models/postModel'
 import { commentModel } from '../models/commentModel'
-import { AuthRequest } from './auth_middleware'
+import { AuthRequest } from './authMiddleware'
 import bcrypt from 'bcrypt'
 
 class AccountController extends BaseController<IAccount> {
@@ -18,13 +18,14 @@ class AccountController extends BaseController<IAccount> {
         'posts'
       )
 
-      if (!account || account.posts.length === 0) {
+      if (!account || account?.posts.length === 0) {
         res.status(404).send('No posts found for the specified account.')
         return
       }
 
       res.status(200).send(account.posts)
     } catch (err) {
+      console.log(err.message)
       res.status(500).send(err.message)
     }
   }

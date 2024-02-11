@@ -8,7 +8,7 @@ export interface IPost {
   comments?: string[]
 }
 
-const userPostSchema = new mongoose.Schema<IPost>({
+const PostSchema = new mongoose.Schema<IPost>({
   owner: {
     type: mongoose.Types.ObjectId,
     ref: 'account',
@@ -30,4 +30,4 @@ const userPostSchema = new mongoose.Schema<IPost>({
   ],
 })
 
-export default mongoose.model<IPost>('userPost', userPostSchema)
+export default mongoose.model<IPost>('post', PostSchema)

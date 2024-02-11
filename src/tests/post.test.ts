@@ -64,7 +64,7 @@ describe('Tests Posts', () => {
 
   test('Create invalid post', async () => {
     const response = await request(app)
-      .post('/userpost')
+      .post('/post')
       .send({})
       .set('Authorization', `JWT ${accessToken}`)
     expect(response.status).toBe(406)

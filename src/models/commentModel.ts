@@ -19,7 +19,7 @@ const commentSchema = new mongoose.Schema<IComment>({
   },
   postId: {
     type: String,
-    ref: 'userPost',
+    ref: 'post',
     required: true,
   },
 })

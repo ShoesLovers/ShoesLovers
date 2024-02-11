@@ -4,10 +4,10 @@ import dotenv from 'dotenv'
 dotenv.config()
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
-import userPostRoute from './routes/post_route'
-import authRoute from './routes/auth_route'
-import accountRoute from './routes/account_route'
-import commentRoute from './routes/comment_route'
+import userPostRoute from './routes/postRoutes'
+import authRoute from './routes/authRoutes'
+import accountRoute from './routes/accountRoutes'
+import commentRoute from './routes/commentRoutes'
 
 const initApp = () => {
   const db = mongoose.connection
@@ -21,7 +21,7 @@ const initApp = () => {
         app.use(bodyParser.urlencoded({ extended: true }))
         app.use('/account', accountRoute)
         app.use('/auth', authRoute)
-        app.use('/userpost', userPostRoute)
+        app.use('/post', userPostRoute)
         app.use('/comment', commentRoute)
         resolve(app)
       })
