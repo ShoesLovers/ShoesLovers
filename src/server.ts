@@ -15,8 +15,11 @@ initApp().then(app => {
     },
     apis: ['./src/routes/*.ts'],
   }
-  const specs = swaggerJsDoc(options)
-  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
+
+  if (process.env.NODE_ENV.trim() !== 'production') {
+    const specs = swaggerJsDoc(options)
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
+  }
 
   console.log('You are running the server in ' + process.env.NODE_ENV + 'mode')
 
