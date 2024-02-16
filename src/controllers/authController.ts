@@ -1,7 +1,31 @@
 import { Request, Response } from 'express'
-import Account from '../models/accountModel'
+import Account, { IAccount } from '../models/accountModel'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { Document } from 'mongoose'
+
+const generateTokens = async (account: Document & IAccount) => {
+  const accessToken = jwt.sign({ _id: account._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRATION_TIME,
+  })
+
+  const refreshToken = jwt.sign(
+    { _id: account._id },
+    process.env.JWT_REFRESH_SECRET
+  )
+
+  if (!account.refreshTokens) {
+    account.refreshTokens = [refreshToken]
+  } else {
+    account.refreshTokens.push(refreshToken)
+  }
+  await account.save()
+
+  return {
+    accessToken,
+    refreshToken,
+  }
+}
 
 const register = async (req: Request, res: Response) => {
   console.log('register')
@@ -22,7 +46,11 @@ const register = async (req: Request, res: Response) => {
       password: encryptedPassword,
       name,
     })
-    return res.status(201).send(newAccount)
+    const { accessToken, refreshToken } = await generateTokens(newAccount)
+
+    return res
+      .status(201)
+      .send({ account: newAccount, accessToken, refreshToken })
   } catch (err) {
     return res.status(400).send(err.message)
   }
@@ -47,22 +75,7 @@ const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       throw res.status(400).send('invalid password')
     }
-
-    const accessToken = jwt.sign({ _id: account._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRATION_TIME,
-    })
-
-    const refreshToken = jwt.sign(
-      { _id: account._id },
-      process.env.JWT_REFRESH_SECRET
-    )
-
-    if (!account.refreshTokens) {
-      account.refreshTokens = [refreshToken]
-    } else {
-      account.refreshTokens.push(refreshToken)
-    }
-    await account.save()
+    const { accessToken, refreshToken } = await generateTokens(account)
     return res.status(200).send({
       accessToken,
       refreshToken,
