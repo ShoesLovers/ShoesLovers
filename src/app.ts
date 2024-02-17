@@ -1,5 +1,9 @@
 import express, { Express } from 'express'
+import cors from 'cors'
+
 const app = express()
+app.use(cors())
+
 import dotenv from 'dotenv'
 dotenv.config()
 import mongoose from 'mongoose'
