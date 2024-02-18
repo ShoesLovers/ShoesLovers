@@ -89,7 +89,7 @@ const router = express.Router()
  */
 
 router.post('/register', AuthController.register)
-// router.post('/google', AuthController.googleLogin)
+router.post('/google', AuthController.googleLogin)
 /**
  * @swagger
  * components:

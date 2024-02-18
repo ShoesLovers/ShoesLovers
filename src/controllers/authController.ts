@@ -3,7 +3,7 @@ import Account, { IAccount } from '../models/accountModel'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { Document } from 'mongoose'
-// import { OAuth2Client } from 'google-auth-library'
+import { OAuth2Client } from 'google-auth-library'
 
 const generateTokens = async (account: Document & IAccount) => {
   const accessToken = jwt.sign({ _id: account._id }, process.env.JWT_SECRET, {
@@ -57,38 +57,38 @@ const register = async (req: Request, res: Response) => {
   }
 }
 
-// const client = new OAuth2Client()
-// const googleLogin = async (req: Request, res: Response) => {
-//   console.log(req.body)
-//   try {
-//     const ticket = await client.verifyIdToken({
-//       idToken: req.body.credential,
-//       audience: process.env.GOOGLE_CLIENT_ID,
-//     })
-//     const payload = ticket.getPayload()
-//     const email = payload?.email
-//     if (email) {
-//       let account = await Account.findOne({ email: email })
-//       if (!account) {
-//         account = await Account.create({
-//           email,
-//           password: '0',
-//           imgUrl: payload?.picture,
-//         })
-//       }
-//       const { accessToken, refreshToken } = await generateTokens(account)
-//       res.status(200).send({
-//         email: account.email,
-//         _id: account._id,
-//         image: account.image,
-//         accessToken,
-//         refreshToken,
-//       })
-//     }
-//   } catch (err) {
-//     return res.status(400).send(err.message)
-//   }
-// }
+const client = new OAuth2Client()
+const googleLogin = async (req: Request, res: Response) => {
+  console.log(req.body)
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    })
+    const payload = ticket.getPayload()
+    const email = payload?.email
+    if (email) {
+      let account = await Account.findOne({ email: email })
+      if (!account) {
+        account = await Account.create({
+          email,
+          password: '0',
+          imgUrl: payload?.picture,
+        })
+      }
+      const { accessToken, refreshToken } = await generateTokens(account)
+      res.status(200).send({
+        email: account.email,
+        _id: account._id,
+        image: account.image,
+        accessToken,
+        refreshToken,
+      })
+    }
+  } catch (err) {
+    return res.status(400).send(err.message)
+  }
+}
 
 const login = async (req: Request, res: Response) => {
   console.log('login')
@@ -207,4 +207,5 @@ export default {
   login,
   logout,
   refresh,
+  googleLogin,
 }
