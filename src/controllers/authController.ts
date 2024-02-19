@@ -113,6 +113,7 @@ const login = async (req: Request, res: Response) => {
     return res.status(200).send({
       accessToken,
       refreshToken,
+      account,
     })
   } catch (err) {
     console.log(err.message)
