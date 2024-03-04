@@ -59,13 +59,13 @@ const register = async (req: Request, res: Response) => {
 
 const client = new OAuth2Client()
 const googleLogin = async (req: Request, res: Response) => {
+  console.log('googleLogin')
   try {
     const ticket = await client.verifyIdToken({
       idToken: req.body.credential,
       audience: process.env.GOOGLE_CLIENT_ID,
     })
     const payload = ticket.getPayload()
-    console.log(payload)
     const { email, name } = payload
     if (email) {
       let account = await Account.findOne({ email: email })
@@ -115,12 +115,13 @@ const login = async (req: Request, res: Response) => {
       account,
     })
   } catch (err) {
-    console.log(err.message)
+    console.log(err)
     return res.status(400).send(err.message)
   }
 }
 
 const logout = async (req: Request, res: Response) => {
+  console.log('logout')
   const authHeader = req.headers['authorization']
   const refreshToken = authHeader && authHeader.split(' ')[1] // Bearer <token>
 
@@ -155,6 +156,7 @@ const logout = async (req: Request, res: Response) => {
   )
 }
 const refresh = async (req: Request, res: Response) => {
+  console.log('refresh')
   const authHeader = req.headers['authorization']
   const refreshToken = authHeader && authHeader.split(' ')[1] // Bearer
   if (!refreshToken) return res.sendStatus(401)
