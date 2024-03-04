@@ -4,7 +4,7 @@ export interface IAccount {
   _id?: mongoose.Schema.Types.ObjectId
   email: string
   password: string
-  name: string
+  name?: string
   image?: string
   refreshTokens?: string[]
   posts: string[]
