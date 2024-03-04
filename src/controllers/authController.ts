@@ -59,28 +59,27 @@ const register = async (req: Request, res: Response) => {
 
 const client = new OAuth2Client()
 const googleLogin = async (req: Request, res: Response) => {
-  console.log(req.body)
   try {
     const ticket = await client.verifyIdToken({
       idToken: req.body.credential,
       audience: process.env.GOOGLE_CLIENT_ID,
     })
     const payload = ticket.getPayload()
-    const email = payload?.email
+    console.log(payload)
+    const { email, name } = payload
     if (email) {
       let account = await Account.findOne({ email: email })
       if (!account) {
         account = await Account.create({
           email,
           password: '0',
-          imgUrl: payload?.picture,
+          name,
+          image: payload?.picture,
         })
       }
       const { accessToken, refreshToken } = await generateTokens(account)
       res.status(200).send({
-        email: account.email,
-        _id: account._id,
-        image: account.image,
+        account,
         accessToken,
         refreshToken,
       })
