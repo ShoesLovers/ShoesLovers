@@ -33,6 +33,10 @@ const accountSchema = new mongoose.Schema<IAccount>({
       ref: 'post',
     },
   ],
+  image: {
+    type: String,
+    required: false,
+  },
 })
 
 export default mongoose.model<IAccount>('account', accountSchema)

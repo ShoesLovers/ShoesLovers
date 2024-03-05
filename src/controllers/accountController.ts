@@ -52,6 +52,9 @@ class AccountController extends BaseController<IAccount> {
         account.email = req.body.email
       }
 
+      if (req.body.image) {
+        account.image = req.body.image
+      }
       account.name = req.body.name
 
       // take the plain password and hash it and put it in the account object
