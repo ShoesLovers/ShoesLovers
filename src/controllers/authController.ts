@@ -46,7 +46,9 @@ const register = async (req: Request, res: Response) => {
       email,
       password: encryptedPassword,
       name,
+      image: req.body.image,
     })
+    console.log(req.body)
     const { accessToken, refreshToken } = await generateTokens(newAccount)
 
     return res
