@@ -5,6 +5,7 @@ export interface IPost {
   owner?: mongoose.Schema.Types.ObjectId
   title: string
   message: string
+  image?: string
   comments?: string[]
 }
 

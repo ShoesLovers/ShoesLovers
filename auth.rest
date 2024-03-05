@@ -15,10 +15,20 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "testtest@walla.com",
-  "password": "1234",
-  "name": "testtest"
+  "email": "bob@gmail.com",
+  "password": "123456"
 }
+
+###
+# Login with Google
+POST http://localhost:3000/auth/google
+Content-Type: application/json
+
+{
+   "credential":"1034636988647-e1rdhb99tt0o8jtbmpneckk0f0qpo7us.apps.googleusercontent.com"
+}
+###
+
 
 ###
 # Logout
@@ -30,5 +40,5 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2Fm
 # Refresh Token
 GET  http://localhost:3000/auth/refresh
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZDcyN2FmMTM5ZTM0MGI1YThjNzQiLCJpYXQiOjE3MDY4NzUyNzJ9.Spex3iI26wpAnqIdSKRHs8DSAGWQFyjgV99Lh6WjFeU
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQyNTc4YmFlMDRhMzBmYjM2ODZiODUiLCJpYXQiOjE3MDgyODU0MzJ9.BqqjyN3Xk6KUaR9CagTrPBzUr5zvnZcugmk0Ub0HzLc
 

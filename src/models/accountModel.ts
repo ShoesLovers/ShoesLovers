@@ -4,7 +4,7 @@ export interface IAccount {
   _id?: mongoose.Schema.Types.ObjectId
   email: string
   password: string
-  name: string
+  name?: string
   image?: string
   refreshTokens?: string[]
   posts: string[]
@@ -33,6 +33,10 @@ const accountSchema = new mongoose.Schema<IAccount>({
       ref: 'post',
     },
   ],
+  image: {
+    type: String,
+    required: false,
+  },
 })
 
 export default mongoose.model<IAccount>('account', accountSchema)

@@ -21,7 +21,6 @@ import postModel from '../models/postModel'
 
 let app: Express
 let dbAccount: request.Response
-let login: request.Response
 let accessToken: string
 
 const account = createAccountObject('test@gmail.com', '1234', 'testUser')
@@ -42,16 +41,13 @@ describe('Account tests', () => {
 
   test('Test Create Account', async () => {
     dbAccount = await registerAccount(app, account)
-    expect(dbAccount.body.name).toEqual('testUser')
-    expect(dbAccount.body.email).toEqual('test@gmail.com')
-    expect(dbAccount.status).toEqual(201)
-    expect(await bcrypt.compare(account.password, dbAccount.body.password))
-  })
+    const { email, name, password } = dbAccount.body.account
 
-  test('Login test', async () => {
-    login = await loginAccount(app, account)
-    expect(login.status).toEqual(200)
-    accessToken = login.body.accessToken
+    expect(name).toEqual('testUser')
+    expect(email).toEqual('test@gmail.com')
+    expect(dbAccount.status).toEqual(201)
+    expect(await bcrypt.compare(account.password, password))
+    accessToken = dbAccount.body.accessToken
   })
 
   test('Test that only one account exist in DB', async () => {
@@ -74,7 +70,12 @@ describe('Account tests', () => {
   })
 
   test('Test get account by id', async () => {
-    const response = await getAccountById(app, dbAccount.body._id, accessToken)
+    const response = await getAccountById(
+      app,
+      dbAccount.body.account._id,
+      accessToken
+    )
+    console.log(response.body._id)
     expect(response.status).toEqual(200)
     expect(response.body.name).toEqual(account.name)
     expect(response.body.email).toEqual(account.email)
@@ -93,11 +94,10 @@ describe('Account tests', () => {
     )
     const response = await updateAccount(
       app,
-      dbAccount.body._id,
+      dbAccount.body.account._id,
       accessToken,
       updatedAccountObj
     )
-
     expect(response.status).toEqual(200)
     expect(response.body.name).toEqual('newName')
     expect(response.body.email).toEqual('newEmail@gmail.com')
@@ -116,7 +116,7 @@ describe('Account tests', () => {
 
     const response = await deleteAccount(
       app,
-      newDbAccount.body._id,
+      newDbAccount.body.account._id,
       newAccessToken
     )
 
@@ -137,7 +137,7 @@ describe('Account tests', () => {
   test('Test get all posts of account without posts', async () => {
     const response = await getPostsOfAccount(
       app,
-      dbAccount.body._id,
+      dbAccount.body.account._id,
       accessToken
     )
     expect(response.status).toEqual(404)
@@ -148,7 +148,7 @@ describe('Account tests', () => {
     await createPost(app, post, accessToken)
     const response = await getPostsOfAccount(
       app,
-      dbAccount.body._id,
+      dbAccount.body.account._id,
       accessToken
     )
     expect(response.status).toEqual(200)
@@ -172,7 +172,7 @@ describe('Account tests', () => {
     )
     const response = await updateAccount(
       app,
-      dbAccount.body._id,
+      dbAccount.body.account._id,
       newAccessToken,
       updatedAccountObj
     )
@@ -205,7 +205,7 @@ describe('Account tests', () => {
     )
     const response = await updateAccount(
       app,
-      dbAccount1.body._id,
+      dbAccount1.body.account._id,
       newAccessToken1,
       updatedAccountObj
     )

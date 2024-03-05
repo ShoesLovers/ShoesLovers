@@ -89,7 +89,7 @@ const router = express.Router()
  */
 
 router.post('/register', AuthController.register)
-
+router.post('/google', AuthController.googleLogin)
 /**
  * @swagger
  * components:
@@ -147,6 +147,20 @@ router.post('/login', AuthController.login)
  *         description: logout completed successfully
  */
 router.post('/logout', AuthController.logout)
+
+/**
+ * @swagger
+ * /auth/refresh:
+ *   get:
+ *     summary: refresh the access token
+ *     tags: [Auth]
+ *     description: need to provide the refresh token in the auth header
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: refresh completed successfully
+ */
 
 router.get('/refresh', AuthController.refresh)
 

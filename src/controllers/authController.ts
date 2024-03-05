@@ -1,7 +1,32 @@
 import { Request, Response } from 'express'
-import Account from '../models/accountModel'
+import Account, { IAccount } from '../models/accountModel'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { Document } from 'mongoose'
+import { OAuth2Client } from 'google-auth-library'
+
+const generateTokens = async (account: Document & IAccount) => {
+  const accessToken = jwt.sign({ _id: account._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRATION_TIME,
+  })
+
+  const refreshToken = jwt.sign(
+    { _id: account._id },
+    process.env.JWT_REFRESH_SECRET
+  )
+
+  if (!account.refreshTokens) {
+    account.refreshTokens = [refreshToken]
+  } else {
+    account.refreshTokens.push(refreshToken)
+  }
+  await account.save()
+
+  return {
+    accessToken,
+    refreshToken,
+  }
+}
 
 const register = async (req: Request, res: Response) => {
   console.log('register')
@@ -21,8 +46,46 @@ const register = async (req: Request, res: Response) => {
       email,
       password: encryptedPassword,
       name,
+      image: req.body.image,
     })
-    return res.status(201).send(newAccount)
+    console.log(req.body)
+    const { accessToken, refreshToken } = await generateTokens(newAccount)
+
+    return res
+      .status(201)
+      .send({ account: newAccount, accessToken, refreshToken })
+  } catch (err) {
+    return res.status(400).send(err.message)
+  }
+}
+
+const client = new OAuth2Client()
+const googleLogin = async (req: Request, res: Response) => {
+  console.log('googleLogin')
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    })
+    const payload = ticket.getPayload()
+    const { email, name } = payload
+    if (email) {
+      let account = await Account.findOne({ email: email })
+      if (!account) {
+        account = await Account.create({
+          email,
+          password: '0',
+          name,
+          image: payload?.picture,
+        })
+      }
+      const { accessToken, refreshToken } = await generateTokens(account)
+      res.status(200).send({
+        account,
+        accessToken,
+        refreshToken,
+      })
+    }
   } catch (err) {
     return res.status(400).send(err.message)
   }
@@ -47,33 +110,20 @@ const login = async (req: Request, res: Response) => {
     if (!isMatch) {
       throw res.status(400).send('invalid password')
     }
-
-    const accessToken = jwt.sign({ _id: account._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRATION_TIME,
-    })
-
-    const refreshToken = jwt.sign(
-      { _id: account._id },
-      process.env.JWT_REFRESH_SECRET
-    )
-
-    if (!account.refreshTokens) {
-      account.refreshTokens = [refreshToken]
-    } else {
-      account.refreshTokens.push(refreshToken)
-    }
-    await account.save()
+    const { accessToken, refreshToken } = await generateTokens(account)
     return res.status(200).send({
       accessToken,
       refreshToken,
+      account,
     })
   } catch (err) {
-    console.log(err.message)
+    console.log(err)
     return res.status(400).send(err.message)
   }
 }
 
 const logout = async (req: Request, res: Response) => {
+  console.log('logout')
   const authHeader = req.headers['authorization']
   const refreshToken = authHeader && authHeader.split(' ')[1] // Bearer <token>
 
@@ -108,6 +158,7 @@ const logout = async (req: Request, res: Response) => {
   )
 }
 const refresh = async (req: Request, res: Response) => {
+  console.log('refresh')
   const authHeader = req.headers['authorization']
   const refreshToken = authHeader && authHeader.split(' ')[1] // Bearer
   if (!refreshToken) return res.sendStatus(401)
@@ -160,4 +211,5 @@ export default {
   login,
   logout,
   refresh,
+  googleLogin,
 }
