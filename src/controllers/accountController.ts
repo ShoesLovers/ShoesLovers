@@ -41,24 +41,31 @@ class AccountController extends BaseController<IAccount> {
       }
 
       // Check if the email is already in use
-      if (req.body.email) {
+      if (req.body?.email) {
         const accountWithSameEmail = await AccountModel.findOne({
           email: req.body.email,
         })
-        if (accountWithSameEmail && accountWithSameEmail._id !== account._id) {
+
+        if (
+          accountWithSameEmail &&
+          accountWithSameEmail._id.toString() !== account._id.toString()
+        ) {
           res.status(400).send('Email already in use')
           return
         }
         account.email = req.body.email
       }
 
-      if (req.body.image) {
+      if (req.body?.image) {
         account.image = req.body.image
       }
-      account.name = req.body.name
+
+      if (req.body?.name) {
+        account.name = req.body.name
+      }
 
       // take the plain password and hash it and put it in the account object
-      if (req.body.password) {
+      if (req.body?.password) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         account.password = hashedPassword
       }
