@@ -1,6 +1,6 @@
 import express, { Express } from 'express'
 import cors from 'cors'
-
+import logger from 'morgan'
 const app = express()
 app.use(cors())
 
@@ -12,6 +12,7 @@ import userPostRoute from './routes/postRoutes'
 import authRoute from './routes/authRoutes'
 import accountRoute from './routes/accountRoutes'
 import commentRoute from './routes/commentRoutes'
+import fileRoute from './routes/fileRoutes'
 
 const initApp = () => {
   const db = mongoose.connection
@@ -21,12 +22,24 @@ const initApp = () => {
     mongoose
       .connect(process.env.DB_URL, { dbName: 'ShoesLovers' })
       .then(() => {
+        // Middlewares
+        app.use(logger('dev'))
         app.use(bodyParser.json())
         app.use(bodyParser.urlencoded({ extended: true }))
+        app.use((req, res, next) => {
+          res.header('Access-Control-Allow-Origin', '*')
+          res.header('Access-Control-Allow-Methods', '*')
+          res.header('Access-Control-Allow-Headers', '*')
+          res.header('Access-Control-Allow-Credentials', 'true')
+          next()
+        })
+        // Routes
         app.use('/account', accountRoute)
         app.use('/auth', authRoute)
         app.use('/post', userPostRoute)
         app.use('/comment', commentRoute)
+        app.use('/file', fileRoute)
+        app.use('/public', express.static('public'))
         resolve(app)
       })
       .catch(err => {

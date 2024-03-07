@@ -11,7 +11,9 @@ initApp().then(app => {
         version: '1.0.0',
         description: 'REST server including authentication using JWT',
       },
-      servers: [{ url: 'http://localhost:3000' }],
+      servers: [
+        { url: `http://${process.env.DOMAIN_BASE}:${process.env.PORT}` },
+      ],
     },
     apis: ['./src/routes/*.ts'],
   }
@@ -21,10 +23,12 @@ initApp().then(app => {
     app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
   }
 
-  console.log('You are running the server in ' + process.env.NODE_ENV + 'mode')
+  console.log(`${process.env.NODE_ENV} enviorment`)
 
   const port = process.env.PORT
   app.listen(port, () => {
-    console.log(`ShoesLovers Web App listening at http://localhost:${port}`)
+    console.log(
+      `ShoesLovers Web App listening at http://${process.env.DOMAIN_BASE}:${process.env.PORT}`
+    )
   })
 })
