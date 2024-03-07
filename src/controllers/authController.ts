@@ -30,7 +30,7 @@ const generateTokens = async (account: Document & IAccount) => {
 
 const register = async (req: Request, res: Response) => {
   console.log('register')
-  const { email, password, name } = req.body
+  const { email, password, name, image } = req.body
 
   if (!email || !password || !name) {
     return res.status(400).send('missing email or password or name')
@@ -46,9 +46,8 @@ const register = async (req: Request, res: Response) => {
       email,
       password: encryptedPassword,
       name,
-      image: req.body.image,
+      image,
     })
-    console.log(req.body)
     const { accessToken, refreshToken } = await generateTokens(newAccount)
 
     return res
@@ -133,8 +132,10 @@ const logout = async (req: Request, res: Response) => {
     refreshToken,
     process.env.JWT_REFRESH_SECRET,
     async (err, user: { _id: string }) => {
-      console.log(err)
-      if (err) return res.sendStatus(401)
+      if (err) {
+        console.log(err)
+        return res.sendStatus(401)
+      }
       try {
         const userDb = await Account.findOne({ _id: user._id })
         if (
