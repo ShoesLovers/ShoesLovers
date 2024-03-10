@@ -11,10 +11,10 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4
 #Create Post
 POST http://localhost:3000/post
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWU4N2FiYWQ5MWJjMTE2ODFiYWE1ZWIiLCJpYXQiOjE3MDk3MzQ3NTMsImV4cCI6MTcwOTczODM1M30.Y4D9MRLz1mu-3taKoUm2Xb4gqyF1cIURvfgwUCW-aKQ
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVjYjEyYzdjNjVhZjJkMmU5MjllMjAiLCJpYXQiOjE3MTAwMTA2NzAsImV4cCI6MTcxMDAxNDI3MH0._Zxe-Qa6ApbOwSreHEhKnHgjwXMFCIr-BWemuz7EEPA
 
 {
-  "title": "title",
+  "title": " 3עומר ביצה שלי",
   "message": "message"
 }
 

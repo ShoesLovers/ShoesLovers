@@ -1,8 +1,8 @@
-import express from 'express'
-import PostController from '../controllers/postController'
-import authMiddleware from '../controllers/authMiddleware'
+import express from "express";
+import PostController from "../controllers/postController";
+import authMiddleware from "../controllers/authMiddleware";
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -67,7 +67,7 @@ const router = express.Router()
  *       404:
  *         description: No posts found
  */
-router.get('/', authMiddleware, PostController.getAll.bind(PostController))
+router.get("/", authMiddleware, PostController.getAll.bind(PostController));
 /**
  * @swagger
  * /post/{id}:
@@ -96,7 +96,7 @@ router.get('/', authMiddleware, PostController.getAll.bind(PostController))
  *       404:
  *         description: Post not found
  */
-router.get('/:id', authMiddleware, PostController.getById.bind(PostController))
+router.get("/:id", authMiddleware, PostController.getById.bind(PostController));
 
 /**
  * @swagger
@@ -125,7 +125,7 @@ router.get('/:id', authMiddleware, PostController.getById.bind(PostController))
  *       401:
  *         description: Unauthorized, token is missing or invalid
  */
-router.post('/', authMiddleware, PostController.post.bind(PostController))
+router.post("/", authMiddleware, PostController.post.bind(PostController));
 
 /**
  * @swagger
@@ -165,10 +165,10 @@ router.post('/', authMiddleware, PostController.post.bind(PostController))
  */
 
 router.put(
-  '/:id',
+  "/:id",
   authMiddleware,
   PostController.updateById.bind(PostController)
-)
+);
 
 /**
  * @swagger
@@ -195,9 +195,9 @@ router.put(
  *         description: Post not found
  */
 router.delete(
-  '/:id',
+  "/:id",
   authMiddleware,
   PostController.deleteById.bind(PostController)
-)
+);
 
-export default router
+export default router;

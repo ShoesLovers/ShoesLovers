@@ -1,13 +1,13 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 export interface IAccount {
-  _id?: mongoose.Schema.Types.ObjectId
-  email: string
-  password: string
-  name?: string
-  image?: string
-  refreshTokens?: string[]
-  posts: string[]
+  _id?: mongoose.Schema.Types.ObjectId;
+  email: string;
+  password: string;
+  name?: string;
+  image?: string;
+  refreshTokens?: string[];
+  posts: string[];
 }
 
 const accountSchema = new mongoose.Schema<IAccount>({
@@ -37,6 +37,6 @@ const accountSchema = new mongoose.Schema<IAccount>({
     type: String,
     required: false,
   },
-})
+});
 
-export default mongoose.model<IAccount>('account', accountSchema)
+export default mongoose.model<IAccount>('account', accountSchema);
