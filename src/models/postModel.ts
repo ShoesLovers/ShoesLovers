@@ -29,6 +29,9 @@ const PostSchema = new mongoose.Schema<IPost>({
       ref: 'comment',
     },
   ],
+  image: {
+    type: String,
+  },
 })
 
 export default mongoose.model<IPost>('post', PostSchema)
