@@ -74,7 +74,7 @@ class PostController extends BaseController<IPost> {
 
       post.title = req.body.title
       post.message = req.body.message
-      post.image = post.image || null
+      post.image = req.body.image || null
 
       await post.save()
       res.status(200).send(post)
