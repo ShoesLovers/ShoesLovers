@@ -11,7 +11,7 @@ Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiY2IzMDE4
 #Create Post
 POST http://localhost:3000/post
 Content-Type: application/json
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVjYjEyYzdjNjVhZjJkMmU5MjllMjAiLCJpYXQiOjE3MTAwMTA2NzAsImV4cCI6MTcxMDAxNDI3MH0._Zxe-Qa6ApbOwSreHEhKnHgjwXMFCIr-BWemuz7EEPA
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVlNDc5NzgxNTc4OTljYjg3NjE2MDQiLCJpYXQiOjE3MTAyNjY4NTIsImV4cCI6MTcxMDI3MDQ1Mn0.TRrAMioRtCAeKPIrZ0T9LzcSebdl5VjVo2MVHmgxBc0
 
 {
   "title": " 3עומר ביצה שלי",

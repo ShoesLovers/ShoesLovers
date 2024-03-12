@@ -9,6 +9,20 @@ class PostController extends BaseController<IPost> {
   constructor() {
     super(PostModel)
   }
+
+  async getAll(req: Request, res: Response) {
+    console.log('getAll')
+    try {
+      const posts = await this.model
+        .find()
+        .populate('owner')
+        .populate({ path: 'comments', populate: { path: 'writer' } })
+      res.status(200).send(posts)
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
+
   async post(req: AuthRequest, res: Response) {
     console.log('Post Created')
     try {
@@ -54,7 +68,13 @@ class PostController extends BaseController<IPost> {
     console.log('getById:' + id)
 
     try {
-      const post = await this.model.findById(id).populate('owner')
+      const post = await this.model
+        .findById(id)
+        .populate({ path: 'owner' })
+        .populate({
+          path: 'comments',
+          populate: { path: 'writer' },
+        })
       res.status(200).send(post)
     } catch (err) {
       console.log(err.message)
