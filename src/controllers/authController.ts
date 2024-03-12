@@ -158,6 +158,7 @@ const logout = async (req: Request, res: Response) => {
     }
   )
 }
+
 const refresh = async (req: Request, res: Response) => {
   console.log('refresh')
   const authHeader = req.headers['authorization']
