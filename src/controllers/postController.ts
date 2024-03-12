@@ -86,7 +86,13 @@ class PostController extends BaseController<IPost> {
     const id = req.params.id
     console.log('updateById:' + id)
     try {
-      const post = await this.model.findById(id)
+      const post = await this.model
+        .findById(id)
+        .populate('owner')
+        .populate({
+          path: 'comments',
+          populate: { path: 'writer' },
+        })
       const owner = await accountModel.findOne({ _id: req.user._id })
       if (owner._id.toString() !== req.user._id.toString()) {
         throw new Error('Unauthorized')
