@@ -1,8 +1,8 @@
-import express from "express";
-import PostController from "../controllers/postController";
-import authMiddleware from "../controllers/authMiddleware";
+import express from 'express'
+import PostController from '../controllers/postController'
+import authMiddleware from '../controllers/authMiddleware'
 
-const router = express.Router();
+const router = express.Router()
 
 /**
  * @swagger
@@ -50,7 +50,7 @@ const router = express.Router();
  *     tags: [Post]
  *     description: Retrieve all posts from the DB
  *     security:
- *       - bearerAuth: []  # Use bearer token authentication
+ *       - bearerAuth: []  # Use JWT token authentication
  *     responses:
  *       200:
  *         description: Successfully retrieved all posts
@@ -67,7 +67,7 @@ const router = express.Router();
  *       404:
  *         description: No posts found
  */
-router.get("/", authMiddleware, PostController.getAll.bind(PostController));
+router.get('/', authMiddleware, PostController.getAll.bind(PostController))
 /**
  * @swagger
  * /post/{id}:
@@ -76,7 +76,7 @@ router.get("/", authMiddleware, PostController.getAll.bind(PostController));
  *     tags: [Post]
  *     description: Retrieve a single post by its ID from the DB
  *     security:
- *       - bearerAuth: []  # Use bearer token authentication
+ *       - bearerAuth: []  # Use JWT token authentication
  *     parameters:
  *       - in: path
  *         name: id
@@ -96,7 +96,7 @@ router.get("/", authMiddleware, PostController.getAll.bind(PostController));
  *       404:
  *         description: Post not found
  */
-router.get("/:id", authMiddleware, PostController.getById.bind(PostController));
+router.get('/:id', authMiddleware, PostController.getById.bind(PostController))
 
 /**
  * @swagger
@@ -106,7 +106,7 @@ router.get("/:id", authMiddleware, PostController.getById.bind(PostController));
  *     tags: [Post]
  *     description: Create a new post in the DB
  *     security:
- *       - bearerAuth: []  # Use bearer token authentication
+ *       - bearerAuth: []  # Use JWT token authentication
  *     requestBody:
  *       required: true
  *       content:
@@ -125,7 +125,7 @@ router.get("/:id", authMiddleware, PostController.getById.bind(PostController));
  *       401:
  *         description: Unauthorized, token is missing or invalid
  */
-router.post("/", authMiddleware, PostController.post.bind(PostController));
+router.post('/', authMiddleware, PostController.post.bind(PostController))
 
 /**
  * @swagger
@@ -135,7 +135,7 @@ router.post("/", authMiddleware, PostController.post.bind(PostController));
  *     tags: [Post]
  *     description: Update an existing post in the DB by its ID
  *     security:
- *       - bearerAuth: []  # Use bearer token authentication
+ *       - bearerAuth: []  # Use JWT token authentication
  *     parameters:
  *       - in: path
  *         name: id
@@ -165,10 +165,10 @@ router.post("/", authMiddleware, PostController.post.bind(PostController));
  */
 
 router.put(
-  "/:id",
+  '/:id',
   authMiddleware,
   PostController.updateById.bind(PostController)
-);
+)
 
 /**
  * @swagger
@@ -178,7 +178,7 @@ router.put(
  *     tags: [Post]
  *     description: Delete an existing post from the DB by its ID
  *     security:
- *       - bearerAuth: []  # Use bearer token authentication
+ *       - bearerAuth: []  # Use JWT token authentication
  *     parameters:
  *       - in: path
  *         name: id
@@ -195,9 +195,9 @@ router.put(
  *         description: Post not found
  */
 router.delete(
-  "/:id",
+  '/:id',
   authMiddleware,
   PostController.deleteById.bind(PostController)
-);
+)
 
-export default router;
+export default router
