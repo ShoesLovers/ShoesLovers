@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1709987333690" clover="3.2.0">
-  <project timestamp="1709987333690" name="All files">
-    <metrics statements="448" coveredstatements="418" conditionals="87" coveredconditionals="67" methods="83" coveredmethods="78" elements="618" coveredelements="563" complexity="0" loc="448" ncloc="448" packages="5" files="16" classes="16"/>
+<coverage generated="1710691504741" clover="3.2.0">
+  <project timestamp="1710691504741" name="All files">
+    <metrics statements="452" coveredstatements="421" conditionals="91" coveredconditionals="71" methods="84" coveredmethods="79" elements="627" coveredelements="571" complexity="0" loc="452" ncloc="452" packages="5" files="16" classes="16"/>
     <package name="src">
       <metrics statements="38" coveredstatements="37" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="5"/>
-      <file name="app.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\app.ts">
+      <file name="app.ts" path="/home/st111/ShoesLovers-Backend/src/app.ts">
         <metrics statements="38" coveredstatements="37" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="5"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
@@ -47,8 +47,8 @@
       </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="286" coveredstatements="257" conditionals="87" coveredconditionals="67" methods="40" coveredmethods="37"/>
-      <file name="accountController.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\controllers\accountController.ts">
+      <metrics statements="290" coveredstatements="260" conditionals="91" coveredconditionals="71" methods="41" coveredmethods="38"/>
+      <file name="accountController.ts" path="/home/st111/ShoesLovers-Backend/src/controllers/accountController.ts">
         <metrics statements="47" coveredstatements="45" conditionals="34" coveredconditionals="28" methods="4" coveredmethods="4"/>
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
@@ -98,7 +98,7 @@
         <line num="100" count="1" type="stmt"/>
         <line num="105" count="5" type="stmt"/>
       </file>
-      <file name="authController.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\controllers\authController.ts">
+      <file name="authController.ts" path="/home/st111/ShoesLovers-Backend/src/controllers/authController.ts">
         <metrics statements="104" coveredstatements="87" conditionals="33" coveredconditionals="23" methods="18" coveredmethods="16"/>
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
@@ -179,33 +179,33 @@
         <line num="152" count="2" type="stmt"/>
         <line num="153" count="2" type="stmt"/>
         <line num="156" count="0" type="stmt"/>
-        <line num="161" count="5" type="stmt"/>
-        <line num="162" count="4" type="stmt"/>
+        <line num="162" count="5" type="stmt"/>
         <line num="163" count="4" type="stmt"/>
-        <line num="164" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="165" count="4" type="cond" truecount="0" falsecount="1"/>
-        <line num="167" count="4" type="stmt"/>
-        <line num="170" count="4" type="stmt"/>
-        <line num="171" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="172" count="1" type="stmt"/>
+        <line num="164" count="4" type="stmt"/>
+        <line num="165" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="166" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="168" count="4" type="stmt"/>
+        <line num="171" count="4" type="stmt"/>
+        <line num="172" count="4" type="cond" truecount="1" falsecount="0"/>
         <line num="173" count="1" type="stmt"/>
-        <line num="175" count="3" type="stmt"/>
+        <line num="174" count="1" type="stmt"/>
         <line num="176" count="3" type="stmt"/>
-        <line num="177" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="181" count="2" type="stmt"/>
+        <line num="177" count="3" type="stmt"/>
+        <line num="178" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="182" count="2" type="stmt"/>
         <line num="183" count="2" type="stmt"/>
-        <line num="185" count="1" type="stmt"/>
-        <line num="190" count="1" type="stmt"/>
-        <line num="194" count="1" type="stmt"/>
-        <line num="195" count="2" type="stmt"/>
-        <line num="197" count="1" type="stmt"/>
+        <line num="184" count="2" type="stmt"/>
+        <line num="186" count="1" type="stmt"/>
+        <line num="191" count="1" type="stmt"/>
+        <line num="195" count="1" type="stmt"/>
+        <line num="196" count="2" type="stmt"/>
         <line num="198" count="1" type="stmt"/>
         <line num="199" count="1" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="210" count="5" type="stmt"/>
+        <line num="200" count="1" type="stmt"/>
+        <line num="205" count="0" type="stmt"/>
+        <line num="211" count="5" type="stmt"/>
       </file>
-      <file name="authMiddleware.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\controllers\authMiddleware.ts">
+      <file name="authMiddleware.ts" path="/home/st111/ShoesLovers-Backend/src/controllers/authMiddleware.ts">
         <metrics statements="16" coveredstatements="16" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
         <line num="1" count="5" type="stmt"/>
         <line num="9" count="5" type="stmt"/>
@@ -224,14 +224,14 @@
         <line num="31" count="4" type="stmt"/>
         <line num="35" count="5" type="stmt"/>
       </file>
-      <file name="baseController.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\controllers\baseController.ts">
+      <file name="baseController.ts" path="/home/st111/ShoesLovers-Backend/src/controllers/baseController.ts">
         <metrics statements="15" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
         <line num="4" count="5" type="stmt"/>
         <line num="7" count="15" type="stmt"/>
-        <line num="10" count="7" type="stmt"/>
-        <line num="11" count="7" type="stmt"/>
-        <line num="12" count="7" type="stmt"/>
-        <line num="13" count="7" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="20" count="4" type="stmt"/>
         <line num="21" count="4" type="stmt"/>
@@ -242,7 +242,7 @@
         <line num="30" count="0" type="stmt"/>
         <line num="32" count="5" type="stmt"/>
       </file>
-      <file name="commentController.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\controllers\commentController.ts">
+      <file name="commentController.ts" path="/home/st111/ShoesLovers-Backend/src/controllers/commentController.ts">
         <metrics statements="44" coveredstatements="44" conditionals="5" coveredconditionals="5" methods="5" coveredmethods="5"/>
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
@@ -289,73 +289,77 @@
         <line num="83" count="1" type="stmt"/>
         <line num="88" count="5" type="stmt"/>
       </file>
-      <file name="postController.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\controllers\postController.ts">
-        <metrics statements="60" coveredstatements="52" conditionals="9" coveredconditionals="5" methods="6" coveredmethods="6"/>
+      <file name="postController.ts" path="/home/st111/ShoesLovers-Backend/src/controllers/postController.ts">
+        <metrics statements="64" coveredstatements="55" conditionals="13" coveredconditionals="9" methods="7" coveredmethods="7"/>
         <line num="2" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
         <line num="6" count="5" type="stmt"/>
         <line num="10" count="5" type="stmt"/>
-        <line num="13" count="7" type="stmt"/>
-        <line num="14" count="7" type="stmt"/>
-        <line num="16" count="7" type="stmt"/>
-        <line num="17" count="7" type="cond" truecount="3" falsecount="0"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
-        <line num="30" count="5" type="stmt"/>
-        <line num="32" count="5" type="stmt"/>
-        <line num="35" count="5" type="stmt"/>
-        <line num="36" count="5" type="cond" truecount="0" falsecount="1"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="40" count="5" type="stmt"/>
-        <line num="41" count="5" type="stmt"/>
-        <line num="42" count="5" type="stmt"/>
-        <line num="45" count="5" type="stmt"/>
-        <line num="46" count="5" type="stmt"/>
-        <line num="48" count="5" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="55" count="3" type="stmt"/>
-        <line num="56" count="3" type="stmt"/>
-        <line num="58" count="3" type="stmt"/>
-        <line num="59" count="3" type="stmt"/>
-        <line num="60" count="1" type="stmt"/>
-        <line num="62" count="2" type="stmt"/>
-        <line num="63" count="2" type="stmt"/>
-        <line num="68" count="1" type="stmt"/>
-        <line num="69" count="1" type="stmt"/>
-        <line num="70" count="1" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
-        <line num="72" count="1" type="stmt"/>
-        <line num="73" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="77" count="1" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="30" count="7" type="stmt"/>
+        <line num="31" count="7" type="cond" truecount="3" falsecount="0"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="48" count="5" type="cond" truecount="0" falsecount="1"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="52" count="5" type="stmt"/>
+        <line num="53" count="5" type="stmt"/>
+        <line num="54" count="5" type="stmt"/>
+        <line num="57" count="5" type="stmt"/>
+        <line num="58" count="5" type="stmt"/>
+        <line num="60" count="5" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="68" count="3" type="stmt"/>
+        <line num="70" count="3" type="stmt"/>
+        <line num="71" count="3" type="stmt"/>
         <line num="78" count="1" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="88" count="2" type="stmt"/>
-        <line num="89" count="2" type="stmt"/>
-        <line num="90" count="2" type="stmt"/>
-        <line num="91" count="2" type="stmt"/>
-        <line num="93" count="1" type="cond" truecount="2" falsecount="1"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
-        <line num="99" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="103" count="1" type="stmt"/>
-        <line num="104" count="1" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
+        <line num="81" count="2" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="89" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="97" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="103" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="105" count="1" type="stmt"/>
         <line num="106" count="1" type="stmt"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="109" count="1" type="stmt"/>
-        <line num="114" count="5" type="stmt"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="109" count="0" type="stmt"/>
+        <line num="114" count="2" type="stmt"/>
+        <line num="115" count="2" type="stmt"/>
+        <line num="116" count="2" type="stmt"/>
+        <line num="117" count="2" type="stmt"/>
+        <line num="119" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="124" count="1" type="stmt"/>
+        <line num="125" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="129" count="1" type="stmt"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="132" count="1" type="stmt"/>
+        <line num="134" count="1" type="stmt"/>
+        <line num="135" count="1" type="stmt"/>
+        <line num="140" count="5" type="stmt"/>
       </file>
     </package>
     <package name="src.helpers">
       <metrics statements="62" coveredstatements="62" conditionals="0" coveredconditionals="0" methods="33" coveredmethods="33"/>
-      <file name="testsHelpers.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\helpers\testsHelpers.ts">
+      <file name="testsHelpers.ts" path="/home/st111/ShoesLovers-Backend/src/helpers/testsHelpers.ts">
         <metrics statements="62" coveredstatements="62" conditionals="0" coveredconditionals="0" methods="33" coveredmethods="33"/>
         <line num="1" count="4" type="stmt"/>
         <line num="8" count="4" type="stmt"/>
@@ -423,29 +427,29 @@
     </package>
     <package name="src.models">
       <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="accountModel.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\models\accountModel.ts">
+      <file name="accountModel.ts" path="/home/st111/ShoesLovers-Backend/src/models/accountModel.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="13" count="5" type="stmt"/>
         <line num="42" count="5" type="stmt"/>
       </file>
-      <file name="commentModel.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\models\commentModel.ts">
+      <file name="commentModel.ts" path="/home/st111/ShoesLovers-Backend/src/models/commentModel.ts">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="10" count="5" type="stmt"/>
         <line num="27" count="5" type="stmt"/>
         <line num="29" count="5" type="stmt"/>
       </file>
-      <file name="postModel.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\models\postModel.ts">
+      <file name="postModel.ts" path="/home/st111/ShoesLovers-Backend/src/models/postModel.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="12" count="5" type="stmt"/>
-        <line num="34" count="5" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
       </file>
     </package>
     <package name="src.routes">
       <metrics statements="52" coveredstatements="52" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-      <file name="accountRoutes.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\routes\accountRoutes.ts">
+      <file name="accountRoutes.ts" path="/home/st111/ShoesLovers-Backend/src/routes/accountRoutes.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
@@ -458,7 +462,7 @@
         <line num="174" count="5" type="stmt"/>
         <line num="180" count="5" type="stmt"/>
       </file>
-      <file name="authRoutes.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\routes\authRoutes.ts">
+      <file name="authRoutes.ts" path="/home/st111/ShoesLovers-Backend/src/routes/authRoutes.ts">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
@@ -470,7 +474,7 @@
         <line num="165" count="5" type="stmt"/>
         <line num="167" count="5" type="stmt"/>
       </file>
-      <file name="commentRoutes.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\routes\commentRoutes.ts">
+      <file name="commentRoutes.ts" path="/home/st111/ShoesLovers-Backend/src/routes/commentRoutes.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
@@ -483,7 +487,7 @@
         <line num="201" count="5" type="stmt"/>
         <line num="207" count="5" type="stmt"/>
       </file>
-      <file name="fileRoutes.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\routes\fileRoutes.ts">
+      <file name="fileRoutes.ts" path="/home/st111/ShoesLovers-Backend/src/routes/fileRoutes.ts">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>
@@ -499,7 +503,7 @@
         <line num="21" count="1" type="stmt"/>
         <line num="23" count="5" type="stmt"/>
       </file>
-      <file name="postRoutes.ts" path="C:\Users\97254\OneDrive\Desktop\ShoesLoversProject\ShoesLovers-Backend\src\routes\postRoutes.ts">
+      <file name="postRoutes.ts" path="/home/st111/ShoesLovers-Backend/src/routes/postRoutes.ts">
         <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="5" type="stmt"/>
         <line num="2" count="5" type="stmt"/>

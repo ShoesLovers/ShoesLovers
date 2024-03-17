@@ -24,14 +24,14 @@ initApp().then((app) => {
   if (process.env.NODE_ENV.trim() !== 'production') {
     console.log('development');
     const specs = swaggerJsDoc(options);
-    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
     http.createServer(app).listen(process.env.PORT);
   } else {
     console.log('production');
 
     const options2 = {
-      key: fs.readFileSync('/client-key.pem'),
-      cert: fs.readFileSync('/client-cert.pem'),
+      key: fs.readFileSync('../client-key.pem'),
+      cert: fs.readFileSync('../client-cert.pem'),
     };
     https.createServer(options2, app).listen(process.env.HTTPS_PORT);
   }
