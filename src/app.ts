@@ -41,9 +41,9 @@ const initApp = () => {
         app.use('/file', fileRoute)
         // TEST
         app.use('/public', express.static('public'))
-        app.use('../dist_prod', express.static('../dist_prod/assets'))
+        app.use('/assets', express.static('dist_prod/assets'))
         app.use('*', (req, res) => {
-          res.sendFile('index.html', { root: '../dist_prod' })
+          res.sendFile('index.html', { root: 'public/dist_prod' })
         })
         resolve(app)
       })
