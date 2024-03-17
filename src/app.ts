@@ -39,7 +39,12 @@ const initApp = () => {
         app.use('/post', userPostRoute)
         app.use('/comment', commentRoute)
         app.use('/file', fileRoute)
+        // TEST
         app.use('/public', express.static('public'))
+        app.use('../dist_prod', express.static('../dist_prod/assets'))
+        app.use('*', (req, res) => {
+          res.sendFile('index.html', { root: '../dist_prod' })
+        })
         resolve(app)
       })
       .catch(err => {
