@@ -1,28 +1,9 @@
 import initApp from './app';
-import swaggerJsDoc from 'swagger-jsdoc';
-import swaggerUI from 'swagger-ui-express';
 import http from 'http';
 import https from 'https';
 import fs from 'fs';
 
 initApp().then((app) => {
-  const options = {
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Social Media Network For Shoes Lovers REST API',
-        version: '1.0.0',
-        description: 'REST server including authentication using JWT',
-      },
-      servers: [
-        { url: `http://${process.env.DOMAIN_BASE}:${process.env.PORT}` },
-      ],
-    },
-    apis: ['./src/routes/*.ts'],
-  };
-  const swaggerDocs = swaggerJsDoc(options);
-  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-
   if (process.env.NODE_ENV.trim() !== 'production') {
     console.log('development');
     http.createServer(app).listen(process.env.PORT);
