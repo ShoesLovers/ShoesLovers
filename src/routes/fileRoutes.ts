@@ -7,7 +7,7 @@ let base: string
 if (process.env.NODE_ENV === 'development') {
   base = 'http://localhost:3000/'
 } else {
-  base = 'https://193.106.55.189/'
+  base = 'https://node29.cs.colman.ac.il/'
 }
 
 const storage = multer.diskStorage({
