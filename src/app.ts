@@ -13,7 +13,8 @@ import authRoute from './routes/authRoutes';
 import accountRoute from './routes/accountRoutes';
 import commentRoute from './routes/commentRoutes';
 import fileRoute from './routes/fileRoutes';
-
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
 const initApp = () => {
   const db = mongoose.connection;
   db.on('error', (error) => console.error(error));
@@ -34,6 +35,22 @@ const initApp = () => {
           next();
         });
         // Routes
+        const options = {
+          definition: {
+            openapi: '3.0.0',
+            info: {
+              title: 'Social Media Network For Shoes Lovers REST API',
+              version: '1.0.0',
+              description: 'REST server including authentication using JWT',
+            },
+            servers: [
+              { url: `http://${process.env.DOMAIN_BASE}:${process.env.PORT}` },
+            ],
+          },
+          apis: ['./src/routes/*.ts'],
+        };
+        const swaggerDocs = swaggerJsDoc(options);
+        app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
         app.use('/account', accountRoute);
         app.use('/auth', authRoute);
         app.use('/post', userPostRoute);
