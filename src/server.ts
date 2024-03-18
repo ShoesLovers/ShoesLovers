@@ -1,11 +1,11 @@
-import initApp from './app'
-import swaggerJsDoc from 'swagger-jsdoc'
-import swaggerUI from 'swagger-ui-express'
-import http from 'http'
-import https from 'https'
-import fs from 'fs'
+import initApp from './app';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
+import http from 'http';
+import https from 'https';
+import fs from 'fs';
 
-initApp().then(app => {
+initApp().then((app) => {
   const options = {
     definition: {
       openapi: '3.0.0',
@@ -19,20 +19,20 @@ initApp().then(app => {
       ],
     },
     apis: ['./src/routes/*.ts'],
-  }
+  };
+  const swaggerDocs = swaggerJsDoc(options);
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
   if (process.env.NODE_ENV.trim() !== 'production') {
-    console.log('development')
-    const specs = swaggerJsDoc(options)
-    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
-    http.createServer(app).listen(process.env.PORT)
+    console.log('development');
+    http.createServer(app).listen(process.env.PORT);
   } else {
-    console.log('production')
+    console.log('production');
 
     const options2 = {
       key: fs.readFileSync('../client-key.pem'),
       cert: fs.readFileSync('../client-cert.pem'),
-    }
-    https.createServer(options2, app).listen(process.env.HTTPS_PORT)
+    };
+    https.createServer(options2, app).listen(process.env.HTTPS_PORT);
   }
-})
+});
